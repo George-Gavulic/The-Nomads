@@ -1,1 +1,0 @@
-This file will be used as an exaplme for the git tutorial.
