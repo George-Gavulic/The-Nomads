@@ -1,0 +1,26 @@
+/* hidden-panel.css is only used by hidden-panel.html*/
+.demo-suprise {
+  color : red;
+}
+#miniDashToggle {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: linear-gradient(180deg,#0a74d1,#005ea6);
+  color: #fff;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.23);
+  border: none;
+  cursor: pointer;
+  z-index: 2147483646;
+  transition: transform .14s ease;
+}
+#miniDashToggle:hover { transform: scale(1.06); }
+
+/* #hidden-panel { background: linear-gradient(180deg,#ffffff, #135ed6); border-radius: 12px; padding: 8px; width: 100%; } */
