@@ -1,0 +1,18 @@
+{
+  "manifest_version": 3,
+  "name": "The Nomads Game Panel",
+  "version": "1.0",
+  "description": "Floating dashboard with game panel",
+  "permissions": ["storage", "activeTab", "scripting"],
+  "action": {
+    "default_popup": "hidden-panel.html"
+  },
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "hidden-panel.html"
+      ],
+      "matches": ["<all_urls>"]
+    }
+  ]
+}
