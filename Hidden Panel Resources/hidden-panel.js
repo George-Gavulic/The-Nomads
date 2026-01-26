@@ -1,3 +1,5 @@
+/* hidden-panel.js is only used by hidden-panel.html*/
+
 document.getElementById("demo").addEventListener("click", myFunction);
 
 function myFunction() {

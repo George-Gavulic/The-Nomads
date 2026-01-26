@@ -14,5 +14,13 @@
       ],
       "matches": ["<all_urls>"]
     }
+  ],
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["screen-manager.js"],
+      "css": ["Game Panel Resources/game-panel.css"]
+    }
   ]
 }
+
