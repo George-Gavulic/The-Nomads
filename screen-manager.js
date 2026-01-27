@@ -30,8 +30,23 @@ function openGamePanel() {
 }
 
 function closeGamePanel() {
+  // const iframe = document.getElementById("game-panel-frame");
+  // if (iframe) {
+  //   iframe.remove();
+  // }
+  swtichpage("page2.html");
+}
+
+function swtichpage(newPgaeUrl) { 
   const iframe = document.getElementById("game-panel-frame");
+  if (iframe.srcdoc === chrome.runtime.getURL(newPgaeUrl)) {
+    console.log("Already on the desired page");
+    return; // already on the desired page
+  }
+
   if (iframe) {
-    iframe.remove();
+    iframe.src = chrome.runtime.getURL(newPgaeUrl);
+  } else {
+    console.log("Panel is not open");
   }
 }

@@ -10,7 +10,8 @@
   "web_accessible_resources": [
     {
       "resources": [
-        "hidden-panel.html"
+        "hidden-panel.html",
+        "page2.html"
       ],
       "matches": ["<all_urls>"]
     }
