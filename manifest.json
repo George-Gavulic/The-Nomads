@@ -5,12 +5,19 @@
   "description": "Floating dashboard with game panel",
   "permissions": ["storage", "activeTab", "scripting"],
   "action": {
-    "default_popup": "hidden-panel.html"
+    "default_popup": "Hidden Panel Resources/hidden-panel.html"
   },
   "web_accessible_resources": [
     {
       "resources": [
-        "hidden-panel.html"
+        "Hidden Panel Resources/hidden-panel.html",
+        "Game_Choice_Resources/game-choice.html",
+        "Game_Choice_Resources/game-choice.css",
+        "Game_Choice_Resources/game-choice.js",
+        "Luggage_Game_Resources/luggage-game.html",
+        "Luggage_Game_Resources/luggage-game.css",
+        "Hidden Panel Resources/good-game-button.css",
+        "Hidden Panel Resources/good-game-button.js"
       ],
       "matches": ["<all_urls>"]
     }
@@ -18,8 +25,8 @@
   "content_scripts": [
     {
       "matches": ["<all_urls>"],
-      "js": ["screen-manager.js"],
-      "css": ["Game Panel Resources/game-panel.css"]
+      "js" : ["screen-manager.js" ],
+      "css": ["Hidden Panel Resources/good-game-button.css"]
     }
   ]
 }

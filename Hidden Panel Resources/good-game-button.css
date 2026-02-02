@@ -1,5 +1,5 @@
-/* game-panel.css */
 /* Floating circle button */
+/* This file is called by the manifest.json to be used by the screen manager to style the button and panel */
 .my-circle-button {
   position: fixed;
   bottom: 24px;
