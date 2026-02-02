@@ -17,7 +17,8 @@
         "Luggage_Game_Resources/luggage-game.html",
         "Luggage_Game_Resources/luggage-game.css",
         "Hidden Panel Resources/good-game-button.css",
-        "Hidden Panel Resources/good-game-button.js"
+        "Hidden Panel Resources/good-game-button.js",
+        "Roguelike_Game_Resouces/roguelike-game.html"
       ],
       "matches": ["<all_urls>"]
     }
