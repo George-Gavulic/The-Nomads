@@ -1,4 +1,5 @@
-class Character { //
+//class and context can be moved to character.js
+class Character {
     constructor(gameWidth, gameHeight){
         this.width = 150;
         this.height = 150;
@@ -27,10 +28,24 @@ let character = new Character(GAME_WIDTH, GAME_HEIGHT);
 
 character.draw(ctx);
 
+let lastTime = 0;
 
-function gameLoop(){
-    ctx.clearRect(0,0, 800, 600)
-    character.update();
+
+function gameLoop(timestamp){
+    let deltaTime = timestamp - lastTime;
+    lastTime = timestamp;
+
+    ctx.clearRect(0,0, 800, 600);
+    character.update(deltaTime);
+    character.draw(ctx);
+
+    requestAnimationFrame(gameLoop);
 }
+//function should be moved to character.js
+update(deltaTime);{
+    if(!deltaTime) return;
 
-update()
+    this.position.x += 5 / deltaTime;
+}
+    
+gameLoop();
