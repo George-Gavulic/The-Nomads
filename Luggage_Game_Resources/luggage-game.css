@@ -1,5 +1,7 @@
 #luggageGameScreen{   
-    image-rendering: pixelated; 
     border: 2px solid #444; 
     background: #000;
+    image-rendering: pixelated;
+    /* width: calc(32px * 10 * 3);   TILE_SIZE * MAP_WIDTH * SCALE 
+    height: calc(32px * 8 * 3);   TILE_SIZE * MAP_HEIGHT * SCALE */
 }
