@@ -1,3 +1,5 @@
-#luggageGameScreen{
-    border: 1px solid #000;
+#luggageGameScreen{   
+    image-rendering: pixelated; 
+    border: 2px solid #444; 
+    background: #000;
 }
