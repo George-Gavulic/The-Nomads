@@ -1,14 +1,3 @@
-function startCanvas() {
-    const canvas = document.getElementById('luggageGameScreen');
-    const context = canvas.getContext('2d');
-    canvas.style.width  = canvas.width  * SCALE + "px";
-    canvas.style.height = canvas.height * SCALE + "px";
-
-    //const [width, height] = getScreenDimensions();
-    
-}
-
-
 //BASIC CONFIG for TILEMAP
 const TILE_SIZE = 16;
 const MAP_WIDTH = 10;
@@ -21,6 +10,9 @@ ctx.imageSmoothingEnabled = false;
 
 canvas.width = MAP_WIDTH * TILE_SIZE;
 canvas.height = MAP_HEIGHT * TILE_SIZE;
+canvas.style.width  = canvas.width  * SCALE + "px";
+canvas.style.height = canvas.height * SCALE + "px";
+
 
 // TILESET IMAGE
 // grabbing tileset image for backgroud tiles
@@ -45,9 +37,7 @@ const tiles = {
     13: { name: "topRoadLeft", solid: true, x: 5, y: 3 },
     14: { name: "topRoadRight", solid: true, x: 6, y: 3 },
     15: { name: "bottomRoadLeft", solid: true, x: 5, y: 4 },
-    16: { name: "bottomRoadRight", solid: true, x: 6, y: 4 },
-
-
+    16: { name: "bottomRoadRight", solid: true, x: 6, y: 4 }
 };
 
 // LEVEL DATA
@@ -331,14 +321,8 @@ canvas.addEventListener("mouseleave", releaseBlock);
 
 
 
-
-
-
-
-
 // START GAME when TILESET LOADS
 tileSheet.onload = () => {
   gameLoop();
-  startCanvas();
 };
 
