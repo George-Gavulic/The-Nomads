@@ -20,7 +20,7 @@ canvas.style.height = canvas.height * SCALE + "px";
 // TILESET IMAGE
 // grabbing tileset image for backgroud tiles
 const tileSheet = new Image();
-tileSheet.src = "IrWOZ_.png"; // example tileset
+tileSheet.src = "/AirPort.png"; // example tileset
 
 // TILE DEFINITIONS
 const tiles = {
