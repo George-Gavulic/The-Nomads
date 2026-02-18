@@ -13,6 +13,9 @@ canvas.height = MAP_HEIGHT * TILE_SIZE;
 canvas.style.width  = canvas.width  * SCALE + "px";
 canvas.style.height = canvas.height * SCALE + "px";
 
+// canvas.style.width  = MAP_WIDTH * TILE_SIZE  * SCALE + "px";
+// canvas.style.height = MAP_HEIGHT * TILE_SIZ * SCALE + "px";
+
 
 // TILESET IMAGE
 // grabbing tileset image for backgroud tiles

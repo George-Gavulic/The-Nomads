@@ -16,21 +16,22 @@ let canvas = document.getElementById("gameScreen");
 let ctx = canvas.getContext("2d");
 //ctx.imageSmoothingEnabled = false;
 
-const SCALE = 40; //used to size up the canvas proportinal to the tile sizes
+const SCALE = 3; //used to size up the canvas proportinal to the tile sizes
 const TILE_SIZE = 16;
 const MAP_WIDTH = 10; //used for tile maps, this is the number of tiles along the width
 const MAP_HEIGHT = 8; //# of tiles in height
 
-// canvas.width = MAP_WIDTH * TILE_SIZE;
-// canvas.height = MAP_HEIGHT * TILE_SIZE;
-// const GAME_WIDTH = canvas.width  * SCALE;
-// const GAME_HEIGHT = canvas.height * SCALE;
-const GAME_WIDTH = 801;
-const GAME_HEIGHT = 380;
+
+canvas.width = MAP_WIDTH * TILE_SIZE;
+canvas.height = MAP_HEIGHT * TILE_SIZE;
+
+canvas.style.width = canvas.width  * SCALE + "px";
+canvas.style.height = canvas.height * SCALE + "px";
+
+const GAME_WIDTH = canvas.width  * SCALE;
+const GAME_HEIGHT = canvas.height * SCALE;
 
 
-// canvas.style.width = canvas.width  * SCALE + "px";
-// canvas.style.height = canvas.height * SCALE + "px";
 
 
 //----------------------------------------------------------------------------------------------------
