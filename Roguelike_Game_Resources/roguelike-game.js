@@ -14,7 +14,7 @@ function sendMessageAsync(message) {
 
 let canvas = document.getElementById("gameScreen");
 let ctx = canvas.getContext("2d");
-//ctx.imageSmoothingEnabled = false;
+ctx.imageSmoothingEnabled = false;
 
 const SCALE = 3; //used to size up the canvas proportinal to the tile sizes
 const TILE_SIZE = 16;
@@ -35,8 +35,10 @@ const GAME_HEIGHT = canvas.height * SCALE;
 //Here starts the section for the tile map
 //----------------------------------------------------------------------------------------------------
 // grabbing tileset image for backgroud tiles
-const tileSheet = new Image();
-tileSheet.src = "/AirPort.png"; // example tileset
+const groundTileSheet = new Image();
+const topTileSheet = new Image();
+groundTileSheet.src = "/AirPort.png"; // example tileset
+topTileSheet.src = "/AirPort.png"; // example tileset //TODO change this
 
 // TILE DEFINITIONS
 const tiles = {
@@ -60,8 +62,8 @@ const tiles = {
 };
 
 // LEVEL DATA
-const levels = {
-    level1: [
+const groundLayers = {
+    groundLevel1: [
         [0,7,7,7,7,7,7,7,7,2],
         [4,5,5,5,5,5,5,5,5,6],
         [4,5,5,5,5,5,5,5,5,6],
@@ -72,7 +74,7 @@ const levels = {
         [15,16,15,16,15,16,15,16,15,16],
     ],
 
-    level2: [
+    groundLevel2: [
         [0,7,7,7,7,7,7,7,7,2],
         [4,5,5,5,5,5,5,5,5,6],
         [4,5,5,5,5,5,5,5,5,6],
@@ -84,7 +86,32 @@ const levels = {
     ]
 };
 
-let currentMap = levels.level1;
+const topLayers = {
+    topLevel1: [
+        [0,7,9,7,7,7,7,7,7,2],
+        [4,5,9,5,5,5,5,5,5,6],
+        [4,5,9,9,5,5,5,9,5,6],
+        [4,5,5,5,5,5,5,5,5,6],
+        [1,8,8,8,8,8,8,8,8,3],
+        [10,10,10,10,11,12,10,10,10,10],
+        [13,14,13,14,13,14,13,14,13,14],
+        [15,16,15,16,15,16,15,16,15,16],
+    ],
+
+    topLevel2: [
+        [0,7,7,9,9,9,9,9,7,2],
+        [4,5,5,5,5,5,5,9,5,6],
+        [4,5,5,5,5,5,5,9,5,6],
+        [4,5,5,5,5,5,5,9,5,6],
+        [4,5,5,5,9,5,5,5,5,6],
+        [4,5,5,5,5,5,5,5,5,6],
+        [4,5,5,5,5,5,5,5,5,6],
+        [1,8,8,8,8,8,8,8,8,3],
+    ]
+};
+
+let currentGroundMap = groundLayers.groundLevel1;
+let currentTopMap = topLayers.topLevel1;
 
 // DRAWING FUNCTIONS
 
@@ -92,8 +119,19 @@ function drawTile(tileId, gridX, gridY) {
     const tile = tiles[tileId];
     if (!tile) return;
 
-    ctx.drawImage(
-        tileSheet,
+    ctx.drawImage( //this is the GROUND layer
+        groundTileSheet,
+        tile.x * TILE_SIZE,
+        tile.y * TILE_SIZE,
+        TILE_SIZE,
+        TILE_SIZE,
+        gridX * TILE_SIZE,
+        gridY * TILE_SIZE,
+        TILE_SIZE,
+        TILE_SIZE
+    );
+    ctx.drawImage( // this is the TOP layer
+        topTileSheet,
         tile.x * TILE_SIZE,
         tile.y * TILE_SIZE,
         TILE_SIZE,
@@ -106,9 +144,14 @@ function drawTile(tileId, gridX, gridY) {
 }
 
 function drawMap() {
-    for (let y = 0; y < currentMap.length; y++) {
-        for (let x = 0; x < currentMap[y].length; x++) {
-        drawTile(currentMap[y][x], x, y);
+    for (let y = 0; y < currentGroundMap.length; y++) { //this is the GROUND layer
+        for (let x = 0; x < currentGroundMap[y].length; x++) {
+        drawTile(currentGroundMap[y][x], x, y);
+        }
+    }
+    for (let y = 0; y < currentTopMap.length; y++) { // this is the TOP layer
+        for (let x = 0; x < currentTopMap[y].length; x++) {
+        drawTile(currentTopMap[y][x], x, y);
         }
     }
 }
@@ -253,11 +296,18 @@ function gameLoop(timestamp){
    LEVEL SWITCHING (DEMO)
 ========================= */
 window.addEventListener("keydown", e => {
-    if (e.key === "1") currentMap = levels.level1;
-    if (e.key === "2") currentMap = levels.level2;
+    if (e.key === "1") {
+        currentGroundMap = groundLayers.groundLevel1;
+        currentTopMap = topLayers.topLevel1;
+    }
+    if (e.key === "2") {
+        currentGroundMap = groundLayers.groundLevel2;
+        currentTopMap = topLayers.topLevel2;
+    }
 });
     
 // START GAME when TILESET LOADS
-tileSheet.onload = () => {
+groundTileSheet.onload = () => {
+    //TODO only when both load
     gameLoop();
 };
