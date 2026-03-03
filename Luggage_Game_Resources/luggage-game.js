@@ -15,7 +15,8 @@ canvas.style.height = canvas.height * SCALE + "px";
 
 const TILESETS = {
     airport: "/AirPort.png",
-    cracks: "/decorative_cracks_walls.png"   
+    cracks: "/decorative_cracks_walls.png",
+    f1: "/Furniture1.png"   
 };
 
 // TILESET IMAGE
@@ -27,7 +28,7 @@ const tileSheet = new Image();
 
 // TILE DEFINITIONS
 const tiles = {
-    0: { name: "topLeftCorner", solid: false, tileset: "cracks", x: 0, y: 6 },
+    0: { name: "topLeftCorner", solid: false, tileset: "airport", x: 0, y: 6 },
     1: { name: "bottomLeftCorner", solid: false, tileset: "airport", x: 0, y: 7 },
     2: { name: "topRightCorner", solid: true,  tileset: "airport", x: 1, y: 6 },
     3: { name: "bottomRightCorner", solid: true, tileset: "airport", x: 1, y: 7 },
@@ -43,7 +44,33 @@ const tiles = {
     13:{ name:"topRoadLeft", solid:true, tileset:"airport", x:5, y:3 },
     14:{ name:"topRoadRight", solid:true, tileset:"airport", x:6, y:3 },
     15:{ name:"bottomRoadLeft", solid:true, tileset:"airport", x:5, y:4 },
-    16:{ name:"bottomRoadRight", solid:true, tileset:"airport", x:6, y:4 }
+    16:{ name:"bottomRoadRight", solid:true, tileset:"airport", x:6, y:4 },
+
+    17:{ name:"TopLeftTable", solid:true, tileset:"f1", x:0, y:0 },
+    18:{ name:"TopRightTable", solid:true, tileset:"f1", x:1, y:0 },
+    19:{ name:"BottomLeftTable", solid:true, tileset:"f1", x:0, y:1 },
+    20:{ name:"BottomRightTable", solid:true, tileset:"f1", x:1, y:1 },
+
+    21:{ name:"LTopLeftTable", solid:true, tileset:"f1", x:0, y:2 },
+    22:{ name:"LTopMidTable", solid:true, tileset:"f1", x:1, y:2 },
+    23:{ name:"LTopRightTable", solid:true, tileset:"f1", x:2, y:2 },
+    24:{ name:"LBottomLeftTable", solid:true, tileset:"f1", x:0, y:3 },
+    25:{ name:"LBottomMidTable", solid:true, tileset:"f1", x:1, y:3 },
+    26:{ name:"LBottomRightTable", solid:true, tileset:"f1", x:2, y:3 },
+
+    27:{ name:"LVTopLeftTable", solid:true, tileset:"f1", x:0, y:4 },
+    28:{ name:"LVLeftMidTable", solid:true, tileset:"f1", x:0, y:5 },
+    29:{ name:"LVTopRightTable", solid:true, tileset:"f1", x:0, y:6 },
+    30:{ name:"LVBottomLeftTable", solid:true, tileset:"f1", x:1, y:4 },
+    31:{ name:"LVLeftMidTable", solid:true, tileset:"f1", x:1, y:5 },
+    32:{ name:"LVBottomRightTable", solid:true, tileset:"f1", x:1, y:6 },
+
+    33:{ name:"B_TopLeftEndtable", solid:true, tileset:"f1", x:0, y:7 },
+    34:{ name:"B_LeftMidEndtable", solid:true, tileset:"f1", x:0, y:8 },
+    35:{ name:"B_TopRightEndtable", solid:true, tileset:"f1", x:0, y:9 },
+    36:{ name:"B_BottomLeftEndtable", solid:true, tileset:"f1", x:1, y:7 },
+    37:{ name:"B_RightMidEndtable", solid:true, tileset:"f1", x:1, y:8 },
+    38:{ name:"B_BottomRightEndtable", solid:true, tileset:"f1", x:1, y:9 },
 };
 
 const imageCache = {};
@@ -70,33 +97,44 @@ function loadAllImages(callback) {
 // LEVEL DATA
 const levels = {
     //lets try a 20 by 10 map for the demo, we can always add more levels later, but this is a good start for testing
-    level1: [
-        [0,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,2],
-        [4,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,6],
-        [4,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,6],
-        [4,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,6],
-        [4,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,6],
-        [4,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,6],
-        [1,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,3],
-        [10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10],
-        [13,14,13,14,13,14,13,14,13,14,13,14,13,14,13,14,13,14,13,14],
-        [15,16,15,16,15,16,15,16,15,16,15,16,15,16,15,16,15,16,15,16],
-    ],
-    level2: [
-        [0,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,2],
-        [4,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,6],
-        [4,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,6],
-        [4,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,6],
-        [4,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,6],
-        [4,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,6],
-        [4,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,6],
-        [4,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,6],
-        [4,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,6],
-        [15,16,15,16,15,16,15,16,15,16,15,16,15,16,15,16,15,16,15,16],
-    ]
+    level1: {
+        map:    [
+            [0,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,2],
+            [4,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,6],
+            [4,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,6],
+            [4,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,6],
+            [4,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,6],
+            [4,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,6],
+            [1,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,3],
+            [10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10],
+            [13,14,13,14,13,14,13,14,13,14,13,14,13,14,13,14,13,14,13,14],
+            [15,16,15,16,15,16,15,16,15,16,15,16,15,16,15,16,15,16,15,16],
+        ],
+        blocks: [
+            { shape: "small_table", x: 8, y: 2 },
+            { shape: "large_table", x: 7, y: 4 }
+        ]
+    },
+    level2: {
+        map:    [
+            [0,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,2],
+            [4,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,6],
+            [4,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,6],
+            [4,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,6],
+            [4,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,6],
+            [4,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,6],
+            [4,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,6],
+            [4,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,6],
+            [4,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,6],
+            [15,16,15,16,15,16,15,16,15,16,15,16,15,16,15,16,15,16,15,16],
+        ],
+        blocks: [
+            { shape: "large_table_vert", x: 4, y: 2 },
+            { shape: "brown_endtable", x: 2, y: 3 }
+        ]
+    }
 };
 
-let currentMap = levels.level1;
 
 // DRAWING FUNCTIONS
 function drawTile(tileId, gridX, gridY) {
@@ -142,6 +180,36 @@ const SHAPES = {
         { x: 0, y: -1, tileId: 12 },
         { x: 0, y: -2, tileId: 13 },
         { x: 1, y: 0, tileId: 14 }
+    ],
+    small_table: [
+        { x: 0, y: 0, tileId: 17 },
+        { x: 1, y: 0, tileId: 18 },
+        { x: 0, y: 1, tileId: 19 },
+        { x: 1, y: 1, tileId: 20 }
+    ],
+    large_table: [
+        { x: 0, y: 0, tileId: 21 },
+        { x: 1, y: 0, tileId: 22 },
+        { x: 2, y: 0, tileId: 23 },
+        { x: 0, y: 1, tileId: 24 },
+        { x: 1, y: 1, tileId: 25 },
+        { x: 2, y: 1, tileId: 26 }
+    ],
+    large_table_vert: [
+        { x: 0, y: 0, tileId: 27 },
+        { x: 0, y: 1, tileId: 28 },
+        { x: 0, y: 2, tileId: 29 },
+        { x: 1, y: 0, tileId: 30 },
+        { x: 1, y: 1, tileId: 31 },
+        { x: 1, y: 2, tileId: 32 }
+    ],
+    brown_endtable: [
+        { x: 0, y: 0, tileId: 33 },
+        { x: 0, y: 1, tileId: 34 },
+        { x: 0, y: 2, tileId: 35 },
+        { x: 1, y: 0, tileId: 36 },
+        { x: 1, y: 1, tileId: 37 },
+        { x: 1, y: 2, tileId: 38 }
     ]
 };
 
@@ -167,13 +235,23 @@ class Block {
 }
 
 // ACTIVE BLOCKS IN THE LEVEL
-const blocks = [
-    new Block(SHAPES.T, 4, 3),
-    new Block(SHAPES.L, 7, 4)
-];
+let blocks = [];
+
+function loadLevel(levelName) {
+    const level = levels[levelName];
+
+    currentMap = level.map;
+
+    blocks = level.blocks.map(b =>
+        new Block(SHAPES[b.shape], b.x, b.y)
+    );
+}
 
 let activeBlock = null;
 let mouseOffset = { x: 0, y: 0 };
+// inisialize the game with the first level
+let currentMap;
+loadLevel("level1");
 
 function canPlaceBlock(block, testX, testY) {
     for (const t of block.getGridTiles(testX, testY)) {
@@ -272,8 +350,8 @@ canvas.addEventListener("mouseleave", releaseBlock);
    LEVEL SWITCHING (DEMO)
 ========================= */
 window.addEventListener("keydown", e => {
-    if (e.key === "1") currentMap = levels.level1;
-    if (e.key === "2") currentMap = levels.level2;
+    if (e.key === "1") loadLevel("level1");
+    if (e.key === "2") loadLevel("level2");
 });
 
 loadAllImages(() => {
