@@ -1,7 +1,7 @@
 //BASIC CONFIG for TILEMAP
 const TILE_SIZE = 16;
-const MAP_WIDTH = 10;
-const MAP_HEIGHT = 8;
+const MAP_WIDTH = 20;
+const MAP_HEIGHT = 10;
 const SCALE = 3;
 
 const canvas = document.getElementById("luggageGameScreen");
@@ -45,27 +45,52 @@ const tiles = {
 
 // LEVEL DATA
 const levels = {
+    //lets try a 20 by 10 map for the demo, we can always add more levels later, but this is a good start for testing
     level1: [
-        [0,7,7,7,7,7,7,7,7,2],
-        [4,5,5,5,5,5,5,5,5,6],
-        [4,5,5,5,5,5,5,5,5,6],
-        [4,5,5,5,5,5,5,5,5,6],
-        [1,8,8,8,8,8,8,8,8,3],
-        [10,10,10,10,11,12,10,10,10,10],
-        [13,14,13,14,13,14,13,14,13,14],
-        [15,16,15,16,15,16,15,16,15,16],
+        [0,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,2],
+        [4,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,6],
+        [4,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,6],
+        [4,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,6],
+        [4,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,6],
+        [1,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,3],
+        [10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10],
+        [13,14,13,14,13,14,13,14,13,14,13,14,13,14,13,14,13,14,13,14],
+        [15,16,15,16,15,16,15,16,15,16,15,16,15,16,15,16,15,16,15,16],
     ],
-
     level2: [
-        [0,7,7,7,7,7,7,7,7,2],
-        [4,5,5,5,5,5,5,5,5,6],
-        [4,5,5,5,5,5,5,5,5,6],
-        [4,5,5,5,5,5,5,5,5,6],
-        [4,5,5,5,9,5,5,5,5,6],
-        [4,5,5,5,5,5,5,5,5,6],
-        [4,5,5,5,5,5,5,5,5,6],
-        [1,8,8,8,8,8,8,8,8,3],
+        [0,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,2],
+        [4,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,6],
+        [4,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,6],
+        [4,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,6],
+        [4,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,6],
+        [1,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,3],
+        [10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10],
+        [13,14,13,14,13,14,13,14,13,14,13,14,13,14,13,14,13,14,13,14],
+        [15,16,15,16,15,16,15,16,15,16,15,16,15,16,15,16,15,16,15,16],
     ]
+
+
+    // level1: [
+    //     [0,7,7,7,7,7,7,7,7,2],
+    //     [4,5,5,5,5,5,5,5,5,6],
+    //     [4,5,5,5,5,5,5,5,5,6],
+    //     [4,5,5,5,5,5,5,5,5,6],
+    //     [1,8,8,8,8,8,8,8,8,3],
+    //     [10,10,10,10,11,12,10,10,10,10],
+    //     [13,14,13,14,13,14,13,14,13,14],
+    //     [15,16,15,16,15,16,15,16,15,16],
+    // ],
+
+    // level2: [
+    //     [0,7,7,7,7,7,7,7,7,2],
+    //     [4,5,5,5,5,5,5,5,5,6],
+    //     [4,5,5,5,5,5,5,5,5,6],
+    //     [4,5,5,5,5,5,5,5,5,6],
+    //     [4,5,5,5,9,5,5,5,5,6],
+    //     [4,5,5,5,5,5,5,5,5,6],
+    //     [4,5,5,5,5,5,5,5,5,6],
+    //     [1,8,8,8,8,8,8,8,8,3],
+    // ]
 };
 
 let currentMap = levels.level1;
@@ -92,6 +117,7 @@ function drawTile(tileId, gridX, gridY) {
 function drawMap() {
     for (let y = 0; y < currentMap.length; y++) {
         for (let x = 0; x < currentMap[y].length; x++) {
+
         drawTile(currentMap[y][x], x, y);
         }
     }
@@ -225,7 +251,7 @@ function canPlaceBlock(block, testX, testY) {
 }
 
 function releaseBlock() {
-    if (!activeBlock) return;
+    if (!activeBlock) return; //nothing attached to the mouse, so do nothing
 
     const snapX = Math.round(activeBlock.pixelX / TILE_SIZE);
     const snapY = Math.round(activeBlock.pixelY / TILE_SIZE);
@@ -270,13 +296,18 @@ window.addEventListener("keydown", e => {
 //listeners for MOUSE INTERACTIONS (picking up and dragging blocks)
 canvas.addEventListener("mousedown", (e) => {
     const rect = canvas.getBoundingClientRect();
-    const mx = (e.clientX - rect.left) / SCALE;
-    const my = (e.clientY - rect.top) / SCALE;
+    const mx = (e.clientX - rect.left) / SCALE; //clientX/Y is relative to the screen
+    const my = (e.clientY - rect.top) / SCALE;  //here mx/my are relative to the canvas, and also account for the SCALE factor
 
-    for (const block of blocks) {
-        const tiles = block.getGridTiles();
-        for (const t of tiles) {
-            if (
+    // loop through blocks to see if mouse is over any of them, if so, set that block as active and start dragging
+    for (const block of blocks) { //for each element in the blocks array
+        const tiles = block.getGridTiles(); //!!Super important, this gets the grid positions of all the tiles that make up the block.
+        for (const t of tiles) { //for each element in the tiles array which contains the grid positions of the current block in the loop of the for loop
+            if ( 
+                //if one of the tiles which make up the block is under the mouse
+                //checked by seeing if the mouse x/y (mx/my) is within all 4 courners of the tile
+                //then the entire block is set to active and starts dragging, 
+                //but this specific tile used to calculate the mouse offset so that the block is dragged from the location it is clicked.
                 mx >= t.x * TILE_SIZE &&
                 mx < (t.x + 1) * TILE_SIZE &&
                 my >= t.y * TILE_SIZE &&
@@ -294,14 +325,38 @@ canvas.addEventListener("mousedown", (e) => {
 });
 
 canvas.addEventListener("mousemove", (e) => {
-    if (!activeBlock) return;
+    if (!activeBlock || !activeBlock.dragging) return;
 
     const rect = canvas.getBoundingClientRect();
     const mx = (e.clientX - rect.left) / SCALE;
     const my = (e.clientY - rect.top) / SCALE;
 
-    activeBlock.pixelX = mx - mouseOffset.x;
-    activeBlock.pixelY = my - mouseOffset.y;
+    // Where mouse wants the block (pixel space)
+    const desiredPixelX = mx - mouseOffset.x;
+    const desiredPixelY = my - mouseOffset.y;
+
+    // Convert to grid
+    const desiredGridX = Math.round(desiredPixelX / TILE_SIZE);
+    const desiredGridY = Math.round(desiredPixelY / TILE_SIZE);
+
+    const deltaX = desiredGridX - activeBlock.gridX;
+    const deltaY = desiredGridY - activeBlock.gridY;
+
+    // Only move if there is actual grid movement
+    if (deltaX !== 0 || deltaY !== 0) {
+
+        const newGridX = activeBlock.gridX + deltaX;
+        const newGridY = activeBlock.gridY + deltaY;
+
+        if (canPlaceBlock(activeBlock, newGridX, newGridY)) {
+            activeBlock.gridX = newGridX;
+            activeBlock.gridY = newGridY;
+        }
+    }
+
+    // Render position always derived from grid
+    activeBlock.pixelX = activeBlock.gridX * TILE_SIZE;
+    activeBlock.pixelY = activeBlock.gridY * TILE_SIZE;
 });
 
 

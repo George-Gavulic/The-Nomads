@@ -14,7 +14,7 @@ function sendMessageAsync(message) {
 
 let canvas = document.getElementById("gameScreen");
 let ctx = canvas.getContext("2d");
-ctx.imageSmoothingEnabled = false;
+ctx.imageSmoothingEnabled = true;
 
 const SCALE = 3; //used to size up the canvas proportinal to the tile sizes
 const TILE_SIZE = 16;
@@ -119,6 +119,19 @@ function drawTile(tileId, gridX, gridY) {
     const tile = tiles[tileId];
     if (!tile) return;
 
+    switch(expression) {
+    case x:
+        // code block
+        break;
+    case y:
+        // code block
+        break;
+    default:
+        // code block
+    }
+
+
+
     ctx.drawImage( //this is the GROUND layer
         groundTileSheet,
         tile.x * TILE_SIZE,
@@ -146,12 +159,14 @@ function drawTile(tileId, gridX, gridY) {
 function drawMap() {
     for (let y = 0; y < currentGroundMap.length; y++) { //this is the GROUND layer
         for (let x = 0; x < currentGroundMap[y].length; x++) {
-        drawTile(currentGroundMap[y][x], x, y);
+            
+            drawTile(currentGroundMap[y][x], x, y);
         }
     }
     for (let y = 0; y < currentTopMap.length; y++) { // this is the TOP layer
         for (let x = 0; x < currentTopMap[y].length; x++) {
-        drawTile(currentTopMap[y][x], x, y);
+        
+            drawTile(currentTopMap[y][x], x, y);
         }
     }
 }
