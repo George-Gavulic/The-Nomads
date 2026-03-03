@@ -24,23 +24,23 @@ tileSheet.src = "/AirPort.png"; // example tileset
 
 // TILE DEFINITIONS
 const tiles = {
-    0: { name: "topLeftCorner", solid: false, x: 0, y: 6 },
-    1: { name: "bottomLefteCorner", solid: false, x: 0, y: 7 },
-    2: { name: "topLeftCorner", solid: true,  x: 1, y: 6 },
-    3: { name: "bottomRightCorner", solid: true, x: 1, y: 7 },
-    4: { name: "leftWall", solid: false, x: 2, y: 7 },
-    5: { name: "floor", solid: false, x: 2, y: 4 },
-    6: { name: "rightWall", solid: true, x: 2, y: 6 },
-    7: { name: "topWall", solid: true, x: 1, y: 4 },
-    8: { name: "bottomWall", solid: true, x: 0, y: 4 },
-    9: { name: "window", solid: false, x: 3, y: 2 },
-    10: { name: "wall", solid: false, x: 4, y: 2 },
-    11: { name: "doorLeft", solid: false, x: 5, y: 2 },
-    12: { name: "doorRight", solid: true, x: 6, y: 2 },
-    13: { name: "topRoadLeft", solid: true, x: 5, y: 3 },
-    14: { name: "topRoadRight", solid: true, x: 6, y: 3 },
-    15: { name: "bottomRoadLeft", solid: true, x: 5, y: 4 },
-    16: { name: "bottomRoadRight", solid: true, x: 6, y: 4 }
+    0: { name: "topLeftCorner", solid: false, x: 0, y: 6, source: "/AirPort.png" },
+    1: { name: "bottomLefteCorner", solid: false, x: 0, y: 7, source: "/AirPort.png" },
+    2: { name: "topLeftCorner", solid: true,  x: 1, y: 6, source: "/AirPort.png" },
+    3: { name: "bottomRightCorner", solid: true, x: 1, y: 7, source: "/AirPort.png" },
+    4: { name: "leftWall", solid: false, x: 2, y: 7, source: "/AirPort.png" },
+    5: { name: "floor", solid: false, x: 2, y: 4, source: "/AirPort.png" },
+    6: { name: "rightWall", solid: true, x: 2, y: 6, source: "/AirPort.png" },
+    7: { name: "topWall", solid: true, x: 1, y: 4, source: "/AirPort.png" },
+    8: { name: "bottomWall", solid: true, x: 0, y: 4, source: "/AirPort.png" },
+    9: { name: "window", solid: false, x: 3, y: 2, source: "/AirPort.png" },
+    10: { name: "wall", solid: false, x: 4, y: 2, source: "/AirPort.png" },
+    11: { name: "doorLeft", solid: false, x: 5, y: 2, source: "/AirPort.png" },
+    12: { name: "doorRight", solid: true, x: 6, y: 2, source:"/AirPort.png" },
+    13: { name:"topRoadLeft", solid:true,x :5,y :3 ,source:"/AirPort.png"},
+    14:{name:"topRoadRight",solid:true,x :6,y :3 ,source:"/AirPort.png"},
+    15:{name:"bottomRoadLeft",solid:true,x :5,y :4 ,source:"/AirPort.png"},
+    16: { name: "bottomRoadRight", solid: true, x: 6, y: 4, source: "/AirPort.png" }
 };
 
 // LEVEL DATA
@@ -103,6 +103,8 @@ function drawTile(tileId, gridX, gridY) {
     const tile = tiles[tileId];
     if (!tile) return;
 
+    tileSheet.src = tile.source; // Ensure the correct tileset is loaded
+
     ctx.drawImage(
         tileSheet,
         tile.x * TILE_SIZE,
@@ -140,6 +142,8 @@ const SHAPES = {
         { x: 0, y: -2 },
         { x: 1, y: 0 }
     ]
+
+
 };
 
 class Block {
@@ -177,10 +181,13 @@ class Block {
     }
 }
 
+
+
 // ACTIVE BLOCKS IN THE LEVEL
 const blocks = [
     new Block(SHAPES.T, 4, 3, 9),
     new Block(SHAPES.L, 7, 4, 9)
+
 ];
 
 let activeBlock = null;
