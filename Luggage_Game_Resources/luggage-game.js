@@ -13,35 +13,86 @@ canvas.height = MAP_HEIGHT * TILE_SIZE;
 canvas.style.width  = canvas.width  * SCALE + "px";
 canvas.style.height = canvas.height * SCALE + "px";
 
-// canvas.style.width  = MAP_WIDTH * TILE_SIZE  * SCALE + "px";
-// canvas.style.height = MAP_HEIGHT * TILE_SIZ * SCALE + "px";
-
+const TILESETS = {
+    airport: "/AirPort.png",
+    cracks: "/decorative_cracks_walls.png",
+    f1: "/Furniture1.png"   
+};
 
 // TILESET IMAGE
 // grabbing tileset image for backgroud tiles
 const tileSheet = new Image();
-tileSheet.src = "/AirPort.png"; // example tileset
+// tileSheet.src = "/decorative_cracks_walls.png";
+// tileSheet.src = "/AirPort.png"; // example tileset
+
 
 // TILE DEFINITIONS
 const tiles = {
-    0: { name: "topLeftCorner", solid: false, x: 0, y: 6, source: "/AirPort.png" },
-    1: { name: "bottomLefteCorner", solid: false, x: 0, y: 7, source: "/AirPort.png" },
-    2: { name: "topLeftCorner", solid: true,  x: 1, y: 6, source: "/AirPort.png" },
-    3: { name: "bottomRightCorner", solid: true, x: 1, y: 7, source: "/AirPort.png" },
-    4: { name: "leftWall", solid: false, x: 2, y: 7, source: "/AirPort.png" },
-    5: { name: "floor", solid: false, x: 2, y: 4, source: "/AirPort.png" },
-    6: { name: "rightWall", solid: true, x: 2, y: 6, source: "/AirPort.png" },
-    7: { name: "topWall", solid: true, x: 1, y: 4, source: "/AirPort.png" },
-    8: { name: "bottomWall", solid: true, x: 0, y: 4, source: "/AirPort.png" },
-    9: { name: "window", solid: false, x: 3, y: 2, source: "/AirPort.png" },
-    10: { name: "wall", solid: false, x: 4, y: 2, source: "/AirPort.png" },
-    11: { name: "doorLeft", solid: false, x: 5, y: 2, source: "/AirPort.png" },
-    12: { name: "doorRight", solid: true, x: 6, y: 2, source:"/AirPort.png" },
-    13: { name:"topRoadLeft", solid:true,x :5,y :3 ,source:"/AirPort.png"},
-    14:{name:"topRoadRight",solid:true,x :6,y :3 ,source:"/AirPort.png"},
-    15:{name:"bottomRoadLeft",solid:true,x :5,y :4 ,source:"/AirPort.png"},
-    16: { name: "bottomRoadRight", solid: true, x: 6, y: 4, source: "/AirPort.png" }
+    0: { name: "topLeftCorner", solid: false, tileset: "airport", x: 0, y: 6 },
+    1: { name: "bottomLeftCorner", solid: false, tileset: "airport", x: 0, y: 7 },
+    2: { name: "topRightCorner", solid: true,  tileset: "airport", x: 1, y: 6 },
+    3: { name: "bottomRightCorner", solid: true, tileset: "airport", x: 1, y: 7 },
+    4: { name: "leftWall", solid: false, tileset: "airport", x: 2, y: 7 },
+    5: { name: "floor", solid: false, tileset: "airport", x: 2, y: 4 },
+    6: { name: "rightWall", solid: true, tileset: "airport", x: 2, y: 6 },
+    7: { name: "topWall", solid: true, tileset: "airport", x: 1, y: 4 },
+    8: { name: "bottomWall", solid: true, tileset: "airport", x: 0, y: 4 },
+    9: { name: "window", solid: false, tileset: "airport", x: 3, y: 2 },
+    10:{ name: "wall", solid: false, tileset: "airport", x: 4, y: 2 },
+    11:{ name: "doorLeft", solid: false, tileset: "airport", x: 5, y: 2 },
+    12:{ name: "doorRight", solid: true, tileset: "airport", x: 6, y: 2 },
+    13:{ name:"topRoadLeft", solid:true, tileset:"airport", x:5, y:3 },
+    14:{ name:"topRoadRight", solid:true, tileset:"airport", x:6, y:3 },
+    15:{ name:"bottomRoadLeft", solid:true, tileset:"airport", x:5, y:4 },
+    16:{ name:"bottomRoadRight", solid:true, tileset:"airport", x:6, y:4 },
+
+    17:{ name:"TopLeftTable", solid:true, tileset:"f1", x:0, y:0 },
+    18:{ name:"TopRightTable", solid:true, tileset:"f1", x:1, y:0 },
+    19:{ name:"BottomLeftTable", solid:true, tileset:"f1", x:0, y:1 },
+    20:{ name:"BottomRightTable", solid:true, tileset:"f1", x:1, y:1 },
+
+    21:{ name:"LTopLeftTable", solid:true, tileset:"f1", x:0, y:2 },
+    22:{ name:"LTopMidTable", solid:true, tileset:"f1", x:1, y:2 },
+    23:{ name:"LTopRightTable", solid:true, tileset:"f1", x:2, y:2 },
+    24:{ name:"LBottomLeftTable", solid:true, tileset:"f1", x:0, y:3 },
+    25:{ name:"LBottomMidTable", solid:true, tileset:"f1", x:1, y:3 },
+    26:{ name:"LBottomRightTable", solid:true, tileset:"f1", x:2, y:3 },
+
+    27:{ name:"LVTopLeftTable", solid:true, tileset:"f1", x:0, y:4 },
+    28:{ name:"LVLeftMidTable", solid:true, tileset:"f1", x:0, y:5 },
+    29:{ name:"LVTopRightTable", solid:true, tileset:"f1", x:0, y:6 },
+    30:{ name:"LVBottomLeftTable", solid:true, tileset:"f1", x:1, y:4 },
+    31:{ name:"LVLeftMidTable", solid:true, tileset:"f1", x:1, y:5 },
+    32:{ name:"LVBottomRightTable", solid:true, tileset:"f1", x:1, y:6 },
+
+    33:{ name:"B_TopLeftEndtable", solid:true, tileset:"f1", x:0, y:7 },
+    34:{ name:"B_LeftMidEndtable", solid:true, tileset:"f1", x:0, y:8 },
+    35:{ name:"B_TopRightEndtable", solid:true, tileset:"f1", x:0, y:9 },
+    36:{ name:"B_BottomLeftEndtable", solid:true, tileset:"f1", x:1, y:7 },
+    37:{ name:"B_RightMidEndtable", solid:true, tileset:"f1", x:1, y:8 },
+    38:{ name:"B_BottomRightEndtable", solid:true, tileset:"f1", x:1, y:9 },
 };
+
+const imageCache = {};
+
+function loadAllImages(callback) {
+    const sources = Object.values(TILESETS);
+    let loaded = 0;
+
+    sources.forEach(src => {
+        const img = new Image();
+        img.src = src;
+
+        img.onload = () => {
+            loaded++;
+            if (loaded === sources.length) {
+                callback();
+            }
+        };
+
+        imageCache[src] = img;
+    });
+}
 
 // LEVEL DATA
 const levels = {
@@ -70,43 +121,21 @@ const levels = {
         [4,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,6],
         [15,16,15,16,15,16,15,16,15,16,15,16,15,16,15,16,15,16,15,16],
     ]
-
-
-    // level1: [
-    //     [0,7,7,7,7,7,7,7,7,2],
-    //     [4,5,5,5,5,5,5,5,5,6],
-    //     [4,5,5,5,5,5,5,5,5,6],
-    //     [4,5,5,5,5,5,5,5,5,6],
-    //     [1,8,8,8,8,8,8,8,8,3],
-    //     [10,10,10,10,11,12,10,10,10,10],
-    //     [13,14,13,14,13,14,13,14,13,14],
-    //     [15,16,15,16,15,16,15,16,15,16],
-    // ],
-
-    // level2: [
-    //     [0,7,7,7,7,7,7,7,7,2],
-    //     [4,5,5,5,5,5,5,5,5,6],
-    //     [4,5,5,5,5,5,5,5,5,6],
-    //     [4,5,5,5,5,5,5,5,5,6],
-    //     [4,5,5,5,9,5,5,5,5,6],
-    //     [4,5,5,5,5,5,5,5,5,6],
-    //     [4,5,5,5,5,5,5,5,5,6],
-    //     [1,8,8,8,8,8,8,8,8,3],
-    // ]
 };
 
 let currentMap = levels.level1;
 
 // DRAWING FUNCTIONS
-
 function drawTile(tileId, gridX, gridY) {
     const tile = tiles[tileId];
     if (!tile) return;
 
-    tileSheet.src = tile.source; // Ensure the correct tileset is loaded
+
+    const img = imageCache[TILESETS[tile.tileset]];
+    if (!img) return;
 
     ctx.drawImage(
-        tileSheet,
+        img,
         tile.x * TILE_SIZE,
         tile.y * TILE_SIZE,
         TILE_SIZE,
@@ -121,8 +150,7 @@ function drawTile(tileId, gridX, gridY) {
 function drawMap() {
     for (let y = 0; y < currentMap.length; y++) {
         for (let x = 0; x < currentMap[y].length; x++) {
-
-        drawTile(currentMap[y][x], x, y);
+            drawTile(currentMap[y][x], x, y);
         }
     }
 }
@@ -130,38 +158,59 @@ function drawMap() {
 // OBSTICAL DEFINITIONS for the luggage the player can move
 const SHAPES = {
     T: [
-        { x: 0, y: 0 },
-        { x: -1, y: 0 },
-        { x: 1, y: 0 },
-        { x: 0, y: -1 }
+        { x: 0, y: 0, tileId: 10 },
+        { x: -1, y: 0, tileId: 10 },
+        { x: 1, y: 0, tileId: 10 },
+        { x: 0, y: -1, tileId: 10 }
     ],
 
     L: [
-        { x: 0, y: 0 },
-        { x: 0, y: -1 },
-        { x: 0, y: -2 },
-        { x: 1, y: 0 }
-    ]
-
+        { x: 0, y: 0, tileId: 11 },
+        { x: 0, y: -1, tileId: 12 },
+        { x: 0, y: -2, tileId: 13 },
+        { x: 1, y: 0, tileId: 14 }
+    ],
+    small_table: [
+        { x: 0, y: 0, tileId: 17 },
+        { x: 1, y: 0, tileId: 18 },
+        { x: 0, y: 1, tileId: 19 },
+        { x: 1, y: 1, tileId: 20 }
+    ],
+    large_table: [
+        { x: 0, y: 0, tileId: 21 },
+        { x: 1, y: 0, tileId: 22 },
+        { x: 2, y: 0, tileId: 23 },
+        { x: 0, y: 1, tileId: 24 },
+        { x: 1, y: 1, tileId: 25 },
+        { x: 2, y: 1, tileId: 26 }
+    ],
+    large_table_vert: [
+        { x: 0, y: 0, tileId: 27 },
+        { x: 0, y: 1, tileId: 28 },
+        { x: 0, y: 2, tileId: 29 },
+        { x: 1, y: 0, tileId: 30 },
+        { x: 1, y: 1, tileId: 31 },
+        { x: 1, y: 2, tileId: 32 }
+    ],
+    brown_endtable: [
+        { x: 0, y: 0, tileId: 33 },
+        { x: 0, y: 1, tileId: 34 },
+        { x: 0, y: 2, tileId: 35 },
+        { x: 1, y: 0, tileId: 36 },
+        { x: 1, y: 1, tileId: 37 },
+        { x: 1, y: 2, tileId: 38 }
+    ],
 
 };
 
 class Block {
-    constructor(shape, gridX, gridY, tileId = 5) {
+    constructor(shape, gridX, gridY) {
         this.shape = shape;
-
-        // grid position (authoritative)
         this.gridX = gridX;
         this.gridY = gridY;
-
-        // pixel position (used while dragging)
         this.pixelX = gridX * TILE_SIZE;
         this.pixelY = gridY * TILE_SIZE;
-
-        this.tileId = tileId;
         this.dragging = false;
-
-        // rollback safety
         this.lastValidX = gridX;
         this.lastValidY = gridY;
     }
@@ -169,112 +218,48 @@ class Block {
     getGridTiles(x = this.gridX, y = this.gridY) {
         return this.shape.map(p => ({
             x: x + p.x,
-            y: y + p.y
-        }));
-    }
-
-    getPixelTiles() {
-        return this.shape.map(p => ({
-            x: this.pixelX + p.x * TILE_SIZE,
-            y: this.pixelY + p.y * TILE_SIZE
+            y: y + p.y,
+            tileId: p.tileId
         }));
     }
 }
 
-
-
 // ACTIVE BLOCKS IN THE LEVEL
 const blocks = [
-    new Block(SHAPES.T, 4, 3, 9),
-    new Block(SHAPES.L, 7, 4, 9)
-
+    //new Block(SHAPES.T, 4, 3),
+    //new Block(SHAPES.L, 7, 4),
+    new Block(SHAPES.small_table, 8, 2),
+    new Block(SHAPES.large_table, 7, 4),
+    new Block(SHAPES.large_table_vert, 4, 3),
+    new Block(SHAPES.brown_endtable, 2, 3),
 ];
 
 let activeBlock = null;
 let mouseOffset = { x: 0, y: 0 };
 
-
-function drawBlock(block) {
-    if (block.dragging) {
-        // pixel-space drawing while dragging
-        for (const p of block.getPixelTiles()) {
-        ctx.drawImage(
-            tileSheet,
-            tiles[block.tileId].x * TILE_SIZE,
-            tiles[block.tileId].y * TILE_SIZE,
-            TILE_SIZE,
-            TILE_SIZE,
-            p.x,
-            p.y,
-            TILE_SIZE,
-            TILE_SIZE
-        );
-        }
-    } else {
-        // grid-space drawing when placed
-        for (const t of block.getGridTiles()) {
-        drawTile(block.tileId, t.x, t.y);
-        }
-    }
-}
-
-
-function screenToGrid(mouseX, mouseY) {
-    const rect = canvas.getBoundingClientRect();
-
-    const canvasX = (mouseX - rect.left) / SCALE;
-    const canvasY = (mouseY - rect.top) / SCALE;
-
-    return {
-        x: Math.floor(canvasX / TILE_SIZE),
-        y: Math.floor(canvasY / TILE_SIZE)
-    };
-}
-
-function isBlockUnderMouse(block, gx, gy) {
-  return block.getTiles().some(t => t.x === gx && t.y === gy);
-}
-
 function canPlaceBlock(block, testX, testY) {
-  // check map collision
-  for (const t of block.getGridTiles(testX, testY)) {
-    if (
-      t.x < 0 || t.y < 0 ||
-      t.y >= MAP_HEIGHT || t.x >= MAP_WIDTH ||
-      tiles[currentMap[t.y][t.x]]?.solid
-    ) {
-      return false;
-    }
+    for (const t of block.getGridTiles(testX, testY)) {
 
-    // check other blocks
-    for (const other of blocks) {
-      if (other === block) continue;
-      if (
-        other.getGridTiles().some(o => o.x === t.x && o.y === t.y)
-      ) {
-        return false;
-      }
+        if ( // Check map boundaries and solid tiles
+            t.x < 0 || t.y < 0 ||
+            t.x >= MAP_WIDTH || t.y >= MAP_HEIGHT ||
+            tiles[currentMap[t.y][t.x]]?.solid
+        ) return false;
+
+        for (const other of blocks) { // Check against other blocks
+            if (other === block) continue;
+            if (other.getGridTiles().some(o => o.x === t.x && o.y === t.y))
+                return false;
+        }
     }
-  }
-  return true;
+    return true; 
 }
 
 function releaseBlock() {
-    if (!activeBlock) return; //nothing attached to the mouse, so do nothing
+    if (!activeBlock) return;
 
-    const snapX = Math.round(activeBlock.pixelX / TILE_SIZE);
-    const snapY = Math.round(activeBlock.pixelY / TILE_SIZE);
-
-    if (canPlaceBlock(activeBlock, snapX, snapY)) {
-        activeBlock.gridX = snapX;
-        activeBlock.gridY = snapY;
-        activeBlock.lastValidX = snapX;
-        activeBlock.lastValidY = snapY;
-    } else {
-        activeBlock.gridX = activeBlock.lastValidX;
-        activeBlock.gridY = activeBlock.lastValidY;
-    }
-
+    activeBlock.gridX = activeBlock.lastValidX;
+    activeBlock.gridY = activeBlock.lastValidY;
     activeBlock.pixelX = activeBlock.gridX * TILE_SIZE;
     activeBlock.pixelY = activeBlock.gridY * TILE_SIZE;
 
@@ -282,41 +267,29 @@ function releaseBlock() {
     activeBlock = null;
 }
 
+//start of game loop
+function drawBlock(block) {
+    for (const t of block.getGridTiles()) {
+        drawTile(t.tileId, t.x, t.y);
+    }
+}
 
-// GAME LOOP
 function gameLoop() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     drawMap();
-    for (const block of blocks) {
-        drawBlock(block);
-    }
+    for (const block of blocks) drawBlock(block);
     requestAnimationFrame(gameLoop);
 }
 
-/* =========================
-   LEVEL SWITCHING (DEMO)
-========================= */
-window.addEventListener("keydown", e => {
-    if (e.key === "1") currentMap = levels.level1;
-    if (e.key === "2") currentMap = levels.level2;
-});
-
-
-//listeners for MOUSE INTERACTIONS (picking up and dragging blocks)
+//mouse movement listeners
 canvas.addEventListener("mousedown", (e) => {
     const rect = canvas.getBoundingClientRect();
-    const mx = (e.clientX - rect.left) / SCALE; //clientX/Y is relative to the screen
-    const my = (e.clientY - rect.top) / SCALE;  //here mx/my are relative to the canvas, and also account for the SCALE factor
+    const mx = (e.clientX - rect.left) / SCALE;
+    const my = (e.clientY - rect.top) / SCALE;
 
-    // loop through blocks to see if mouse is over any of them, if so, set that block as active and start dragging
-    for (const block of blocks) { //for each element in the blocks array
-        const tiles = block.getGridTiles(); //!!Super important, this gets the grid positions of all the tiles that make up the block.
-        for (const t of tiles) { //for each element in the tiles array which contains the grid positions of the current block in the loop of the for loop
-            if ( 
-                //if one of the tiles which make up the block is under the mouse
-                //checked by seeing if the mouse x/y (mx/my) is within all 4 courners of the tile
-                //then the entire block is set to active and starts dragging, 
-                //but this specific tile used to calculate the mouse offset so that the block is dragged from the location it is clicked.
+    for (const block of blocks) {
+        for (const t of block.getGridTiles()) {
+            if (
                 mx >= t.x * TILE_SIZE &&
                 mx < (t.x + 1) * TILE_SIZE &&
                 my >= t.y * TILE_SIZE &&
@@ -324,7 +297,6 @@ canvas.addEventListener("mousedown", (e) => {
             ) {
                 activeBlock = block;
                 block.dragging = true;
-
                 mouseOffset.x = mx - block.pixelX;
                 mouseOffset.y = my - block.pixelY;
                 return;
@@ -340,27 +312,14 @@ canvas.addEventListener("mousemove", (e) => {
     const mx = (e.clientX - rect.left) / SCALE;
     const my = (e.clientY - rect.top) / SCALE;
 
-    // Where mouse wants the block (pixel space)
-    const desiredPixelX = mx - mouseOffset.x;
-    const desiredPixelY = my - mouseOffset.y;
+    const desiredGridX = Math.round((mx - mouseOffset.x) / TILE_SIZE);
+    const desiredGridY = Math.round((my - mouseOffset.y) / TILE_SIZE);
 
-    // Convert to grid
-    const desiredGridX = Math.round(desiredPixelX / TILE_SIZE);
-    const desiredGridY = Math.round(desiredPixelY / TILE_SIZE);
-
-    const deltaX = desiredGridX - activeBlock.gridX;
-    const deltaY = desiredGridY - activeBlock.gridY;
-
-    // Only move if there is actual grid movement
-    if (deltaX !== 0 || deltaY !== 0) {
-
-        const newGridX = activeBlock.gridX + deltaX;
-        const newGridY = activeBlock.gridY + deltaY;
-
-        if (canPlaceBlock(activeBlock, newGridX, newGridY)) {
-            activeBlock.gridX = newGridX;
-            activeBlock.gridY = newGridY;
-        }
+    if (canPlaceBlock(activeBlock, desiredGridX, desiredGridY)) {
+        activeBlock.gridX = desiredGridX;
+        activeBlock.gridY = desiredGridY;
+        activeBlock.lastValidX = desiredGridX;
+        activeBlock.lastValidY = desiredGridY;
     }
 
     // Render position always derived from grid
@@ -368,28 +327,17 @@ canvas.addEventListener("mousemove", (e) => {
     activeBlock.pixelY = activeBlock.gridY * TILE_SIZE;
 });
 
-
-// canvas.addEventListener("mouseup", () => {
-//   if (activeBlock) {
-//     activeBlock.dragging = false;
-//     activeBlock = null;
-//   }
-// });
-
-// canvas.addEventListener("mouseleave", () => {
-//   if (activeBlock) {
-//     activeBlock.dragging = false;
-//     activeBlock = null;
-//   }
-// });
-
 canvas.addEventListener("mouseup", releaseBlock);
 canvas.addEventListener("mouseleave", releaseBlock);
 
+/* =========================
+   LEVEL SWITCHING (DEMO)
+========================= */
+window.addEventListener("keydown", e => {
+    if (e.key === "1") currentMap = levels.level1;
+    if (e.key === "2") currentMap = levels.level2;
+});
 
-
-// START GAME when TILESET LOADS
-tileSheet.onload = () => {
-  gameLoop();
-};
-
+loadAllImages(() => {
+    gameLoop();
+});
