@@ -16,7 +16,8 @@ canvas.style.height = canvas.height * SCALE + "px";
 const TILESETS = {
     airport: "/AirPort.png",
     cracks: "/decorative_cracks_walls.png",
-    f1: "/Furniture1.png"   
+    f1: "/Furniture1.png", 
+    gate: "/Door_1.png"
 };
 
 // TILESET IMAGE
@@ -71,6 +72,26 @@ const tiles = {
     36:{ name:"B_BottomLeftEndtable", solid:true, tileset:"f1", x:1, y:7 },
     37:{ name:"B_RightMidEndtable", solid:true, tileset:"f1", x:1, y:8 },
     38:{ name:"B_BottomRightEndtable", solid:true, tileset:"f1", x:1, y:9 },
+
+    39:{ name:"redGate", solid:true, tileset:"gate", x:0, y:0 },
+    40:{ name:"orangeGate", solid:true, tileset:"gate", x:1, y:0 },//some of these will become like a table gate or something.
+    41:{ name:"yellowGate", solid:true, tileset:"gate", x:2, y:0 },
+    42:{ name:"greenGate", solid:true, tileset:"gate", x:3, y:0 },
+    43:{ name:"blueGate", solid:true, tileset:"gate", x:4, y:0 },
+    44:{ name:"purpleGate", solid:true, tileset:"gate", x:5, y:0 },
+    45:{ name:"brownGate", solid:true, tileset:"gate", x:0, y:0 }, // <<< only one in use, all other are temp
+    46:{ name:"blackGate", solid:true, tileset:"gate", x:7, y:0 },
+    47:{ name:"grayGate", solid:true, tileset:"gate", x:8, y:0 },
+    48:{ name:"temp1Gate", solid:true, tileset:"gate", x:9, y:0 },
+    49:{ name:"temp2Gate", solid:true, tileset:"gate", x:10, y:0 },
+    50:{ name:"temp3Gate", solid:true, tileset:"gate", x:11, y:0 },
+    51:{ name:"temp4Gate", solid:true, tileset:"gate", x:12, y:0 },
+    52:{ name:"temp5Gate", solid:true, tileset:"gate", x:13, y:0 },
+    53:{ name:"temp6Gate", solid:true, tileset:"gate", x:14, y:0 },
+    54:{ name:"temp7Gate", solid:true, tileset:"gate", x:15, y:0 },
+
+    
+
 };
 
 const imageCache = {};
@@ -99,7 +120,7 @@ const levels = {
     //lets try a 20 by 10 map for the demo, we can always add more levels later, but this is a good start for testing
     level1: {
         map:    [
-            [0,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,2],
+            [0,7,7,7,7,7,7,7,45,45,7,7,7,7,7,7,7,7,7,2],
             [4,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,6],
             [4,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,6],
             [4,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,6],
@@ -111,8 +132,8 @@ const levels = {
             [15,16,15,16,15,16,15,16,15,16,15,16,15,16,15,16,15,16,15,16],
         ],
         blocks: [
-            { shape: "small_table", x: 8, y: 2 },
-            { shape: "large_table", x: 7, y: 4 }
+            { shape: "small_table", x: 8, y: 2, goals: [{x: 8, y: 1}] },
+            { shape: "large_table", x: 7, y: 4, goals: [{x: 8, y: 1}] }
         ]
     },
     level2: {
@@ -120,8 +141,8 @@ const levels = {
             [0,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,2],
             [4,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,6],
             [4,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,6],
-            [4,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,6],
-            [4,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,6],
+            [4,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,45],
+            [4,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,45],
             [4,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,6],
             [4,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,6],
             [4,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,6],
@@ -214,10 +235,11 @@ const SHAPES = {
 };
 
 class Block {
-    constructor(shape, gridX, gridY) {
+    constructor(shape, gridX, gridY, goals = []) {
         this.shape = shape;
         this.gridX = gridX;
         this.gridY = gridY;
+        this.goals = goals; // Array of goal positions, e.g., [{x: 8, y: 1}, {x: 1, y: 1}] or just a single goal
         this.pixelX = gridX * TILE_SIZE;
         this.pixelY = gridY * TILE_SIZE;
         this.dragging = false;
@@ -234,6 +256,7 @@ class Block {
     }
 }
 
+
 // ACTIVE BLOCKS IN THE LEVEL
 let blocks = [];
 
@@ -243,7 +266,7 @@ function loadLevel(levelName) {
     currentMap = level.map;
 
     blocks = level.blocks.map(b =>
-        new Block(SHAPES[b.shape], b.x, b.y)
+        new Block(SHAPES[b.shape], b.x, b.y, b.goals || [])
     );
 }
 
@@ -260,7 +283,10 @@ function canPlaceBlock(block, testX, testY) {
             t.x < 0 || t.y < 0 ||
             t.x >= MAP_WIDTH || t.y >= MAP_HEIGHT ||
             tiles[currentMap[t.y][t.x]]?.solid
-        ) return false;
+        ) { 
+            checkIfGate(block, testX, testY);
+            return false;
+        }
 
         for (const other of blocks) { // Check against other blocks
             if (other === block) continue;
@@ -269,6 +295,29 @@ function canPlaceBlock(block, testX, testY) {
         }
     }
     return true; 
+}
+
+function checkIfGate(block, testX, testY) {
+    for (const t of block.getGridTiles(testX, testY)) {
+        const tileId = currentMap[t.y]?.[t.x];
+        //alert("Grid X: " + block.gridX + ", Grid Y: " + block.gridY + ", Goal X: " + block.goal.x + ", Goal Y: " + block.goal.y);
+        //^^Useful for Testing^^
+        let reachedGoal = false;
+
+        //check each possible goal for the block, if any of them are reached, then we can remove the block and end the level
+        for (let i = 0; i < block.goals.length; i++) {
+            const goal = block.goals[i];
+            if (block.gridX === goal.x && block.gridY === goal.y) {
+                reachedGoal = true;
+                break;
+            }
+        }
+        if (reachedGoal) {
+            // TODO: exit animation (slide off screen)
+            blocks = blocks.filter(b => b !== block); // b => b !== block, this means "keep all blocks that are not the current block", effectively removing the current block from the game
+            return;
+        }
+    }
 }
 
 function releaseBlock() {
@@ -290,10 +339,48 @@ function drawBlock(block) {
     }
 }
 
+function drawActiveOutline(block) {
+    if (!block.dragging) return;
+
+    const tiles = block.getGridTiles();
+
+    // Find bounding box
+    let minX = Infinity;
+    let minY = Infinity;
+    let maxX = -Infinity;
+    let maxY = -Infinity;
+
+    for (const t of tiles) {
+        if (t.x < minX) minX = t.x;
+        if (t.y < minY) minY = t.y;
+        if (t.x > maxX) maxX = t.x;
+        if (t.y > maxY) maxY = t.y;
+    }
+
+    const width = (maxX - minX + 1) * TILE_SIZE;
+    const height = (maxY - minY + 1) * TILE_SIZE;
+
+    ctx.save();
+    ctx.strokeStyle = "rgba(255, 0, 0, 0.8)";
+    ctx.lineWidth = 1;
+    ctx.shadowColor = "red";
+    ctx.shadowBlur = 8;
+    ctx.strokeRect(
+        minX * TILE_SIZE,
+        minY * TILE_SIZE,
+        width,
+        height
+    );
+    ctx.restore();
+}
+
 function gameLoop() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     drawMap();
-    for (const block of blocks) drawBlock(block);
+    for (const block of blocks) 
+        drawBlock(block);
+    if (activeBlock) 
+        drawActiveOutline(activeBlock);
     requestAnimationFrame(gameLoop);
 }
 
@@ -338,7 +425,6 @@ canvas.addEventListener("mousemove", (e) => {
         activeBlock.lastValidY = desiredGridY;
     }
 
-    // Render position always derived from grid
     activeBlock.pixelX = activeBlock.gridX * TILE_SIZE;
     activeBlock.pixelY = activeBlock.gridY * TILE_SIZE;
 });
