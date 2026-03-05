@@ -13,6 +13,8 @@ canvas.height = MAP_HEIGHT * TILE_SIZE;
 canvas.style.width  = canvas.width  * SCALE + "px";
 canvas.style.height = canvas.height * SCALE + "px";
 
+// TILESET IMAGE
+// grabbing tileset image for backgroud tiles
 const TILESETS = {
     airport: "/AirPort.png",
     cracks: "/decorative_cracks_walls.png",
@@ -20,12 +22,7 @@ const TILESETS = {
     gate: "/Door_1.png"
 };
 
-// TILESET IMAGE
-// grabbing tileset image for backgroud tiles
 const tileSheet = new Image();
-// tileSheet.src = "/decorative_cracks_walls.png";
-// tileSheet.src = "/AirPort.png"; // example tileset
-
 
 // TILE DEFINITIONS
 const tiles = {
@@ -150,8 +147,8 @@ const levels = {
             [15,16,15,16,15,16,15,16,15,16,15,16,15,16,15,16,15,16,15,16],
         ],
         blocks: [
-            { shape: "large_table_vert", x: 4, y: 2 },
-            { shape: "brown_endtable", x: 2, y: 3 }
+            { shape: "large_table_vert", x: 4, y: 2, goals: [{x: 8, y: 1}] },
+            { shape: "brown_endtable", x: 2, y: 3, goals: [{x: 8, y: 1}] }
         ]
     }
 };
@@ -272,9 +269,7 @@ function loadLevel(levelName) {
 
 let activeBlock = null;
 let mouseOffset = { x: 0, y: 0 };
-// inisialize the game with the first level
 let currentMap;
-loadLevel("level1");
 
 function canPlaceBlock(block, testX, testY) {
     for (const t of block.getGridTiles(testX, testY)) {
@@ -300,7 +295,7 @@ function canPlaceBlock(block, testX, testY) {
 function checkIfGate(block, testX, testY) {
     for (const t of block.getGridTiles(testX, testY)) {
         const tileId = currentMap[t.y]?.[t.x];
-        //alert("Grid X: " + block.gridX + ", Grid Y: " + block.gridY + ", Goal X: " + block.goal.x + ", Goal Y: " + block.goal.y);
+        //alert("Grid X: " + block.gridX + "\nGrid Y: " + block.gridY + "\nGoal X: " + block.goals[0].x + "\nGoal Y: " + block.goals[0].y + "\nIf you have a second goal enable the next alert\n to remove this alert make sure mouse is in the middle of the screen\n and keep pressing enter\nor fix the bug where the alert is triggered when you hit a wall, which is really bad ngl,\nbut this is just for testing so its fine for now");
         //^^Useful for Testing^^
         let reachedGoal = false;
 
@@ -432,13 +427,30 @@ canvas.addEventListener("mousemove", (e) => {
 canvas.addEventListener("mouseup", releaseBlock);
 canvas.addEventListener("mouseleave", releaseBlock);
 
+window.addEventListener("message", (event) => {
+    if (!event.data || event.data.type !== "GAME_SELECTED") return;
+    if (!event.data.level) return;
+
+    if (event.data.level) {
+        //alert("Level selected: " + event.data.level);
+        loadLevel(event.data.level);
+    }
+});
+
+
+
 /* =========================
    LEVEL SWITCHING (DEMO)
 ========================= */
-window.addEventListener("keydown", e => {
-    if (e.key === "1") loadLevel("level1");
-    if (e.key === "2") loadLevel("level2");
-});
+// window.addEventListener("keydown", e => {
+//     if (e.key === "1") loadLevel("level1");
+//     if (e.key === "2") loadLevel("level2");
+// });
+
+// inisialize the game with the first level
+
+loadLevel("level1"); // this is needed to set the map, while the system waits for the message about level selected
+//TODO: make level 1 or level 0 and tile/loading/unplayable but good looking level/screen
 
 loadAllImages(() => {
     gameLoop();
