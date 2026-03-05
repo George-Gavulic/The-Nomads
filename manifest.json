@@ -20,7 +20,10 @@
         "Hidden Panel Resources/good-game-button.js",
         "Roguelike_Game_Resources/roguelike-game.css",
         "Roguelike_Game_Resources/roguelike-game.html",
-        "Roguelike_Game_Resources/roguelike-game.js"
+        "Roguelike_Game_Resources/roguelike-game.js",
+        "Level_Choice_Resources/level-choice.html",
+        "Level_Choice_Resources/level-choice.css",
+        "Level_Choice_Resources/level-choice.js"
       ],
       "matches": ["<all_urls>"]
     }

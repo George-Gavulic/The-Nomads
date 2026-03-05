@@ -5,3 +5,10 @@
     /* width: calc(32px * 10 * 3);   TILE_SIZE * MAP_WIDTH * SCALE 
     height: calc(32px * 8 * 3);   TILE_SIZE * MAP_HEIGHT * SCALE */
 }
+#luggage-game-header{ 
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    text-align: center;
+    margin-bottom: 20px;
+}
