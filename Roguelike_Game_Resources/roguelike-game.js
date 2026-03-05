@@ -1,17 +1,3 @@
-// function sendMessageAsync(message) {
-//   return new Promise((resolve, reject) => {
-//     chrome.runtime.sendMessage(message, (resp) => {
-//       // If an error occurred in the message channel (e.g. listener returned true but didn't respond), surface it
-//       if (chrome.runtime.lastError) {
-//         return reject(new Error(chrome.runtime.lastError.message));
-//       }
-//       resolve(resp);
-//     });
-//   });
-// }
-
-
-
 let canvas = document.getElementById("gameScreen");
 let ctx = canvas.getContext("2d");
 ctx.imageSmoothingEnabled = false;
