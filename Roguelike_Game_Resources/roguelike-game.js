@@ -14,8 +14,8 @@ canvas.height = MAP_HEIGHT * TILE_SIZE;
 canvas.style.width = canvas.width  * SCALE + "px";
 canvas.style.height = canvas.height * SCALE + "px";
 
-const GAME_WIDTH = canvas.width  * SCALE;
-const GAME_HEIGHT = canvas.height * SCALE;
+const GAME_WIDTH = canvas.width  ;//* SCALE;
+const GAME_HEIGHT = canvas.height ;//* SCALE;
 //----------------------------------------------------------------------------------------------------
 //Above this is the canvas and general declaration settup
 //Here starts the section for the tile map
@@ -199,8 +199,8 @@ class InputHandler {
 //class and context can be moved to character.js
 class Character {
     constructor(gameWidth, gameHeight){
-        this.width = 20;
-        this.height = 20;
+        this.width = 10;
+        this.height = 10;
 
         this.maxSpeed = 7;
         this.xspeed = 0;
