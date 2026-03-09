@@ -7,11 +7,16 @@ const SCALE = 3;
 const canvas = document.getElementById("luggageGameScreen");
 const ctx = canvas.getContext("2d");
 ctx.imageSmoothingEnabled = false;
-
+//const iframe = window.frameElement || window.parent.document.getElementById("game-panel-frame");
+//const SCALE = iframe.clientWidth / (MAP_WIDTH * TILE_SIZE); //test
+//alert("Calculated SCALE: " + SCALE);
 canvas.width = MAP_WIDTH * TILE_SIZE;
 canvas.height = MAP_HEIGHT * TILE_SIZE;
 canvas.style.width  = canvas.width  * SCALE + "px";
 canvas.style.height = canvas.height * SCALE + "px";
+
+let points = 0;
+let reachedGoal = false;
 
 // TILESET IMAGE
 // grabbing tileset image for backgroud tiles
@@ -207,7 +212,8 @@ const levels = {
         ],
         blocks: [
             { shape: "orange_couch", x: 8, y: 2, goals: [{x: 15, y: 3}] },
-            { shape: "large_tan_table", x: 7, y: 4, goals: [{x: 8, y: 1}, {x: 16, y: 3}] }
+            { shape: "large_tan_table", x: 7, y: 4, goals: [{x: 8, y: 1}, {x: 16, y: 3}] },
+            { shape: "small_tan_bookcase", x: 10, y: 4, goals: [{x: 8, y: 1}, {x: 17, y: 3}] }
         ]
     },
     level2: {
@@ -460,13 +466,25 @@ function canPlaceBlock(block, testX, testY) {
     }
     return true; 
 }
+let scoreBoard = document.getElementById("luggage-game-points");
+function Scoreboard(block) {
+    //TODO add a precondition to prevent this from being called multiple times for the same block.
+    if (!block || block.scored) return;
+    block.scored = true; // Mark this block as scored to prevent double scoring
+
+    //get the number of tiles in the block, and add that to the score, this is just a placeholder scoring system, we can change it later to be more complex if we want, but for now this is good enough for testing
+    points += block.shape.length; //temp
+    //alert(block +" reached the gate! You earned " + block.shape.length + " points!"); //temp
+    scoreBoard.innerText = "Points: " + points;
+    
+}
 
 function checkIfGate(block, testX, testY) {
     for (const t of block.getGridTiles(testX, testY)) {
         const tileId = currentMap[t.y]?.[t.x];
         //alert("Grid X: " + block.gridX + "\nGrid Y: " + block.gridY + "\nGoal X: " + block.goals[0].x + "\nGoal Y: " + block.goals[0].y + "\nIf you have a second goal enable the next alert\n to remove this alert make sure mouse is in the middle of the screen\n and keep pressing enter\nor fix the bug where the alert is triggered when you hit a wall, which is really bad ngl,\nbut this is just for testing so its fine for now");
         //^^Useful for Testing^^
-        let reachedGoal = false;
+        reachedGoal = false;
 
         //check each possible goal for the block, if any of them are reached, then we can remove the block and end the level
         for (let i = 0; i < block.goals.length; i++) {
@@ -479,6 +497,7 @@ function checkIfGate(block, testX, testY) {
         if (reachedGoal) {
             // TODO: exit animation (slide off screen)
             blocks = blocks.filter(b => b !== block); // b => b !== block, this means "keep all blocks that are not the current block", effectively removing the current block from the game
+            Scoreboard(block);
             return;
         }
     }
@@ -505,6 +524,7 @@ function drawBlock(block) {
 
 function drawActiveOutline(block) {
     if (!block.dragging) return;
+    if (reachedGoal) return;
 
     const tiles = block.getGridTiles();
 
@@ -541,10 +561,10 @@ function drawActiveOutline(block) {
 function gameLoop() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     drawMap();
-    for (const block of blocks) 
-        drawBlock(block);
     if (activeBlock) 
         drawActiveOutline(activeBlock);
+    for (const block of blocks) 
+        drawBlock(block);
     requestAnimationFrame(gameLoop);
 }
 
@@ -553,6 +573,8 @@ canvas.addEventListener("mousedown", (e) => {
     const rect = canvas.getBoundingClientRect();
     const mx = (e.clientX - rect.left) / SCALE;
     const my = (e.clientY - rect.top) / SCALE;
+
+    reachedGoal = false; // reset for next block
 
     for (const block of blocks) {
         for (const t of block.getGridTiles()) {
