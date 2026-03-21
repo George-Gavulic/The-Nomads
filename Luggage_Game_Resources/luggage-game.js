@@ -1,12 +1,21 @@
 //BASIC CONFIG for TILEMAP
 const TILE_SIZE = 16;
-const MAP_WIDTH = 20;
+const MAP_WIDTH = 26;
 const MAP_HEIGHT = 10;
-const SCALE = 3;
+
+const availableWidth = getAvailableWidth(); // using this to work around an error of the map not loading because we were gathering the size of the iframe before it had fully loaded or something, this function sets a default.
+const SCALE = availableWidth / (MAP_WIDTH * TILE_SIZE); 
+// const iframe = window.frameElement;
+// const iframeWidth = iframe.clientWidth;
+// const SCALE = iframeWidth / (MAP_WIDTH * TILE_SIZE);
+
+//const SCALE = 3;
 
 const canvas = document.getElementById("luggageGameScreen");
 const ctx = canvas.getContext("2d");
 ctx.imageSmoothingEnabled = false;
+canvas.style.imageRendering = "pixelated";
+
 //const iframe = window.frameElement || window.parent.document.getElementById("game-panel-frame");
 //const SCALE = iframe.clientWidth / (MAP_WIDTH * TILE_SIZE); //test
 //alert("Calculated SCALE: " + SCALE);
@@ -200,13 +209,16 @@ const levels = {
     //lets try a 20 by 10 map for the demo, we can always add more levels later, but this is a good start for testing
     level1: {
         map:    [
-            [0,7,7,7,7,7,7,7,999,999,999,7,7,7,7,7,7,7,7,2],
-            [4,9,9,9,10,10,10,10,11,12,11,12,11,12,13,14,13,14,13,6],
-            [4,9,9,9,10,10,10,10,11,12,11,12,11,12,13,14,13,14,13,6],
-            [4,9,9,9,10,10,10,10,11,12,11,12,11,12,13,14,13,14,13,999],
-            [4,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,999],
-            [4,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,6],
-            [1,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,3],
+            [0,7,7,7,7,7,7,7,999,999,999,7,7,7,7,7,7,7,7,7,7,7,7,7,7,2],
+            [4,9,9,9,10,10,10,10,11,12,11,12,11,12,11,12,11,12,11,12,13,14,13,14,13,6],
+            [4,9,9,9,10,10,10,10,11,12,11,12,11,12,11,12,11,12,11,12,13,14,13,14,13,6],
+            [4,9,9,9,10,10,10,10,11,12,11,12,11,12,11,12,11,12,11,12,13,14,13,14,13,999],
+            [4,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,999],
+            [4,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,6],
+            [4,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,6],
+            [4,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,6],
+            [4,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,6],
+            [1,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,3],
         ],
         blocks: [
             { shape: "orange_couch", x: 8, y: 2, goals: [{x: 15, y: 3}] },
@@ -575,6 +587,27 @@ function drawActiveOutline(block) {
     ctx.restore();
 }
 
+function getAvailableWidth() {
+    const iframe = window.frameElement;
+
+    if (iframe && iframe.clientWidth) {
+        return iframe.clientWidth;
+    }
+
+    // fallback if not in iframe
+    return window.innerWidth;
+}
+
+function resizeCanvas() {
+    const parent = canvas.parentElement;
+    const availableWidth = parent ? parent.clientWidth : window.innerWidth;
+
+    const scale = availableWidth / canvas.width;
+
+    canvas.style.width  = canvas.width  * scale + "px";
+    canvas.style.height = canvas.height * scale + "px";
+}
+
 function gameLoop() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     drawMap();
@@ -665,9 +698,13 @@ document.getElementById("back-to-game-choice")
   }
 );
 
+window.addEventListener("resize", resizeCanvas);
+window.addEventListener("load", resizeCanvas); //its just white if it happens to be called before the DOM is loaded
+
 loadLevel("level1"); // this is needed to set the map, while the system waits for the message about level selected
 //TODO: make level 1 or level 0 and tile/loading/unplayable but good looking level/screen
 
 loadAllImages(() => {
+
     gameLoop();
 });
