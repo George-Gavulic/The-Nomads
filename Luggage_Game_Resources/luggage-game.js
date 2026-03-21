@@ -25,7 +25,8 @@ const TILESETS = {
     cracks: "/decorative_cracks_walls.png",
     f1: "/Furniture1.png", 
     f2: "/Furniture2.png", 
-    gate: "/Door_1.png"
+    gate: "/Door_1.png",
+    housefloors: "/HouseFloorsAndWalls.png",
 };
 
 const tileSheet = new Image();
@@ -33,23 +34,23 @@ const tileSheet = new Image();
 // TILE DEFINITIONS
 const tiles = {
     999:{ name:"brownGate", solid:true, tileset:"gate", x:0, y:0 }, // <<< only one in use, all other are temp
-    0: { name: "topLeftCorner", solid: false, tileset: "airport", x: 0, y: 6 },
-    1: { name: "bottomLeftCorner", solid: false, tileset: "airport", x: 0, y: 7 },
-    2: { name: "topRightCorner", solid: true,  tileset: "airport", x: 1, y: 6 },
-    3: { name: "bottomRightCorner", solid: true, tileset: "airport", x: 1, y: 7 },
-    4: { name: "leftWall", solid: false, tileset: "airport", x: 2, y: 7 },
-    5: { name: "floor", solid: false, tileset: "airport", x: 2, y: 4 },
-    6: { name: "rightWall", solid: true, tileset: "airport", x: 2, y: 6 },
-    7: { name: "topWall", solid: true, tileset: "airport", x: 1, y: 4 },
-    8: { name: "bottomWall", solid: true, tileset: "airport", x: 0, y: 4 },
-    9: { name: "window", solid: false, tileset: "airport", x: 3, y: 2 },
-    10:{ name: "wall", solid: false, tileset: "airport", x: 4, y: 2 },
-    11:{ name: "doorLeft", solid: false, tileset: "airport", x: 5, y: 2 },
-    12:{ name: "doorRight", solid: true, tileset: "airport", x: 6, y: 2 },
-    13:{ name:"topRoadLeft", solid:true, tileset:"airport", x:5, y:3 },
-    14:{ name:"topRoadRight", solid:true, tileset:"airport", x:6, y:3 },
-    15:{ name:"bottomRoadLeft", solid:true, tileset:"airport", x:5, y:4 },
-    16:{ name:"bottomRoadRight", solid:true, tileset:"airport", x:6, y:4 },
+    0: { name: "topLeftCorner", solid: false, tileset: "housefloors", x: 0, y: 0 },
+    1: { name: "bottomLeftCorner", solid: false, tileset: "housefloors", x: 0, y: 8 },
+    2: { name: "topRightCorner", solid: true,  tileset: "housefloors", x: 17, y: 0 },
+    3: { name: "bottomRightCorner", solid: true, tileset: "housefloors", x: 17, y: 8 },
+    4: { name: "leftWall", solid: true, tileset: "housefloors", x: 0, y: 1 },
+    5: { name: "greenfloor", solid: false, tileset: "housefloors", x: 2, y: 2 },
+    6: { name: "rightWall", solid: true, tileset: "housefloors", x: 17, y: 2 },
+    7: { name: "topWall", solid: true, tileset: "housefloors", x: 9, y: 0 },
+    8: { name: "bottomWall", solid: true, tileset: "housefloors", x: 16, y: 8 },
+    9: { name: "brickfloor", solid: false, tileset: "housefloors", x: 14, y: 6 },
+    10:{ name: "tilefloor", solid: false, tileset: "housefloors", x: 6, y: 6 },
+    11:{ name: "woodfloor1a", solid: false, tileset: "housefloors", x: 2, y: 6 },
+    12:{ name: "woodfloor1b", solid: false, tileset: "housefloors", x: 3, y: 6 },
+    13:{ name: "woodfloor2a", solid: false, tileset:"housefloors", x: 10, y: 6 },
+    14:{ name: "woodfloor2b", solid: false, tileset:"housefloors", x: 11, y: 6 },
+    //15:{ name: "bottomRoadLeft", solid:true, tileset:"airport", x:5, y:4 }, currently unused
+    //16:{ name: "bottomRoadRight", solid:true, tileset:"airport", x:6, y:4 },
 
     //Size-(Orientation)-Color-Piece-Object
     17:{ name:"SmallOrangeTopLeftEndtable", solid:true, tileset:"f1", x:0, y:0 },
@@ -200,15 +201,12 @@ const levels = {
     level1: {
         map:    [
             [0,7,7,7,7,7,7,7,999,999,999,7,7,7,7,7,7,7,7,2],
-            [4,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,6],
-            [4,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,6],
-            [4,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,999],
+            [4,9,9,9,10,10,10,10,11,12,11,12,11,12,13,14,13,14,13,6],
+            [4,9,9,9,10,10,10,10,11,12,11,12,11,12,13,14,13,14,13,6],
+            [4,9,9,9,10,10,10,10,11,12,11,12,11,12,13,14,13,14,13,999],
             [4,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,999],
             [4,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,6],
             [1,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,3],
-            [10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10],
-            [13,14,13,14,13,14,13,14,13,14,13,14,13,14,13,14,13,14,13,14],
-            [15,16,15,16,15,16,15,16,15,16,15,16,15,16,15,16,15,16,15,16],
         ],
         blocks: [
             { shape: "orange_couch", x: 8, y: 2, goals: [{x: 15, y: 3}] },
@@ -227,7 +225,7 @@ const levels = {
             [4,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,6],
             [4,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,6],
             [4,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,6],
-            [15,16,15,16,15,16,15,16,15,16,15,16,15,16,15,16,15,16,15,16],
+            [1,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,3],
         ],
         blocks: [
             { shape: "large_tan_table_vert", x: 4, y: 2, goals: [{x: 8, y: 1}] },
