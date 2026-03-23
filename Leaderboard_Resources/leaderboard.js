@@ -63,3 +63,4 @@ loadScores(scores);
 saveScores(scores);
 // will need the document file
 //document.getElementById('placeholder for score info').addEventListener('click or something',)
+

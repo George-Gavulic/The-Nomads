@@ -253,8 +253,8 @@ const levels = {
     
     level3: {
         map:    [
-            [ , , ,0,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,2,0,999,999,7,2],
-            [ , , ,4,14,13,14,13,14,13,14,13,14,13,997,997,5,5,5,5,6,4,9,9,9,6],
+            [ , , ,0,7,7,7,7,7,7,7,7,7,7,997,997,7,7,7,7,2,0,999,999,7,2],
+            [ , , ,4,14,13,14,13,14,13,14,13,14,13,5,5,5,5,5,5,6,4,9,9,9,6],
             [ , , ,4,14,13,14,13,14,13,14,13,14,13,5,5,5,5,5,5,6,4,9,9,9,998],
             [0,7,7,4,14,13,14,13,14,13,14,13,14,13,5,5,5,5,5,5,6,4,9,9,9,998],
             [4,5,5,5,5,5,5,5,5,5,14,13,14,13,5,5,5,5,5,5,6,4,9,9,9,998],
@@ -267,14 +267,14 @@ const levels = {
         ],
         blocks: [
             { shape: "large_tan_table", x: 22, y: 1, goals: [{x: 8, y: 1}] },
-            { shape: "large_tan_table_vert", x: 23, y: 3, goals: [{x: 14, y: 0}] },
-            { shape: "white_side_chair", x: 22, y: 2, goals: [{x: 8, y: 1}] },
-            { shape: "white_side_chair", x: 22, y: 3, goals: [{x: 8, y: 1}] },
-            { shape: "white_side_chair", x: 22, y: 4, goals: [{x: 8, y: 1}] },
-            { shape: "white_side_chair", x: 22, y: 5, goals: [{x: 8, y: 1}] },
-            { shape: "lamp", x: 17, y: 4, goals: [{x: 8, y: 1}] },
-            { shape: "large_tan_table_vert", x: 18, y: 2, goals: [{x: 14, y: 0}] },
-            { shape: "white_side_chair", x: 17, y: 2, goals: [{x: 8, y: 1}] }
+            { shape: "large_tan_table_vert", x: 23, y: 3, goals: [{x: 14, y: 1}] },
+            { shape: "white_side_chair", x: 22, y: 2, goals: [{x: 22, y: 1},{x: 23, y: 1}] },
+            { shape: "white_side_chair", x: 22, y: 3, goals: [{x: 22, y: 1},{x: 23, y: 1}] },
+            { shape: "white_side_chair", x: 22, y: 4, goals: [{x: 22, y: 1},{x: 23, y: 1}] },
+            { shape: "white_side_chair", x: 22, y: 5, goals: [{x: 22, y: 1},{x: 23, y: 1}] },
+            { shape: "lamp", x: 17, y: 4, goals: [{x: 24, y: 2}] },
+            { shape: "large_tan_table_vert", x: 18, y: 2, goals: [{x: 14, y: 1}] },
+            { shape: "white_side_chair", x: 17, y: 2, goals: [{x: 22, y: 1},{x: 23, y: 1}] }
         ]
     }
 };
