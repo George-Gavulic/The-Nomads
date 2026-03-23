@@ -42,7 +42,13 @@ const tileSheet = new Image();
 
 // TILE DEFINITIONS
 const tiles = {
-    999:{ name:"brownGate", solid:true, tileset:"gate", x:0, y:0 }, // <<< only one in use, all other are temp
+    994:{ name:"orangeGate", solid:true, tileset:"gate", x:5, y:0 }, // <<< only one in use, all other are temp
+    995:{ name:"tanGate", solid:true, tileset:"gate", x:4, y:0 }, // <<< only one in use, all other are temp
+    996:{ name:"greenGate", solid:true, tileset:"gate", x:3, y:0 }, // <<< only one in use, all other are temp
+    997:{ name:"brownGate", solid:true, tileset:"gate", x:2, y:0 }, // <<< only one in use, all other are temp
+    998:{ name:"yellowGate", solid:true, tileset:"gate", x:1, y:0 }, // <<< only one in use, all other are temp
+    999:{ name:"whiteGate", solid:true, tileset:"gate", x:0, y:0 }, // <<< only one in use, all other are temp
+
     0: { name: "topLeftCorner", solid: false, tileset: "housefloors", x: 0, y: 0 },
     1: { name: "bottomLeftCorner", solid: false, tileset: "housefloors", x: 0, y: 8 },
     2: { name: "topRightCorner", solid: true,  tileset: "housefloors", x: 17, y: 0 },
@@ -221,9 +227,9 @@ const levels = {
             [1,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,3],
         ],
         blocks: [
-            { shape: "orange_couch", x: 8, y: 2, goals: [{x: 15, y: 3}] },
-            { shape: "large_tan_table", x: 7, y: 4, goals: [{x: 8, y: 1}, {x: 16, y: 3}] },
-            { shape: "small_tan_bookcase", x: 10, y: 4, goals: [{x: 8, y: 1}, {x: 17, y: 3}] }
+            { shape: "orange_couch", x: 8, y: 2, goals: [{x: 21, y: 3}] },
+            { shape: "large_tan_table", x: 7, y: 4, goals: [{x: 8, y: 1}, {x: 22, y: 3}] },
+            { shape: "small_tan_bookcase", x: 10, y: 4, goals: [{x: 8, y: 1}, {x: 23, y: 3}] }
         ]
     },
     level2: {
@@ -240,27 +246,35 @@ const levels = {
             [1,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,3],
         ],
         blocks: [
-            { shape: "large_tan_table_vert", x: 4, y: 2, goals: [{x: 8, y: 1}] },
-            { shape: "white_chair", x: 2, y: 3, goals: [{x: 8, y: 1}] }
+            { shape: "large_tan_table_vert", x: 4, y: 2, color: "tan", goals: [{x: 8, y: 1}] },
+            { shape: "white_chair", x: 2, y: 3, color: "white", goals: [{x: 8, y: 1}] }
         ]
     },
     
     level3: {
         map:    [
-            [0,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,2],
-            [4,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,6],
-            [4,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,6],
-            [4,5,5,5,5,5,5,5,999,5,5,5,5,5,5,5,5,5,5,999],
-            [4,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,999],
-            [4,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,6],
-            [4,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,6],
-            [4,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,6],
-            [4,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,6],
-            [15,16,15,16,15,16,15,16,15,16,15,16,15,16,15,16,15,16,15,16],
+            [ , , ,0,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,2,0,999,999,7,2],
+            [ , , ,4,14,13,14,13,14,13,14,13,14,13,997,997,5,5,5,5,6,4,9,9,9,6],
+            [ , , ,4,14,13,14,13,14,13,14,13,14,13,5,5,5,5,5,5,6,4,9,9,9,998],
+            [0,7,7,4,14,13,14,13,14,13,14,13,14,13,5,5,5,5,5,5,6,4,9,9,9,998],
+            [4,5,5,5,5,5,5,5,5,5,14,13,14,13,5,5,5,5,5,5,6,4,9,9,9,998],
+            [4,5,5,5,5,5,5,5,5,5,14,13,14,13,5,5,5,5,5,5,6,4,9,9,9,6],
+            [4,5,5,5,5,5,5,5,5,5,14,13,14,13,14,13,14,13,14,13,14,13,9,9,9,6],
+            [4,5,5,5,5,5,5,5,5,5,14,13,14,13,14,13,14,13,14,13,14,13,9,9,9,6],
+            [4,5,5,5,5,5,5,5,5,5,14,13,14,13,14,13,14,13,14,13,14,13,9,9,9,6],
+            [1,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,3],
+
         ],
         blocks: [
-            { shape: "large_tan_table_vert", x: 4, y: 2, goals: [{x: 8, y: 1}] },
-            { shape: "white_chair", x: 2, y: 3, goals: [{x: 8, y: 1}] }
+            { shape: "large_tan_table", x: 22, y: 1, goals: [{x: 8, y: 1}] },
+            { shape: "large_tan_table_vert", x: 23, y: 3, goals: [{x: 14, y: 0}] },
+            { shape: "white_side_chair", x: 22, y: 2, goals: [{x: 8, y: 1}] },
+            { shape: "white_side_chair", x: 22, y: 3, goals: [{x: 8, y: 1}] },
+            { shape: "white_side_chair", x: 22, y: 4, goals: [{x: 8, y: 1}] },
+            { shape: "white_side_chair", x: 22, y: 5, goals: [{x: 8, y: 1}] },
+            { shape: "lamp", x: 17, y: 4, goals: [{x: 8, y: 1}] },
+            { shape: "large_tan_table_vert", x: 18, y: 2, goals: [{x: 14, y: 0}] },
+            { shape: "white_side_chair", x: 17, y: 2, goals: [{x: 8, y: 1}] }
         ]
     }
 };
