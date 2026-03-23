@@ -36,19 +36,54 @@ const TILESETS = {
     f2: "/Furniture2.png", 
     gate: "/Door_1.png",
     housefloors: "/HouseFloorsAndWalls.png",
-    housecorners: "/innercorners.png"
+    housecorners: "/innercorners.png",
+    gates: "/housegates.png",
 };
 
 const tileSheet = new Image();
 
 // TILE DEFINITIONS
 const tiles = {
-    994:{ name:"orangeGate", solid:true, tileset:"gate", x:5, y:0 }, // <<< only one in use, all other are temp
-    995:{ name:"tanGate", solid:true, tileset:"gate", x:4, y:0 }, // <<< only one in use, all other are temp
-    996:{ name:"greenGate", solid:true, tileset:"gate", x:3, y:0 }, // <<< only one in use, all other are temp
-    997:{ name:"brownGate", solid:true, tileset:"gate", x:2, y:0 }, // <<< only one in use, all other are temp
-    998:{ name:"yellowGate", solid:true, tileset:"gate", x:1, y:0 }, // <<< only one in use, all other are temp
-    999:{ name:"whiteGate", solid:true, tileset:"gate", x:0, y:0 }, // <<< only one in use, all other are temp
+    964:{ name:"orangeLeftGateTop", solid:true, tileset:"gates", x:6, y:3 }, 
+    965:{ name:"orangeLeftGateBottom", solid:true, tileset:"gates", x:6, y:4 },
+    966:{ name:"orangeRightGateTop", solid:true, tileset:"gates", x:7, y:3 }, 
+    967:{ name:"orangeRightGateBottom", solid:true, tileset:"gates", x:7, y:4 },
+    968:{ name:"orangeBottomGateLeft", solid:true, tileset:"gates", x:6, y:2 }, 
+    969:{ name:"orangeBottomGateRight", solid:true, tileset:"gates", x:7, y:2 },
+    970:{ name:"orangeTopGateLeft", solid:true, tileset:"gates", x:6, y:1 }, 
+    971:{ name:"orangeTopGateRight", solid:true, tileset:"gates", x:7, y:1 },
+
+    972:{ name:"whiteLeftGateTop", solid:true, tileset:"gates", x:4, y:3 }, 
+    973:{ name:"whiteLeftGateBottom", solid:true, tileset:"gates", x:4, y:4 },
+    974:{ name:"whiteRightGateTop", solid:true, tileset:"gates", x:5, y:3 }, 
+    975:{ name:"whiteRightGateBottom", solid:true, tileset:"gates", x:5, y:4 },
+    976:{ name:"whiteBottomGateLeft", solid:true, tileset:"gates", x:4, y:2 }, 
+    977:{ name:"whiteBottomGateRight", solid:true, tileset:"gates", x:5, y:2 },
+    978:{ name:"whiteTopGateLeft", solid:true, tileset:"gates", x:4, y:1 }, 
+    979:{ name:"whiteTopGateRight", solid:true, tileset:"gates", x:5, y:1 },
+
+    980:{ name:"brownLeftGateTop", solid:true, tileset:"gates", x:2, y:3 }, 
+    981:{ name:"brownLeftGateBottom", solid:true, tileset:"gates", x:2, y:4 },
+    982:{ name:"brownRightGateTop", solid:true, tileset:"gates", x:3, y:3 }, 
+    983:{ name:"brownRightGateBottom", solid:true, tileset:"gates", x:3, y:4 },
+    984:{ name:"brownBottomGateLeft", solid:true, tileset:"gates", x:2, y:2 }, 
+    985:{ name:"brownBottomGateRight", solid:true, tileset:"gates", x:3, y:2 },
+    986:{ name:"brownTopGateLeft", solid:true, tileset:"gates", x:2, y:1 }, 
+    987:{ name:"brownTopGateRight", solid:true, tileset:"gates", x:3, y:1 },
+
+    988:{ name:"yellowLeftGateTop", solid:true, tileset:"gates", x:0, y:3 }, 
+    989:{ name:"yellowLeftGateBottom", solid:true, tileset:"gates", x:0, y:4 },
+    990:{ name:"yellowRightGateTop", solid:true, tileset:"gates", x:1, y:3 }, 
+    991:{ name:"yellowRightGateBottom", solid:true, tileset:"gates", x:1, y:4 },
+    992:{ name:"yellowBottomGateLeft", solid:true, tileset:"gates", x:0, y:2 }, 
+    993:{ name:"yellowBottomGateRight", solid:true, tileset:"gates", x:1, y:2 },
+    994:{ name:"yellowTopGateLeft", solid:true, tileset:"gates", x:0, y:1 }, 
+    995:{ name:"yellowTopGateRight", solid:true, tileset:"gates", x:1, y:1 }, 
+
+    996:{ name:"gateConnectorRight", solid:true, tileset:"gates", x:3, y:0 }, // connectors are to be used if a gate is greater than 2 tiles wide
+    997:{ name:"gateConnectorLeft", solid:true, tileset:"gates", x:2, y:0 }, 
+    998:{ name:"gateConnectorTop", solid:true, tileset:"gates", x:1, y:0 }, 
+    999:{ name:"gateConnectorBottom", solid:true, tileset:"gates", x:0, y:0 }, 
 
     200: { name: "topLeftCorner", solid: false, tileset: "housefloors", x: 0, y: 0 },
     201: { name: "bottomLeftCorner", solid: false, tileset: "housefloors", x: 0, y: 8 },
@@ -218,11 +253,11 @@ const levels = {
     //lets try a 20 by 10 map for the demo, we can always add more levels later, but this is a good start for testing
     level1: {
         map:    [
-            [200,207,207,207,207,207,207,207,999,999,999,207,207,207,207,207,207,207,207,207,207,207,207,207,207,202],
+            [200,207,207,207,207,207,207,207,978,998,979,207,207,207,207,207,207,207,207,207,207,207,207,207,207,202],
             [204,209,209,209,210,210,210,210,211,212,211,212,211,212,211,212,211,212,211,212,213,214,213,214,213,206],
             [204,209,209,209,210,210,210,210,211,212,211,212,211,212,211,212,211,212,211,212,213,214,213,214,213,206],
-            [204,209,209,209,210,210,210,210,211,212,211,212,211,212,211,212,211,212,211,212,213,214,213,214,213,999],
-            [204,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,999],
+            [204,209,209,209,210,210,210,210,211,212,211,212,211,212,211,212,211,212,211,212,213,214,213,214,213,972],
+            [204,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,973],
             [204,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,206],
             [204,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,206],
             [204,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,206],
@@ -240,8 +275,8 @@ const levels = {
             [200,207,207,207,207,207,207,207,207,207,207,207,207,207,207,207,207,207,207,202],
             [204,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,206],
             [204,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,206],
-            [204,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,999],
-            [204,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,999],
+            [204,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,972],
+            [204,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,973],
             [204,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,206],
             [204,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,206],
             [204,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,206],
@@ -257,11 +292,11 @@ const levels = {
     level3: {
         // changing these to be 3 digit numers so 20 becomes 120
         map:    [
-            [   ,   ,   ,200,207,207,207,207,207,207,207,207,207,207,997,997,207,207,207,207,202,200,999,999,207,202],
+            [   ,   ,   ,200,207,207,207,207,207,207,207,207,207,207,986,987,207,207,207,207,202,200,978,979,207,202],
             [   ,   ,   ,204,214,213,214,213,214,213,214,213,214,213,205,205,205,205,205,205,206,204,209,209,209,206],
-            [   ,   ,   ,204,214,213,214,213,214,213,214,213,214,213,205,205,205,205,205,205,206,204,209,209,209,998],
-            [200,207,207,218,214,213,214,213,214,213,214,213,214,213,205,205,205,205,205,205,206,204,209,209,209,998],
-            [204,205,205,205,205,205,205,205,205,205,214,213,214,213,205,205,205,205,205,205,206,204,209,209,209,998],
+            [   ,   ,   ,204,214,213,214,213,214,213,214,213,214,213,205,205,205,205,205,205,206,204,209,209,209,988],
+            [200,207,207,218,214,213,214,213,214,213,214,213,214,213,205,205,205,205,205,205,206,204,209,209,209,997],
+            [204,205,205,205,205,205,205,205,205,205,214,213,214,213,205,205,205,205,205,205,206,204,209,209,209,989],
             [204,205,205,205,205,205,205,205,205,205,214,213,214,213,205,205,205,205,205,205,216,218,209,209,209,206],
             [204,205,205,205,205,205,205,205,205,205,214,213,214,213,214,213,214,213,214,213,214,213,209,209,209,206],
             [204,205,205,205,205,205,205,205,205,205,214,213,214,213,214,213,214,213,214,213,214,213,209,209,209,206],
