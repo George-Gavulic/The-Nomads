@@ -49,59 +49,61 @@ const tiles = {
     998:{ name:"yellowGate", solid:true, tileset:"gate", x:1, y:0 }, // <<< only one in use, all other are temp
     999:{ name:"whiteGate", solid:true, tileset:"gate", x:0, y:0 }, // <<< only one in use, all other are temp
 
-    0: { name: "topLeftCorner", solid: false, tileset: "housefloors", x: 0, y: 0 },
-    1: { name: "bottomLeftCorner", solid: false, tileset: "housefloors", x: 0, y: 8 },
-    2: { name: "topRightCorner", solid: true,  tileset: "housefloors", x: 17, y: 0 },
-    3: { name: "bottomRightCorner", solid: true, tileset: "housefloors", x: 17, y: 8 },
-    4: { name: "leftWall", solid: true, tileset: "housefloors", x: 0, y: 1 },
-    5: { name: "greenfloor", solid: false, tileset: "housefloors", x: 2, y: 2 },
-    6: { name: "rightWall", solid: true, tileset: "housefloors", x: 17, y: 2 },
-    7: { name: "topWall", solid: true, tileset: "housefloors", x: 9, y: 0 },
-    8: { name: "bottomWall", solid: true, tileset: "housefloors", x: 16, y: 8 },
-    9: { name: "brickfloor", solid: false, tileset: "housefloors", x: 14, y: 6 },
-    10:{ name: "tilefloor", solid: false, tileset: "housefloors", x: 6, y: 6 },
-    11:{ name: "woodfloor1a", solid: false, tileset: "housefloors", x: 2, y: 6 },
-    12:{ name: "woodfloor1b", solid: false, tileset: "housefloors", x: 3, y: 6 },
-    13:{ name: "woodfloor2a", solid: false, tileset:"housefloors", x: 10, y: 6 },
-    14:{ name: "woodfloor2b", solid: false, tileset:"housefloors", x: 11, y: 6 },
-    //15:{ name: "bottomRoadLeft", solid:true, tileset:"airport", x:5, y:4 }, currently unused
-    //16:{ name: "bottomRoadRight", solid:true, tileset:"airport", x:6, y:4 },
+    200: { name: "topLeftCorner", solid: false, tileset: "housefloors", x: 0, y: 0 },
+    201: { name: "bottomLeftCorner", solid: false, tileset: "housefloors", x: 0, y: 8 },
+    202: { name: "topRightCorner", solid: true,  tileset: "housefloors", x: 17, y: 0 },
+    203: { name: "bottomRightCorner", solid: true, tileset: "housefloors", x: 17, y: 8 },
+    204: { name: "leftWall", solid: true, tileset: "housefloors", x: 0, y: 1 },
+    205: { name: "greenfloor", solid: false, tileset: "housefloors", x: 2, y: 2 },
+    206: { name: "rightWall", solid: true, tileset: "housefloors", x: 17, y: 2 },
+    207: { name: "topWall", solid: true, tileset: "housefloors", x: 9, y: 0 },
+    208: { name: "bottomWall", solid: true, tileset: "housefloors", x: 16, y: 8 },
+    209: { name: "brickfloor", solid: false, tileset: "housefloors", x: 14, y: 6 },
+    210:{ name: "tilefloor", solid: false, tileset: "housefloors", x: 6, y: 6 },
+    211:{ name: "woodfloor1a", solid: false, tileset: "housefloors", x: 2, y: 6 },
+    212:{ name: "woodfloor1b", solid: false, tileset: "housefloors", x: 3, y: 6 },
+    213:{ name: "woodfloor2a", solid: false, tileset:"housefloors", x: 10, y: 6 },
+    214:{ name: "woodfloor2b", solid: false, tileset:"housefloors", x: 11, y: 6 },
+    //215:{ name: "bottomRoadLeft", solid:true, tileset:"airport", x:5, y:4 }, currently unused
+    //216:{ name: "bottomRoadRight", solid:true, tileset:"airport", x:6, y:4 },
+    //217:{ name: "bottomRoadRight", solid:true, tileset:"airport", x:6, y:4 },
+    //218:{ name: "bottomRoadRight", solid:true, tileset:"airport", x:6, y:4 },
 
     //Size-(Orientation)-Color-Piece-Object
-    17:{ name:"SmallOrangeTopLeftEndtable", solid:true, tileset:"f1", x:0, y:0 },
-    18:{ name:"SmallOrangeTopRightEndtable", solid:true, tileset:"f1", x:1, y:0 },
-    19:{ name:"SmallOrangeBottomLeftEndtable", solid:true, tileset:"f1", x:0, y:1 },
-    20:{ name:"SmallOrangeBottomRightEndtable", solid:true, tileset:"f1", x:1, y:1 },
+    117:{ name:"SmallOrangeTopLeftEndtable", solid:true, tileset:"f1", x:0, y:0 },
+    118:{ name:"SmallOrangeTopRightEndtable", solid:true, tileset:"f1", x:1, y:0 },
+    119:{ name:"SmallOrangeBottomLeftEndtable", solid:true, tileset:"f1", x:0, y:1 },
+    120:{ name:"SmallOrangeBottomRightEndtable", solid:true, tileset:"f1", x:1, y:1 },
 
-    21:{ name:"LargeTanTopLeftTable", solid:true, tileset:"f1", x:0, y:2 },
-    22:{ name:"LargeTanTopMidTable", solid:true, tileset:"f1", x:1, y:2 },
-    23:{ name:"LargeTanTopRightTable", solid:true, tileset:"f1", x:2, y:2 },
-    24:{ name:"LargeTanBottomLeftTable", solid:true, tileset:"f1", x:0, y:3 },
-    25:{ name:"LargeTanBottomMidTable", solid:true, tileset:"f1", x:1, y:3 },
-    26:{ name:"LargeTanBottomRightTable", solid:true, tileset:"f1", x:2, y:3 },
+    121:{ name:"LargeTanTopLeftTable", solid:true, tileset:"f1", x:0, y:2 },
+    122:{ name:"LargeTanTopMidTable", solid:true, tileset:"f1", x:1, y:2 },
+    123:{ name:"LargeTanTopRightTable", solid:true, tileset:"f1", x:2, y:2 },
+    124:{ name:"LargeTanBottomLeftTable", solid:true, tileset:"f1", x:0, y:3 },
+    125:{ name:"LargeTanBottomMidTable", solid:true, tileset:"f1", x:1, y:3 },
+    126:{ name:"LargeTanBottomRightTable", solid:true, tileset:"f1", x:2, y:3 },
 
-    27:{ name:"LargeVertTanTopLeftTable", solid:true, tileset:"f1", x:0, y:4 },
-    28:{ name:"LargeVertTanLeftMidTable", solid:true, tileset:"f1", x:0, y:5 },
-    29:{ name:"LargeVertTanTopRightTable", solid:true, tileset:"f1", x:0, y:6 },
-    30:{ name:"LargeVertTanBottomLeftTable", solid:true, tileset:"f1", x:1, y:4 },
-    31:{ name:"LargeVertTanLeftMidTable", solid:true, tileset:"f1", x:1, y:5 },
-    32:{ name:"LargeVertTanBottomRightTable", solid:true, tileset:"f1", x:1, y:6 },
+    127:{ name:"LargeVertTanTopLeftTable", solid:true, tileset:"f1", x:0, y:4 },
+    128:{ name:"LargeVertTanLeftMidTable", solid:true, tileset:"f1", x:0, y:5 },
+    129:{ name:"LargeVertTanTopRightTable", solid:true, tileset:"f1", x:0, y:6 },
+    130:{ name:"LargeVertTanBottomLeftTable", solid:true, tileset:"f1", x:1, y:4 },
+    131:{ name:"LargeVertTanLeftMidTable", solid:true, tileset:"f1", x:1, y:5 },
+    132:{ name:"LargeVertTanBottomRightTable", solid:true, tileset:"f1", x:1, y:6 },
 
-    33:{ name:"TallBrownLargeTopLeftEndtable", solid:true, tileset:"f1", x:0, y:7 },
-    34:{ name:"TallBrownLeftMidEndtable", solid:true, tileset:"f1", x:0, y:8 },
-    35:{ name:"TallBrownTopRightEndtable", solid:true, tileset:"f1", x:0, y:9 },
-    36:{ name:"TallBrownBottomLeftEndtable", solid:true, tileset:"f1", x:1, y:7 },
-    37:{ name:"TallBrownRightMidEndtable", solid:true, tileset:"f1", x:1, y:8 },
-    38:{ name:"TallBrownBottomRightEndtable", solid:true, tileset:"f1", x:1, y:9 },
+    133:{ name:"TallBrownLargeTopLeftEndtable", solid:true, tileset:"f1", x:0, y:7 },
+    134:{ name:"TallBrownLeftMidEndtable", solid:true, tileset:"f1", x:0, y:8 },
+    135:{ name:"TallBrownTopRightEndtable", solid:true, tileset:"f1", x:0, y:9 },
+    136:{ name:"TallBrownBottomLeftEndtable", solid:true, tileset:"f1", x:1, y:7 },
+    137:{ name:"TallBrownRightMidEndtable", solid:true, tileset:"f1", x:1, y:8 },
+    138:{ name:"TallBrownBottomRightEndtable", solid:true, tileset:"f1", x:1, y:9 },
 
-    39:{ name:"SmallOrangeSideTopEndtable", solid:true, tileset:"f1", x:2, y:0 },
-    40:{ name:"SmallOrangeSideBottomEndtable", solid:true, tileset:"f1", x:2, y:1 },
+    139:{ name:"SmallOrangeSideTopEndtable", solid:true, tileset:"f1", x:2, y:0 },
+    140:{ name:"SmallOrangeSideBottomEndtable", solid:true, tileset:"f1", x:2, y:1 },
 
-    41:{ name:"SmallBrownTopEndtable", solid:true, tileset:"f1", x:3, y:0 },
-    42:{ name:"SmallBrownBottomEndtable", solid:true, tileset:"f1", x:3, y:1 },
+    141:{ name:"SmallBrownTopEndtable", solid:true, tileset:"f1", x:3, y:0 },
+    142:{ name:"SmallBrownBottomEndtable", solid:true, tileset:"f1", x:3, y:1 },
 
-    43:{ name:"WhiteTopChair", solid:true, tileset:"f1", x:5, y:0 },
-    44:{ name:"WhiteBottomChair", solid:true, tileset:"f1", x:5, y:1 },
+    143:{ name:"WhiteTopChair", solid:true, tileset:"f1", x:5, y:0 },
+    144:{ name:"WhiteBottomChair", solid:true, tileset:"f1", x:5, y:1 },
 
     145:{ name:"WhiteSideTopChair", solid:true, tileset:"f1", x:6, y:0 },
     146:{ name:"WhiteSideBottomChair", solid:true, tileset:"f1", x:6, y:1 },
@@ -215,16 +217,16 @@ const levels = {
     //lets try a 20 by 10 map for the demo, we can always add more levels later, but this is a good start for testing
     level1: {
         map:    [
-            [0,7,7,7,7,7,7,7,999,999,999,7,7,7,7,7,7,7,7,7,7,7,7,7,7,2],
-            [4,9,9,9,10,10,10,10,11,12,11,12,11,12,11,12,11,12,11,12,13,14,13,14,13,6],
-            [4,9,9,9,10,10,10,10,11,12,11,12,11,12,11,12,11,12,11,12,13,14,13,14,13,6],
-            [4,9,9,9,10,10,10,10,11,12,11,12,11,12,11,12,11,12,11,12,13,14,13,14,13,999],
-            [4,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,999],
-            [4,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,6],
-            [4,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,6],
-            [4,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,6],
-            [4,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,6],
-            [1,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,3],
+            [200,207,207,207,207,207,207,207,999,999,999,207,207,207,207,207,207,207,207,207,207,207,207,207,207,202],
+            [204,209,209,209,210,210,210,210,211,212,211,212,211,212,211,212,211,212,211,212,213,214,213,214,213,206],
+            [204,209,209,209,210,210,210,210,211,212,211,212,211,212,211,212,211,212,211,212,213,214,213,214,213,206],
+            [204,209,209,209,210,210,210,210,211,212,211,212,211,212,211,212,211,212,211,212,213,214,213,214,213,999],
+            [204,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,999],
+            [204,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,206],
+            [204,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,206],
+            [204,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,206],
+            [204,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,206],
+            [201,208,208,208,208,208,208,208,208,208,208,208,208,208,208,208,208,208,208,208,208,208,208,208,208,203],
         ],
         blocks: [
             { shape: "orange_couch", x: 8, y: 2, goals: [{x: 21, y: 3}] },
@@ -234,16 +236,16 @@ const levels = {
     },
     level2: {
         map:    [
-            [0,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,2],
-            [4,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,6],
-            [4,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,6],
-            [4,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,999],
-            [4,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,999],
-            [4,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,6],
-            [4,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,6],
-            [4,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,6],
-            [4,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,6],
-            [1,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,3],
+            [200,207,207,207,207,207,207,207,207,207,207,207,207,207,207,207,207,207,207,202],
+            [204,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,206],
+            [204,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,206],
+            [204,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,999],
+            [204,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,999],
+            [204,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,206],
+            [204,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,206],
+            [204,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,206],
+            [204,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,206],
+            [201,208,208,208,208,208,208,208,208,208,208,208,208,208,208,208,208,208,208,203],
         ],
         blocks: [
             { shape: "large_tan_table_vert", x: 4, y: 2, color: "tan", goals: [{x: 8, y: 1}] },
@@ -313,57 +315,44 @@ function drawMap() {
 
 // OBSTICAL DEFINITIONS for the luggage the player can move
 const SHAPES = {
-    T: [
-        { x: 0, y: 0, tileId: 10 },
-        { x: -1, y: 0, tileId: 10 },
-        { x: 1, y: 0, tileId: 10 },
-        { x: 0, y: -1, tileId: 10 }
-    ],
-
-    L: [
-        { x: 0, y: 0, tileId: 11 },
-        { x: 0, y: -1, tileId: 12 },
-        { x: 0, y: -2, tileId: 13 },
-        { x: 1, y: 0, tileId: 14 }
-    ],
     //size-color-object-orientation
     small_orange_endtable: [
-        { x: 0, y: 0, tileId: 17 },
-        { x: 1, y: 0, tileId: 18 },
-        { x: 0, y: 1, tileId: 19 },
-        { x: 1, y: 1, tileId: 20 }
+        { x: 0, y: 0, tileId: 117 },
+        { x: 1, y: 0, tileId: 118 },
+        { x: 0, y: 1, tileId: 119 },
+        { x: 1, y: 1, tileId: 120 }
     ],
     small_orange_endtable_side: [
-        { x: 0, y: 0, tileId: 39 },
-        { x: 0, y: 1, tileId: 40 },
+        { x: 0, y: 0, tileId: 139 },
+        { x: 0, y: 1, tileId: 140 },
     ],
     large_tan_table: [
-        { x: 0, y: 0, tileId: 21 },
-        { x: 1, y: 0, tileId: 22 },
-        { x: 2, y: 0, tileId: 23 },
-        { x: 0, y: 1, tileId: 24 },
-        { x: 1, y: 1, tileId: 25 },
-        { x: 2, y: 1, tileId: 26 }
+        { x: 0, y: 0, tileId: 121 },
+        { x: 1, y: 0, tileId: 122 },
+        { x: 2, y: 0, tileId: 123 },
+        { x: 0, y: 1, tileId: 124 },
+        { x: 1, y: 1, tileId: 125 },
+        { x: 2, y: 1, tileId: 126 }
     ],
     large_tan_table_vert: [
-        { x: 0, y: 0, tileId: 27 },
-        { x: 0, y: 1, tileId: 28 },
-        { x: 0, y: 2, tileId: 29 },
-        { x: 1, y: 0, tileId: 30 },
-        { x: 1, y: 1, tileId: 31 },
-        { x: 1, y: 2, tileId: 32 }
+        { x: 0, y: 0, tileId: 127 },
+        { x: 0, y: 1, tileId: 128 },
+        { x: 0, y: 2, tileId: 129 },
+        { x: 1, y: 0, tileId: 130 },
+        { x: 1, y: 1, tileId: 131 },
+        { x: 1, y: 2, tileId: 132 }
     ],
     large_brown_endtable: [
-        { x: 0, y: 0, tileId: 33 },
-        { x: 0, y: 1, tileId: 34 },
-        { x: 0, y: 2, tileId: 35 },
-        { x: 1, y: 0, tileId: 36 },
-        { x: 1, y: 1, tileId: 37 },
-        { x: 1, y: 2, tileId: 38 }
+        { x: 0, y: 0, tileId: 133 },
+        { x: 0, y: 1, tileId: 134 },
+        { x: 0, y: 2, tileId: 135 },
+        { x: 1, y: 0, tileId: 136 },
+        { x: 1, y: 1, tileId: 137 },
+        { x: 1, y: 2, tileId: 138 }
     ],
     small_brown_endtable: [
-        { x: 0, y: 0, tileId: 41 },
-        { x: 0, y: 1, tileId: 42 },
+        { x: 0, y: 0, tileId: 141 },
+        { x: 0, y: 1, tileId: 142 },
     ],
     white_chair: [
         { x: 0, y: 0, tileId: 143 },
