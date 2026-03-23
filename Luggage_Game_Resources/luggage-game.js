@@ -36,6 +36,7 @@ const TILESETS = {
     f2: "/Furniture2.png", 
     gate: "/Door_1.png",
     housefloors: "/HouseFloorsAndWalls.png",
+    housecorners: "/innercorners.png"
 };
 
 const tileSheet = new Image();
@@ -64,10 +65,10 @@ const tiles = {
     212:{ name: "woodfloor1b", solid: false, tileset: "housefloors", x: 3, y: 6 },
     213:{ name: "woodfloor2a", solid: false, tileset:"housefloors", x: 10, y: 6 },
     214:{ name: "woodfloor2b", solid: false, tileset:"housefloors", x: 11, y: 6 },
-    //215:{ name: "bottomRoadLeft", solid:true, tileset:"airport", x:5, y:4 }, currently unused
-    //216:{ name: "bottomRoadRight", solid:true, tileset:"airport", x:6, y:4 },
-    //217:{ name: "bottomRoadRight", solid:true, tileset:"airport", x:6, y:4 },
-    //218:{ name: "bottomRoadRight", solid:true, tileset:"airport", x:6, y:4 },
+    215:{ name: "innerUpperLeft", solid:true, tileset:"housecorners", x:0, y:0 },
+    216:{ name: "innerBottomLeft", solid:true, tileset:"housecorners", x:1, y:0 },
+    217:{ name: "innerUpperRight", solid:true, tileset:"housecorners", x:2, y:0 },
+    218:{ name: "innerBottomRight", solid:true, tileset:"housecorners", x:3, y:0 },
 
     //Size-(Orientation)-Color-Piece-Object
     117:{ name:"SmallOrangeTopLeftEndtable", solid:true, tileset:"f1", x:0, y:0 },
@@ -259,9 +260,9 @@ const levels = {
             [   ,   ,   ,200,207,207,207,207,207,207,207,207,207,207,997,997,207,207,207,207,202,200,999,999,207,202],
             [   ,   ,   ,204,214,213,214,213,214,213,214,213,214,213,205,205,205,205,205,205,206,204,209,209,209,206],
             [   ,   ,   ,204,214,213,214,213,214,213,214,213,214,213,205,205,205,205,205,205,206,204,209,209,209,998],
-            [200,207,207,204,214,213,214,213,214,213,214,213,214,213,205,205,205,205,205,205,206,204,209,209,209,998],
+            [200,207,207,218,214,213,214,213,214,213,214,213,214,213,205,205,205,205,205,205,206,204,209,209,209,998],
             [204,205,205,205,205,205,205,205,205,205,214,213,214,213,205,205,205,205,205,205,206,204,209,209,209,998],
-            [204,205,205,205,205,205,205,205,205,205,214,213,214,213,205,205,205,205,205,205,206,204,209,209,209,206],
+            [204,205,205,205,205,205,205,205,205,205,214,213,214,213,205,205,205,205,205,205,216,218,209,209,209,206],
             [204,205,205,205,205,205,205,205,205,205,214,213,214,213,214,213,214,213,214,213,214,213,209,209,209,206],
             [204,205,205,205,205,205,205,205,205,205,214,213,214,213,214,213,214,213,214,213,214,213,209,209,209,206],
             [204,205,205,205,205,205,205,205,205,205,214,213,214,213,214,213,214,213,214,213,214,213,209,209,209,206],
