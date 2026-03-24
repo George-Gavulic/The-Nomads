@@ -70,8 +70,8 @@ window.addEventListener("message", (event) => {
     if (!event.data.level || !event.data.score) return;
 
     if (event.data.type === "LEVEL_COMPLETE") {
-
-        
+        currentLevel = event.data.level;
+        currentScore = event.data.score;
     }
 });
 
