@@ -25,6 +25,7 @@ canvas.style.width  = canvas.width  * SCALE + "px";
 canvas.style.height = canvas.height * SCALE + "px";
 
 let points = 0;
+let curentLevel = "still set to default";
 let reachedGoal = false;
 
 // TILESET IMAGE
@@ -567,6 +568,23 @@ function checkIfGate(block, testX, testY) {
             // TODO: exit animation (slide off screen)
             blocks = blocks.filter(b => b !== block); // b => b !== block, this means "keep all blocks that are not the current block", effectively removing the current block from the game
             Scoreboard(block);
+            //check if player just completed the game, if so send win message and switch screen messgae
+
+            if (blocks.length == 0){ //checking if there any any more blocks of the screen
+                window.parent.postMessage(
+                    { type: "LEVEL_COMPLETE", 
+                    level: curentLevel,
+                    score: points}, // button.id will be the level choice, and can be used by the roguelike game to load the correct level
+                    "*"
+                );
+                window.parent.postMessage(
+                { type: "SWITCH_PAGE", 
+                  page: "Leaderboard_Resources/leaderboard.html",
+                }, // button.id will be the level choice, and can be used by the roguelike game to load the correct level
+                "*"
+                );
+
+            }
             return;
         }
     }
@@ -714,6 +732,7 @@ window.addEventListener("message", (event) => {
 
     if (event.data.level) {
         //alert("Level selected: " + event.data.level);
+        curentLevel = event.data.level; // using currentLevel to send the level completed to the leaderboard when this level is completed
         loadLevel(event.data.level);
     }
 });

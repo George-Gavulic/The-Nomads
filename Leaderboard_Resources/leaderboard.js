@@ -10,6 +10,10 @@ const leadh1 = document.getElementById("lead")
 const tableBody = document.getElementById("tableBody");
 const loadInScores = loadScores();  // Get from localStorage
 console.log(loadInScores);
+
+let currentLevel = "it should have changed this";
+let currentScore = -99;
+
 //practice table for looks
 const scores = [
     { iter: 1, name: "dood", score: 85, day: 1},
@@ -45,20 +49,33 @@ function loadScores() {
         return JSON.parse(scoresJSON);
     }
 }
-    // for loop to create table rows
-    for (let i = 0; i < scores.length; i++) {
-        const row = document.createElement("tr");
+
+// for loop to create table rows
+for (let i = 0; i < scores.length; i++) {
+    const row = document.createElement("tr");
+    
+    row.innerHTML = `
+        <td>${i + 1}</td>
+        <td>${scores[i].name}</td>
+        <td>${scores[i].iter}</td>
+        <td>${scores[i].score}</td>
+        <td>${scores[i].day}</td>`;
+    
+    tableBody.appendChild(row);
+}
+leadh1.textContent = `Leaderboard ${scores.length} total attempts`;
+
+window.addEventListener("message", (event) => {
+    if (!event.data || event.data.type !== "LEVEL_COMPLETE") return;
+    if (!event.data.level || !event.data.score) return;
+
+    if (event.data.type === "LEVEL_COMPLETE") {
+
         
-        row.innerHTML = `
-            <td>${i + 1}</td>
-            <td>${scores[i].name}</td>
-            <td>${scores[i].iter}</td>
-            <td>${scores[i].score}</td>
-            <td>${scores[i].day}</td>`;
-        
-        tableBody.appendChild(row);
     }
-    leadh1.textContent = `Leaderboard ${scores.length} total attempts`;
+});
+
+
 loadScores(scores);
 saveScores(scores);
 // will need the document file
