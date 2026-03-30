@@ -1,3 +1,35 @@
+const sprites = {}; // Sprites for the snake game
+
+function loadImage(path) {
+    const img = new Image();
+    img.src = path;
+    return img;
+}
+
+function loadSprites() {
+sprites.apple = loadImage("Snake graphics/apple.png"); // food sprite
+
+sprites.head_up = loadImage("Snake graphics/head_up.png"); // sprites for the snake head
+sprites.head_down = loadImage("Snake graphics/head_down.png");
+sprites.head_left = loadImage("Snake graphics/head_left.png");
+sprites.head_right = loadImage("Snake graphics/head_right.png");
+
+sprites.tail_up = loadImage("Snake graphics/tail_up.png"); // tail for the snake
+sprites.tail_down = loadImage("Snake graphics/tail_down.png");
+sprites.tail_left = loadImage("Snake graphics/tail_left.png");
+sprites.tail_right = loadImage("Snake graphics/tail_right.png");
+
+sprites.body_vertical = loadImage("Snake graphics/body_vertical.png"); // horizontal and vertical sprites for the snake
+sprites.body_horizontal - loadImage("Snake graphics/body_horizontal.png");
+
+sprites.body_topleft = loadImage("Snake graphics/body_topleft.png");
+sprites.body_topright = loadImage("Snake graphics/body_topright.png");
+sprites.body_bottomleft = loadImage("Snake graphics/body_bottomleft.png");
+sprites.body_bottomright = loadImage("Snake graphics/body_bottomright.png");
+}
+
+loadSprites();
+
 const canvas = document.getElementById("snakeGameScreen");
 const ctx = canvas.getContext("2d");
 const scoreText = document.getElementById("snake-game-points");
@@ -17,7 +49,7 @@ let yVelocity = 0;
 let foodX;
 let foodY;
 let score = 0;
-let snake = [ // the starting body of the snake
+let snake = [ // the starting body of the snake   ////// DOUBLE
     {x:unitSize * 4, y:0},
     {x:unitSize * 3, y:0},
     {x:unitSize * 2, y:0},
@@ -75,7 +107,7 @@ function createPoison(){
     poisonX = randomCoord(0, gameWidth - unitSize);
     poisonY = randomCoord(0, gameHeight - unitSize);
 }
-function drawFood(){
+function drawFood(){ ////////////// DOUBLE
     ctx.fillStyle = foodColor;
     ctx.fillRect(foodX, foodY, unitSize, unitSize);
 };
@@ -102,7 +134,7 @@ function moveSnake(){
     }
 };
 
-function drawSnake(){
+function drawSnake(){    ///////////// DOUBLE
     ctx.fillStyle = snakeColor;
     ctx.strokeStyle = snakeBorder;
     snake.forEach(snakePart => {       // making an arg for each snake part in an array of objects
@@ -185,9 +217,104 @@ function resetGame(){
     gameStart();
 };
 
+//////////////// NEW SEYED STUFF \\\\\\\\\\\\\\\\\
 
+//array for the snake position
+let snake = [         ////////////////// DOUBLE
+    { x: 100, y: 100 },
+    { x: 75, y: 100 },
+    { x: 50, y: 100 },
+];
+// function for drawing the snake sprite
+function getDirection(from, to) {
+    if (to.x > from.x) return "right";
+    if (to.x < from.x) return "left";
+    if (to.y > from.y) return "down";
+    if (to.y < from.y) return "up";
+    return null;
+}
+// function to draw the snake sprite part 2
+function drawSnake() {     ///////////////////// DOUBLE
+    for (let i = 0; i < snake.length; i++) {
+        const segment = snake[i];
+    }
+    //Head
+    if (i === 0) {
+        const neck = snake[1];
+        const dir = neck ? getDirection(neck, segment) : "right";
+        drawSprite(sprites[`head_${dir}`], segment.x, segment.y);
+    }
+
+    // Tail
+    else if (i === snake.length - 1) {
+        const beforeTail = snake[i - 1];
+        const dir = getDirection(beforeTail, segment);
+        drawSprite(sprites[`tail_${dir}`], segment.x, segment.y);
+    }
+
+    // Body
+    else {
+        const prev = snake[i - 1];
+        const next = snake[i + 1];;
+
+        const dirtoPrev = getDirection(segment, prev);
+        const dirtoNext = getDirection(segment, next);
+
+        // Straight sprites for the body
+        if (
+            (dirtoPrev === "left" && dirtoNext === "right") ||
+            (dirtoPrev === "right" && dirtoNext === "left")
+        ) {
+            drawSprite(sprites.body_horizontal, segment.x, segment.y);
+        }
+        else if (
+            (dirtoPrev === "up" && dirtoNext === "down") ||
+            (dirtoPrev === "down" && dirtoNext === "up")
+        ) {
+            drawSprites(sprites.body_vertical,segment.x, segment.y);
+        }
+        // Corners of the snake
+        else if (
+            (dirtoPrev === "up" && dirtoNext === "right") ||
+            (dirtoPrev === "right" && dirtoNext === "up")
+        ) {
+            drawSprite(sprites.body_topright,segment.x, segment.y);
+        }
+        else if ( 
+        (dirtoPrev === "up" && dirtoNext === "left") ||
+        (dirtoPrev === "left" && dirtoNext === "up")
+        ) {
+            drawSprites(sprites.body_topleft, segment.x, segment.y);
+        }
+        else if (
+            (dirtoPrev === "down" && dirtoNext === "right") ||
+            (dirtoPrev === "right" && dirtoNext === "down")
+        ) {
+            (drawSprites.body_bottomright, segment.x, segment.y);
+        }
+        else if (
+            (dirtoPrev === "down" && dirtoNext === "left") ||
+            (dirtoPrev === "left" && dirtoNext === "down")
+        ) {
+            drawSprite(sprites.body_bottomleft, segment.x, segment.y);
+        }
+    }
+    }
+
+    function drawFood() {  //////////////////////// DOUBLE
+        drawSprite(sprites.apple, foodX, foodY);
+    }
+
+        function drawGame() { //////////////// THIS AND FUNC GAMESTART DO SIMILAR THINGS
+        clearBoard();
+        drawFood();
+        drawSnake();
+    }
 
 // /////////////////////////////////////// The Tutorial ends here \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+
+////////////////////////STUFF I THOUGHT I COULD REUSE BUT IDK
+
 // //BASIC CONFIG for TILEMAP
 // const TILE_SIZE = 16;
 // const MAP_WIDTH = 26;
