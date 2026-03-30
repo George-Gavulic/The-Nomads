@@ -795,7 +795,7 @@ function puzzleComboTimer() {
             comboMulti = 1;
             puzzleComboTimer();
         }
-
+        
     }, 1000); // milliseconds
 }
 
