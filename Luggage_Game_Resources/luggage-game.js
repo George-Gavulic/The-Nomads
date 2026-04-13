@@ -16,6 +16,11 @@ const ctx = canvas.getContext("2d");
 ctx.imageSmoothingEnabled = false;
 canvas.style.imageRendering = "pixelated";
 
+// puzzleComboTimer
+let timerInterval;
+let comboMulti = 1;
+let timeLeft = 0;
+
 //const iframe = window.frameElement || window.parent.document.getElementById("game-panel-frame");
 //const SCALE = iframe.clientWidth / (MAP_WIDTH * TILE_SIZE); //test
 //alert("Calculated SCALE: " + SCALE);
@@ -25,7 +30,7 @@ canvas.style.width  = canvas.width  * SCALE + "px";
 canvas.style.height = canvas.height * SCALE + "px";
 
 let points = 0;
-let curentLevel = "still set to default";
+let currentLevel = "still set to default";
 let reachedGoal = false;
 
 // TILESET IMAGE
@@ -504,12 +509,13 @@ let blocks = [];
 
 function loadLevel(levelName) {
     const level = levels[levelName];
-
+    points = 0;
     currentMap = level.map;
 
     blocks = level.blocks.map(b =>
         new Block(SHAPES[b.shape], b.x, b.y, b.goals || [])
     );
+    puzzleComboTimer();
 }
 
 let activeBlock = null;
@@ -543,7 +549,7 @@ function Scoreboard(block) {
     block.scored = true; // Mark this block as scored to prevent double scoring
 
     //get the number of tiles in the block, and add that to the score, this is just a placeholder scoring system, we can change it later to be more complex if we want, but for now this is good enough for testing
-    points += block.shape.length; //temp
+    points += (block.shape.length * comboMulti); //temp
     //alert(block +" reached the gate! You earned " + block.shape.length + " points!"); //temp
     scoreBoard.innerText = "Points: " + points;
     
@@ -573,12 +579,25 @@ function checkIfGate(block, testX, testY) {
             if (blocks.length == 0){ //checking if there any any more blocks of the screen
                 //alert("sending point" + points);
                 window.parent.postMessage(
-                {   type: "SWITCH_PAGE", 
-                    page: "Leaderboard_Resources/leaderboard.html",
-                    level: curentLevel,
-                    score: points},
+                    { type: "LEVEL_COMPLETE", 
+                    level: currentLevel,
+                    score: points}, // button.id will be the level choice, and can be used by the roguelike game to load the correct level
                     "*"
                 );
+                window.parent.postMessage(
+                { type: "SWITCH_PAGE", 
+                  page: "Leaderboard_Resources/leaderboard.html",
+                }, // button.id will be the level choice, and can be used by the roguelike game to load the correct level
+                "*"
+                )
+// //added something here to pull up prompt for username, untested
+//                 window.addEventListener('reachedGoal', function() {
+//                 let userName = prompt("Please enter name:");
+//                 if (userName !== null) {
+//                     console.log("User entered:", userName);
+//                 },
+//                 });   
+                
 
             }
             return;
@@ -728,7 +747,7 @@ window.addEventListener("message", (event) => {
 
     if (event.data.level) {
         //alert("Level selected: " + event.data.level);
-        curentLevel = event.data.level; // using currentLevel to send the level completed to the leaderboard when this level is completed
+        currentLevel = event.data.level; // using currentLevel to send the level completed to the leaderboard when this level is completed
         loadLevel(event.data.level);
     }
 });
@@ -753,6 +772,34 @@ document.getElementById("back-to-game-choice")
   }
 );
 
+function puzzleComboTimer() {
+    const timer = document.getElementById("timer");
+
+     // clear existing timer
+    clearInterval(timerInterval);
+    timerInterval = setInterval( () => {
+        // check time before incrementing
+        if (timeLeft > 0) {
+            timeLeft--; // time goes down at speed of 1000ms
+        } else {console.log("puzzleTimer bigger than zero error")}
+
+        timer.textContent = `x${comboMulti} ${timeLeft} sec`;
+
+        if (reachedGoal === true) {
+            clearInterval(timerInterval);
+            reachedGoal = false;
+            timeLeft = 5;
+            comboMulti++;
+            puzzleComboTimer();
+        } else if (timeLeft <= 0 ) {
+
+            comboMulti = 1;
+            puzzleComboTimer();
+        }
+
+    }, 1000); // milliseconds
+}
+
 window.addEventListener("resize", resizeCanvas);
 window.addEventListener("load", resizeCanvas); //its just white if it happens to be called before the DOM is loaded
 
@@ -760,6 +807,6 @@ loadLevel("level1"); // this is needed to set the map, while the system waits fo
 //TODO: make level 1 or level 0 and tile/loading/unplayable but good looking level/screen
 
 loadAllImages(() => {
-
+    
     gameLoop();
 });
