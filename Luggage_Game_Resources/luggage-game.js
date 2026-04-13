@@ -571,17 +571,13 @@ function checkIfGate(block, testX, testY) {
             //check if player just completed the game, if so send win message and switch screen messgae
 
             if (blocks.length == 0){ //checking if there any any more blocks of the screen
+                //alert("sending point" + points);
                 window.parent.postMessage(
-                    { type: "LEVEL_COMPLETE", 
+                {   type: "SWITCH_PAGE", 
+                    page: "Leaderboard_Resources/leaderboard.html",
                     level: curentLevel,
-                    score: points}, // button.id will be the level choice, and can be used by the roguelike game to load the correct level
+                    score: points},
                     "*"
-                );
-                window.parent.postMessage(
-                { type: "SWITCH_PAGE", 
-                  page: "Leaderboard_Resources/leaderboard.html",
-                }, // button.id will be the level choice, and can be used by the roguelike game to load the correct level
-                "*"
                 );
 
             }
