@@ -1,3 +1,6 @@
+* { border: 1px solid skyblue;
+    margin: 1px
+}
 body {
     margin: 0;
     min-height: 80vh;
@@ -37,6 +40,7 @@ h1 {
 }
 
 #scoreText {
+    align-self: right;
     font-size: 64px;
     line-height: 1;
 }
