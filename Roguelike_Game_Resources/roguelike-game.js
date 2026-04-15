@@ -144,7 +144,7 @@ function changeDirection(event) {
     const key = event.key.toLowerCase(); 
 
 
-    if (["w", "a", "s", "d"].includes(key)) {
+    if (["w", "a", "s", "d", "arrowleft", "arrowup", "arrowright", "arrowdown"].includes(key)) {
         event.preventDefault();
     }
 
@@ -153,19 +153,19 @@ function changeDirection(event) {
     const goingLeft = xVelocity === -unitSize;
     const goingRight = xVelocity === unitSize;
 
-    if (key === "a" && !goingRight) {
+    if ((key === "a" || key === "arrowleft") && !goingRight) {
         xVelocity = -unitSize;
         yVelocity = 0;
     } 
-    else if (key === "w" && !goingDown) {
+    else if ((key === "w" || key === "arrowup") && !goingDown) {
         xVelocity = 0;
         yVelocity = -unitSize;
     } 
-    else if (key === "d" && !goingLeft) {
+    else if ((key === "d" || key === "arrowright") && !goingLeft) {
         xVelocity = unitSize;
         yVelocity = 0;
     } 
-    else if (key === "s" && !goingUp) {
+    else if ((key === "s" || key === "arrowdown") && !goingUp) {
         xVelocity = 0;
         yVelocity = unitSize;
     }
