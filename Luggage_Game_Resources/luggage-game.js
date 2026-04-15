@@ -576,20 +576,39 @@ function checkIfGate(block, testX, testY) {
             Scoreboard(block);
             //check if player just completed the game, if so send win message and switch screen messgae
 
-            if (blocks.length == 0){ //checking if there any any more blocks of the screen
-                //alert("sending point" + points);
-                window.parent.postMessage(
-                    { type: "LEVEL_COMPLETE", 
+            if (blocks.length == 0) { 
+                // 1. Save the score data into a temporary "pending" slot
+                const pendingData = {
                     level: currentLevel,
-                    score: points}, // button.id will be the level choice, and can be used by the roguelike game to load the correct level
+                    score: points,
+                    game: "luggageGame" // Put your actual game name here
+                };
+                localStorage.setItem("pendingScoreData", JSON.stringify(pendingData));
+
+                // 2. Now tell the parent to switch the page
+                window.parent.postMessage(
+                    { 
+                        type: "SWITCH_PAGE", 
+                        page: "Leaderboard_Resources/leaderboard.html"
+                    }, 
                     "*"
                 );
-                window.parent.postMessage(
-                { type: "SWITCH_PAGE", 
-                  page: "Leaderboard_Resources/leaderboard.html",
-                }, // button.id will be the level choice, and can be used by the roguelike game to load the correct level
-                "*"
-                )
+            }
+
+            // if (blocks.length == 0){ //checking if there any any more blocks of the screen
+            //     //alert("sending point" + points);
+            //     window.parent.postMessage(
+            //         { type: "LEVEL_COMPLETE", 
+            //         level: currentLevel,
+            //         score: points}, // button.id will be the level choice, and can be used by the roguelike game to load the correct level
+            //         "*"
+            //     );
+            //     window.parent.postMessage(
+            //     { type: "SWITCH_PAGE", 
+            //       page: "Leaderboard_Resources/leaderboard.html",
+            //     }, // button.id will be the level choice, and can be used by the roguelike game to load the correct level
+            //     "*"
+            //     )
 // //added something here to pull up prompt for username, untested
 //                 window.addEventListener('reachedGoal', function() {
 //                 let userName = prompt("Please enter name:");
@@ -599,11 +618,11 @@ function checkIfGate(block, testX, testY) {
 //                 });   
                 
 
-            }
-            return;
         }
+        return;
     }
 }
+
 
 function releaseBlock() {
     if (!activeBlock) return;
@@ -758,15 +777,6 @@ document.getElementById("back-to-level-choice")
       { type: "SWITCH_PAGE", 
         page: "Level_Choice_Resources/level-choice.html",
         game: "Luggage" },
-      "*"
-    );
-  }
-);
-document.getElementById("back-to-game-choice")
-  .addEventListener("click", () => {
-    window.parent.postMessage(
-      { type: "SWITCH_PAGE", 
-        page: "Game_Choice_Resources/game-choice.html"},
       "*"
     );
   }
