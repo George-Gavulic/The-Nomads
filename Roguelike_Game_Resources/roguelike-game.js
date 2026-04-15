@@ -58,6 +58,7 @@ ctx.imageSmoothingEnabled = false;
 window.addEventListener("keydown", changeDirection);
 resetBtn.addEventListener("click", resetGame);
 
+
 gameStart();
 
 function gameStart() {
