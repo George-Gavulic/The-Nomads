@@ -280,6 +280,7 @@ function gameLoop(timestamp){
     //------------------------------
 }
 
+<<<<<<< Updated upstream
 /* =========================
    LEVEL SWITCHING (DEMO)
 ========================= */
@@ -299,3 +300,39 @@ groundTileSheet.onload = () => {
     //TODO only when both load
     gameLoop();
 };
+=======
+
+
+// MAKE SOME LEVELS ///////////////////////////////////////////////////////
+const mapTiles = {
+    'R': 'rock',
+    'F': 'food',
+    'H': 'hole',
+    'P': 'poison',
+    'M': 'moreFood'
+}
+const levels = [{
+    level: 1,
+    speed: 150,
+    map: [            
+
+        "RRRRRRRRRRRRRRRRRR",
+        "R................R",
+        "R..RR........RR..R",
+        "R................R",
+        "R....RRRRRR......R",
+        "R................R",
+        "R..RR........RR..R",
+        "R................R",
+        "RRRRRRRRRRRRRRRRRR",
+        ],
+
+        entities: [
+            { type:  'food', qty: 1 },
+            { type:  'hole', qty: 2 },
+            { type:  'poison', qty: 2 },
+        ],
+        // winCon: {score, food eaten, poison eaten}
+}
+]
+>>>>>>> Stashed changes
