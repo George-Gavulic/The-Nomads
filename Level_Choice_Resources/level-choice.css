@@ -12,3 +12,10 @@
     flex-direction: column;
     gap: 10px;
 }
+#game-header{ 
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    text-align: center;
+    margin-bottom: 20px;
+}
