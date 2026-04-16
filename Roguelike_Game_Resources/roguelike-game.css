@@ -51,3 +51,18 @@ h1 {
     cursor: pointer;
     background: white;
 }
+
+/* I want this button to be floating on top of the canvas */
+.startBtn{
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    width: 100%; 
+    height: 100%;
+    /* background-color: rgba(0, 0, 0, 0.8); */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 2000000002;
+}
