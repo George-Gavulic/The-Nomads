@@ -50,4 +50,36 @@ h1 {
     border-radius: 14px;
     cursor: pointer;
     background: white;
+
+    animation-duration: 2s;
+    animation-name: shake;
+    animation-timing-function: ease-in-out;
+    animation-delay: 0ms;
+    animation-iteration-count: infinite;
+    animation-direction: normal;
+    animation-fill-mode: forwards;
+    animation-play-state: running;
+    
+
+}
+@keyframes shake{
+    0%{
+        transform: rotate(-18deg);
+    }
+
+    25%{
+        transform: rotate(0deg);
+    }
+
+    50%{
+        transform: rotate(18deg);
+    }
+
+    75%{
+        transform: rotate(0deg);
+    }
+
+    100%{
+        transform: rotate(-18deg);
+    }
 }
