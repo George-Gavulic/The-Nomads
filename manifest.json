@@ -23,9 +23,7 @@
         "Roguelike_Game_Resources/roguelike-game.js",
         "Level_Choice_Resources/level-choice.html",
         "Level_Choice_Resources/level-choice.css",
-        "Level_Choice_Resources/level-choice.js",
-        "Leaderboard_Resources/leaderboard.html"
-        
+        "Level_Choice_Resources/level-choice.js"
       ],
       "matches": ["<all_urls>"]
     }

@@ -8,15 +8,14 @@
 </head>
 <body>
     <div id="gameContainer">
-        <h1>You have made a grave Misnake!</h1>
-            <button id="back-to-level-choice">Levels</button>
-            <button id="back-to-game-choice">Games</button>
+        <h1>Welcome to the Snake game!</h1>
 
-            <p id="scoreText">0</p>
         <canvas id="gameBoard" width="500" height="350"></canvas>
 
-        <button id="resetBtn" data-Btn="resetBtn" >Reset</button>
-
+        <div id="hud">
+            <div id="scoreText">0</div>
+            <button id="resetBtn">Reset</button>
+        </div>
     </div>
 
     <script src="roguelike-game.js"></script>
