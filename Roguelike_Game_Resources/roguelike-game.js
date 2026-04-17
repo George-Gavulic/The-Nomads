@@ -289,4 +289,5 @@ document.getElementById("back-to-game-choice")
 
 resetBtn.addEventListener("click", resetGame);
 
-gameStart();
+
+// gameStart();
