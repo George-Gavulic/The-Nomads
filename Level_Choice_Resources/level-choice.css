@@ -19,3 +19,13 @@
     text-align: center;
     margin-bottom: 20px;
 }
+button:hover {
+    transform: rotateY(360deg);
+    opacity: 1;
+}
+button {
+    transition: transform 1s;
+    height: 70px;
+    width: 100px;
+    opacity: .95;
+}
