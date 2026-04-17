@@ -1,8 +1,69 @@
+@font-face {
+    font-family: "Game Intro Font";
+    src: url("/Global_Assets/Fonts/yukari.ttf");
+}
+
 html, body {
     margin: 0;
     padding: 0;
     width: 100%;
     height: 100%;
+}
+
+.row_header{
+    display: flex;
+    flex-direction: row;
+    text-align: center;
+    margin-bottom: 20px;
+}
+.mover_title{
+    color: rgb(209, 74, 74);
+    font-family: "Game Intro Font", serif;
+    font-size: 32px;
+    text-shadow: 2px 2px 4px #000000;
+}
+.snake_title{
+    color: rgb(0, 0, 0);
+    font-family: "Game Intro Font", serif;
+    font-size: 32px;
+    text-shadow: 2px 2px 4px rgb(48, 189, 48);
+}
+
+#game-choice-header {
+    /* display: flex;
+    flex-direction: row; */
+    gap: 10px;
+    /* text-align: center;
+    margin-bottom: 20px; */
+}
+
+.left-game{
+    text-align: center;
+    margin-bottom: 20px;
+    /* left: 0%; */
+    width: 50%;
+}
+.right-game{
+    text-align: center;
+    margin-bottom: 20px;
+    left: 50%;
+    width: 50%;
+    background-color: tomato;
+}
+.game-image{
+    margin: 20px 0px; /*Adjust the vertical margin as needed */
+    padding: 0px 200px 0px 0px ; /*Adjust the horizontal padding as needed */
+}
+
+#left-game-image{
+    height: 15%;
+    width: 40%;
+    /* position: center; */
+}
+#right-game-image{
+    height: 10%;
+    width : 25%; 
+    position: center;
 }
 
 body {
@@ -16,7 +77,7 @@ body {
     width: 100vw;
     height: 100vh;
 
-    background-image: url("TitlePage.png");
+    background-image: url("Game_Choice_Assets/Choice_Background_V1.png");
     background-size: 100% 100%;
     background-position: center;
     background-repeat: no-repeat;

@@ -1,3 +1,6 @@
+/* * { border: 1px solid skyblue;
+    margin: 1px
+} */
 body {
     margin: 0;
     min-height: 80vh;
@@ -21,8 +24,8 @@ h1 {
 }
 
 #gameBoard {
-    width: min(92vw, 700px);
-    height: min(92vw, 600px);
+    width: min(92vw, 1400px);
+    height: min(92vw, 425px);
     border: 3px solid black;
     display: block;
     background-color: white;
@@ -37,6 +40,7 @@ h1 {
 }
 
 #scoreText {
+    align-self: right;
     font-size: 64px;
     line-height: 1;
 }
@@ -50,19 +54,36 @@ h1 {
     border-radius: 14px;
     cursor: pointer;
     background: white;
-}
 
-/* I want this button to be floating on top of the canvas */
-.startBtn{
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    width: 100%; 
-    height: 100%;
-    /* background-color: rgba(0, 0, 0, 0.8); */
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    z-index: 2000000002;
+    animation-duration: 2s;
+    animation-name: shake;
+    animation-timing-function: ease-in-out;
+    animation-delay: 0ms;
+    animation-iteration-count: infinite;
+    animation-direction: normal;
+    animation-fill-mode: forwards;
+    animation-play-state: running;
+    
+
+}
+@keyframes shake{
+    0%{
+        transform: rotate(-18deg);
+    }
+
+    25%{
+        transform: rotate(0deg);
+    }
+
+    50%{
+        transform: rotate(18deg);
+    }
+
+    75%{
+        transform: rotate(0deg);
+    }
+
+    100%{
+        transform: rotate(-18deg);
+    }
 }

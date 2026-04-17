@@ -78,7 +78,9 @@ function gameStart() {
         { x: 50, y: 100 }
     ];
 
-    createFood();
+    createFood(); // call this the number of time food is needed
+    //todo: add array storing food positions
+
     clearBoard();
     drawFood();
     drawSnake();
