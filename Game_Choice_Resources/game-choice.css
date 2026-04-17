@@ -50,17 +50,16 @@ html, body {
     width: 50%;
     background-color: tomato;
 }
-.game-image{
-    margin: 20px 0px; /*Adjust the vertical margin as needed */
-    padding: 0px 200px 0px 0px ; /*Adjust the horizontal padding as needed */
-}
+
 
 #left-game-image{
+    padding: 60px 150px 0px 65px ;
     height: 15%;
     width: 40%;
     /* position: center; */
 }
 #right-game-image{
+    padding: 20px 0px 0px 0px ;
     height: 10%;
     width : 25%; 
     position: center;
