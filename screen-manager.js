@@ -31,7 +31,8 @@ function openGamePanel() {
       {
         type: "GAME_SELECTED", //this will allow the level choice page to know which game was selected, and then display the correct levels for that game.
         game: selectedGame,
-        level: selectedLevel
+        level: selectedLevel,
+        score: score,
       },
       "*"
     );
@@ -69,6 +70,7 @@ function switchPage(newPageUrl) {
 // Listens for messages from the iframe to switch pages
 let selectedGame = "Sceen Manager Default Game"; // this will store the game choice, and can be imported by the level choice page to know which levels to show. It will be updated when the game choice page sends a message with the game choice.
 let selectedLevel = "Screen Manager Default Level"; // this will store the level choice, and can be imported by the game page to load the correct level. It will be updated when the level choice page sends a message with the level choice.
+let score = -998;
 
 window.addEventListener("message", (event) => {
   if (!event.data || !event.data.type) return;
@@ -80,6 +82,9 @@ window.addEventListener("message", (event) => {
     }
     if (event.data.level) {
       selectedLevel = event.data.level;
+    }
+    if (event.data.score){
+      score = event.data.score;
     }
     switchPage(event.data.page);
   }

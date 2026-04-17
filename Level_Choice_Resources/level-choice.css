@@ -11,8 +11,6 @@
     display: flex;
     flex-direction: column;
     gap: 10px;
-<<<<<<< Updated upstream
-=======
 }
 #game-header{ 
     display: flex;
@@ -30,5 +28,4 @@ button {
     height: 70px;
     width: 100px;
     opacity: .95;
->>>>>>> Stashed changes
 }

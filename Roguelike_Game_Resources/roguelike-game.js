@@ -255,6 +255,13 @@ function moveSnake() { // moved stuff to move snake to limit snake direction cha
     const hitSomething = checkEntityCollision();
     if (!hitSomething) snake.pop();
 }
+function randomFood(min, max) {
+    return Math.round((Math.random() * (max - min) + min) / unitSize) * unitSize;
+}
+function createFood() {
+    foodX = randomFood(0, width - unitSize);
+    foodY = randomFood(0, height - unitSize);
+}
 
 // function moveSnake() {
 //     const head = {
@@ -661,6 +668,27 @@ function loadMap(level) {
         });
     });
 }
+//BUTTONS
+document.getElementById("back-to-level-choice")
+  .addEventListener("click", () => {
+    window.parent.postMessage(
+      { type: "SWITCH_PAGE", 
+        page: "Level_Choice_Resources/level-choice.html",
+        game: "Roguelike" },
+      "*"
+    );
+  }
+);
+
+document.getElementById("back-to-game-choice")
+  .addEventListener("click", () => {
+    window.parent.postMessage(
+      { type: "SWITCH_PAGE", 
+        page: "Game_Choice_Resources/game-choice.html"},
+      "*"
+    );
+  }
+);
 
 function loadLevel(levelName) {
     const level = levels[levelName];
