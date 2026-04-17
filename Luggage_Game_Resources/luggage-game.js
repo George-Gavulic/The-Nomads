@@ -92,8 +92,8 @@ const tiles = {
     998:{ name:"gateConnectorTop", solid:true, tileset:"gates", x:1, y:0 }, 
     999:{ name:"gateConnectorBottom", solid:true, tileset:"gates", x:0, y:0 }, 
 
-    200: { name: "topLeftCorner", solid: false, tileset: "housefloors", x: 0, y: 0 },
-    201: { name: "bottomLeftCorner", solid: false, tileset: "housefloors", x: 0, y: 8 },
+    200: { name: "topLeftCorner", solid: true, tileset: "housefloors", x: 0, y: 0 },
+    201: { name: "bottomLeftCorner", solid: true, tileset: "housefloors", x: 0, y: 8 },
     202: { name: "topRightCorner", solid: true,  tileset: "housefloors", x: 17, y: 0 },
     203: { name: "bottomRightCorner", solid: true, tileset: "housefloors", x: 17, y: 8 },
     204: { name: "leftWall", solid: true, tileset: "housefloors", x: 0, y: 1 },
@@ -378,7 +378,32 @@ const levels = {
             { shape: "large_tan_table_vert", x: 15, y: 5, goals: [{x: 12, y: 1},{x: 13, y: 1}] },
             { shape: "large_orange_bookcase", x: 12, y: 6, goals: [{x: 17, y: 5}] },
             { shape: "white_chair", x: 12, y: 2, goals: [{x: 1, y: 2}] },
-            { shape: "orange_clock", x: 10, y: 3, goals: [{x: 17, y: 5}] },
+            { shape: "orange_clock", x: 10, y: 3, goals: [{x: 18, y: 5}] },
+        ]
+    },
+    level6: {
+        map:    [
+            [900,900,900,900,900,900,900,900,900,900,200,970,998,971,202,900,900,900,900,900,900,900,900,900,900], 
+            [900,900,900,900,900,900,900,900,900,900,204,205,205,205,206,900,900,900,900,900,900,900,900,900,900], 
+            [900,900,900,900,900,900,900,900,200,207,218,205,205,205,216,207,202,900,900,900,900,900,900,900,900], 
+            [900,900,900,900,900,900,900,900,974,205,205,205,205,205,205,205,988,900,900,900,900,900,900,900,900],
+            [900,900,900,900,900,900,900,900,996,205,205,205,205,205,205,205,997,900,900,900,900,900,900,900,900],
+            [900,900,900,900,900,900,900,900,975,205,205,205,205,205,205,205,989,900,800,900,900,900,900,900,900],
+            [900,900,900,900,900,900,900,900,201,208,217,205,205,205,215,208,203,900,900,900,900,900,900,900,900],
+            [900,900,900,900,900,900,900,900,900,900,204,205,205,205,206,900,900,900,900,900,900,900,900,900,900],
+            [900,900,900,900,900,900,900,900,900,900,201,984,999,985,203,900,900,900,900,900,900,900,900,900,900],
+            [900,900,900,900,900,900,900,900,900,900,900,900,900,900,900,900,900,900,900,900,900,900,900,900,900],
+
+        ],
+        blocks: [
+            { shape: "large_brown_endtable", x: 11, y: 1, goals: [{x: 11, y: 5},{x: 12, y: 5}] },
+            { shape: "brown_stool", x: 13, y: 1, goals: [{x: 11, y: 7},{x: 12, y: 7},{x: 13, y: 7}] },
+            { shape: "brown_stool", x: 9, y: 3, goals: [{x: 11, y: 7},{x: 12, y: 7},{x: 13, y: 7}] },
+            { shape: "tan_side_chair", x: 9, y: 4, goals: [{x: 11, y: 1},{x: 12, y: 1},{x: 13, y: 1}] },
+            { shape: "tan_back_chair", x: 12, y: 6, goals: [{x: 11, y: 1},{x: 12, y: 1},{x: 13, y: 1}] },
+            { shape: "large_tan_table", x: 10, y: 4, goals: [{x: 11, y: 1},{x: 12, y: 1},{x: 13, y: 1}] },
+            { shape: "white_chair", x: 15, y: 4, goals: [{x: 9, y: 3},{x: 9, y: 4}] },
+            { shape: "lamp", x: 13, y: 5, goals: [{x: 15, y: 3}] },
         ]
     },
 };
