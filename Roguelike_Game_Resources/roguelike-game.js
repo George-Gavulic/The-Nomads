@@ -73,9 +73,9 @@ function gameStart() {
     yVelocity = 0;
 
     snake = [
-        { x: 100, y: 100 },
-        { x: 75, y: 100 },
-        { x: 50, y: 100 }
+    { x: 100, y: 100 },
+    { x: 75, y: 100 },
+    { x: 50, y: 100 }
     ];
 
     createFood(); // call this the number of time food is needed
@@ -85,7 +85,7 @@ function gameStart() {
     drawFood();
     drawSnake();
     nextTick();
-}
+    }
 
 function nextTick() {
     if (running) {
@@ -96,11 +96,11 @@ function nextTick() {
             drawFood();
             drawSnake();
 
-            if (running) {
-                nextTick();
-            } else {
-                displayGameOver();
-            }
+    if (running) {
+        nextTick();
+    } else {
+        displayGameOver();
+    }
         }, 100);
     }
 }
@@ -115,25 +115,22 @@ function clearBoard() {
             } else {
                 ctx.fillStyle = "#6bb84f"; // darker grass
             }
-
             ctx.fillRect(x, y, unitSize, unitSize);
         }
     }
 }
-
+function randomFood(min, max) {
+    return Math.round((Math.random() * (max - min) + min) / unitSize) * unitSize;
+}
 function createFood() {
-    function randomFood(min, max) {
-        return Math.round((Math.random() * (max - min) + min) / unitSize) * unitSize;
-    }
-
     foodX = randomFood(0, width - unitSize);
     foodY = randomFood(0, height - unitSize);
 }
 
 function moveSnake() {
     const head = {
-        x: snake[0].x + xVelocity,
-        y: snake[0].y + yVelocity
+    x: snake[0].x + xVelocity,
+    y: snake[0].y + yVelocity
     };
 
     snake.unshift(head);
@@ -149,7 +146,6 @@ function moveSnake() {
 
 function changeDirection(event) {
     const key = event.key.toLowerCase(); 
-
 
     if (["w", "a", "s", "d", "arrowleft", "arrowup", "arrowright", "arrowdown"].includes(key)) {
         event.preventDefault();
@@ -167,7 +163,7 @@ function changeDirection(event) {
     else if ((key === "w" || key === "arrowup") && !goingDown) {
         xVelocity = 0;
         yVelocity = -unitSize;
-    } 
+    }       
     else if ((key === "d" || key === "arrowright") && !goingLeft) {
         xVelocity = unitSize;
         yVelocity = 0;
@@ -177,6 +173,7 @@ function changeDirection(event) {
         yVelocity = unitSize;
     }
 }
+
 
 function checkGameOver() {
     const head = snake[0];
@@ -237,37 +234,37 @@ function drawSnake() {
             const dirToPrev = getDirection(segment, prev);
             const dirToNext = getDirection(segment, next);
 
-            if (
-                (dirToPrev === "left" && dirToNext === "right") ||
-                (dirToPrev === "right" && dirToNext === "left")
-            ) {
-                drawSprite(sprites.body_horizontal, segment.x, segment.y);
-            } else if (
-                (dirToPrev === "up" && dirToNext === "down") ||
-                (dirToPrev === "down" && dirToNext === "up")
-            ) {
-                drawSprite(sprites.body_vertical, segment.x, segment.y);
-            } else if (
-                (dirToPrev === "up" && dirToNext === "right") ||
-                (dirToPrev === "right" && dirToNext === "up")
-            ) {
-                drawSprite(sprites.body_topright, segment.x, segment.y);
-            } else if (
-                (dirToPrev === "up" && dirToNext === "left") ||
-                (dirToPrev === "left" && dirToNext === "up")
-            ) {
-                drawSprite(sprites.body_topleft, segment.x, segment.y);
-            } else if (
-                (dirToPrev === "down" && dirToNext === "right") ||
-                (dirToPrev === "right" && dirToNext === "down")
-            ) {
-                drawSprite(sprites.body_bottomright, segment.x, segment.y);
-            } else if (
-                (dirToPrev === "down" && dirToNext === "left") ||
-                (dirToPrev === "left" && dirToNext === "down")
-            ) {
-                drawSprite(sprites.body_bottomleft, segment.x, segment.y);
-            }
+        if (
+            (dirToPrev === "left" && dirToNext === "right") ||
+            (dirToPrev === "right" && dirToNext === "left")
+        ) {
+            drawSprite(sprites.body_horizontal, segment.x, segment.y);
+        } else if (
+            (dirToPrev === "up" && dirToNext === "down") ||
+            (dirToPrev === "down" && dirToNext === "up")
+        ) {
+            drawSprite(sprites.body_vertical, segment.x, segment.y);
+        } else if (
+            (dirToPrev === "up" && dirToNext === "right") ||
+            (dirToPrev === "right" && dirToNext === "up")
+        ) {
+            drawSprite(sprites.body_topright, segment.x, segment.y);
+        } else if (
+            (dirToPrev === "up" && dirToNext === "left") ||
+            (dirToPrev === "left" && dirToNext === "up")
+        ) {
+            drawSprite(sprites.body_topleft, segment.x, segment.y);
+        } else if (
+            (dirToPrev === "down" && dirToNext === "right") ||
+            (dirToPrev === "right" && dirToNext === "down")
+        ) {
+            drawSprite(sprites.body_bottomright, segment.x, segment.y);
+        } else if (
+            (dirToPrev === "down" && dirToNext === "left") ||
+            (dirToPrev === "left" && dirToNext === "down")
+        ) {
+            drawSprite(sprites.body_bottomleft, segment.x, segment.y);
+        }
         }
     }
 }
@@ -275,3 +272,26 @@ function drawSnake() {
 function drawFood() {
     drawSprite(sprites.apple, foodX, foodY);
 }
+//BUTTONS
+document.getElementById("back-to-level-choice")
+  .addEventListener("click", () => {
+    window.parent.postMessage(
+      { type: "SWITCH_PAGE", 
+        page: "Level_Choice_Resources/level-choice.html",
+        game: "Roguelike" },
+      "*"
+    );
+  }
+);
+
+document.getElementById("back-to-game-choice")
+  .addEventListener("click", () => {
+    window.parent.postMessage(
+      { type: "SWITCH_PAGE", 
+        page: "Game_Choice_Resources/game-choice.html"},
+      "*"
+    );
+  }
+);
+
+resetBtn.addEventListener("click", resetGame);

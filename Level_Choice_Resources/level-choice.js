@@ -42,3 +42,13 @@ for (let button of document.getElementsByClassName("level-button")) {
         }
     });
 }
+
+document.getElementById("back-to-game-choice")
+  .addEventListener("click", () => {
+    window.parent.postMessage(
+      { type: "SWITCH_PAGE", 
+        page: "Game_Choice_Resources/game-choice.html"},
+      "*"
+    );
+  }
+);
