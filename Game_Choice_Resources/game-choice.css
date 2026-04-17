@@ -14,18 +14,18 @@ html, body {
     display: flex;
     flex-direction: row;
     text-align: center;
-    margin-bottom: 20px;
+    margin-bottom: 0px;
 }
 .mover_title{
-    color: rgb(209, 74, 74);
+    color: rgb(85, 13, 13);
     font-family: "Game Intro Font", serif;
-    font-size: 32px;
-    text-shadow: 2px 2px 4px #000000;
+    font-size: 46px;
+    text-shadow: 2px 2px 4px rgb(209, 74, 74);
 }
 .snake_title{
-    color: rgb(0, 0, 0);
+    color: rgb(22, 70, 19);
     font-family: "Game Intro Font", serif;
-    font-size: 32px;
+    font-size: 46px;
     text-shadow: 2px 2px 4px rgb(48, 189, 48);
 }
 
@@ -48,18 +48,17 @@ html, body {
     margin-bottom: 20px;
     left: 50%;
     width: 50%;
-    background-color: tomato;
 }
 
 
 #left-game-image{
-    padding: 60px 150px 0px 65px ;
+    padding: 50px 150px 0px 65px ;
     height: 15%;
     width: 40%;
     /* position: center; */
 }
 #right-game-image{
-    padding: 20px 0px 0px 0px ;
+    padding: 0px 0px 0px 60px ;
     height: 10%;
     width : 25%; 
     position: center;
@@ -91,15 +90,25 @@ body {
 }
 
 .left-button {
-    left: 11%;
+    left: 13%;
     top: 78%;
-    width: 38%;
+    width: 25%;
     height: 16%;
 }
 
 .right-button {
     left: 64%;
     top: 78%;
-    width: 34%;
+    width: 25%;
     height: 16%;
+}
+#luggage-game-button{
+    background-image: url("Game_Choice_Assets/Play_Button.png");
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+#roguelike-game-button{
+    background-image: url("Game_Choice_Assets/Play_Button.png");
+    background-size: contain;
+    background-repeat: no-repeat;
 }

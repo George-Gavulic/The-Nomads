@@ -25,6 +25,7 @@ for (let button of document.getElementsByClassName("level-button")) {
     button.addEventListener("click", () => {
         //alert("Level 1 selected!" + " Game Choice is: " + GameChoice);
         if (GameChoice === "Roguelike") {
+          sessionStorage.setItem("selectedLevel", button.id);
             window.parent.postMessage(
                 { type: "SWITCH_PAGE", 
                   page: "Roguelike_Game_Resources/roguelike-game.html",
