@@ -1,13 +1,3 @@
-<<<<<<< Updated upstream
-let canvas = document.getElementById("gameScreen");
-let ctx = canvas.getContext("2d");
-ctx.imageSmoothingEnabled = false;
-
-const SCALE = 3; //used to size up the canvas proportinal to the tile sizes
-const TILE_SIZE = 16;
-const MAP_WIDTH = 10; //used for tile maps, this is the number of tiles along the width
-const MAP_HEIGHT = 8; //# of tiles in height
-=======
 const sprites = {};
 
 function loadImage(path) {
@@ -50,13 +40,8 @@ const resetBtn = document.querySelector("#resetBtn");
 
 ctx.imageSmoothingEnabled = false;
 
->>>>>>> Stashed changes
 
 
-<<<<<<< Updated upstream
-canvas.width = MAP_WIDTH * TILE_SIZE;
-canvas.height = MAP_HEIGHT * TILE_SIZE;
-=======
 
 const width = gameBoard.width;
 const height = gameBoard.height;
@@ -79,7 +64,6 @@ const inputQ = [];
 const maxQ = 2;
 let foodX;
 let foodY;
->>>>>>> Stashed changes
 
 canvas.style.width = canvas.width  * SCALE + "px";
 canvas.style.height = canvas.height * SCALE + "px";
@@ -169,41 +153,6 @@ const topLayers = {
 let currentGroundMap = groundLayers.groundLevel1;
 let currentTopMap = topLayers.topLevel1;
 
-// DRAWING FUNCTIONS
-
-<<<<<<< Updated upstream
-function drawTile(tileId, gridX, gridY) {
-    const tile = tiles[tileId];
-    if (!tile) return;
-
-    ctx.drawImage( //this is the GROUND layer
-        groundTileSheet,
-        tile.x * TILE_SIZE,
-        tile.y * TILE_SIZE,
-        TILE_SIZE,
-        TILE_SIZE,
-        gridX * TILE_SIZE,
-        gridY * TILE_SIZE,
-        TILE_SIZE,
-        TILE_SIZE
-    );
-    ctx.drawImage( // this is the TOP layer
-        topTileSheet,
-        tile.x * TILE_SIZE,
-        tile.y * TILE_SIZE,
-        TILE_SIZE,
-        TILE_SIZE,
-        gridX * TILE_SIZE,
-        gridY * TILE_SIZE,
-        TILE_SIZE,
-        TILE_SIZE
-    );
-}
-=======
-//////////////////////////////////////////////////////////////////////////
-// move gameStart to bottom
->>>>>>> Stashed changes
-
 function drawMap() {
     for (let y = 0; y < currentGroundMap.length; y++) { //this is the GROUND layer
         for (let x = 0; x < currentGroundMap[y].length; x++) {
@@ -246,28 +195,6 @@ class InputHandler {
                     character.moveDown();
                     break;
             }
-<<<<<<< Updated upstream
-        });
-        //Key release
-        document.addEventListener('keyup', (event) => {
-            switch(event.keyCode){
-                case 37: //37 is the keycode for left arrow key
-                    if(character.xspeed < 0)
-                        character.xstop();
-                    break;
-                case 38: //38 is the keycode for up arrow key
-                    if(character.yspeed < 0)
-                        character.ystop();
-                    break;
-                case 39: //39 is the keycode for right arrow key
-                    if(character.xspeed > 0)
-                        character.xstop();
-                    break;
-                case 40: //40 is the keycode for down arrow key
-                    if(character.yspeed > 0)
-                        character.ystop();
-                    break;
-=======
 
             ctx.fillRect(x, y, unitSize, unitSize);
         }
@@ -445,9 +372,8 @@ function tickHoleTimers() {
             if (!snakeInHole) {
                 ent.inUse = false;
                 return false; // go away entrance
->>>>>>> Stashed changes
             }
-        });
+        };
     }
 }
 
@@ -535,7 +461,6 @@ function gameLoop(timestamp){
     //------------------------------
 }
 
-<<<<<<< Updated upstream
 /* =========================
    LEVEL SWITCHING (DEMO)
 ========================= */
@@ -554,20 +479,16 @@ window.addEventListener("keydown", e => {
 groundTileSheet.onload = () => {
     //TODO only when both load
     gameLoop();
-};
-=======
+}
 
-
-<<<<<<< Updated upstream
-// MAKE SOME LEVELS ///////////////////////////////////////////////////////
 const mapTiles = {
     'R': 'rock',
     'F': 'food',
     'H': 'hole',
     'P': 'poison',
     'M': 'moreFood'
-=======
-////////////////////////////////////////////////////////////////////////////////
+};
+
 function spawnEntity(type) { // insert entity into arr and generate coord for ent
     let x, y;
     let attempts = 0;
@@ -592,8 +513,8 @@ function spawnEntity(type) { // insert entity into arr and generate coord for en
         ent.inUse = null;
     }
     entities.push(ent);
->>>>>>> Stashed changes
 }
+
 const levels = [{
     level: 1,
     speed: 150,
@@ -617,10 +538,7 @@ const levels = [{
         ],
         // winCon: {score, food eaten, poison eaten}
 }
-<<<<<<< Updated upstream
 ]
->>>>>>> Stashed changes
-=======
 
 
 function drawSprite(img, x, y) {
@@ -876,4 +794,3 @@ function gameStart() { // running = true, ent arr clear iterate food, poison
     drawSnake();
     nextTick();
 }
->>>>>>> Stashed changes
