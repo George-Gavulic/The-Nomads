@@ -25,6 +25,7 @@
         "Level_Choice_Resources/level-choice.css",
         "Level_Choice_Resources/level-choice.js",
         "Leaderboard_Resources/leaderboard.html"
+        
       ],
       "matches": ["<all_urls>"]
     }
