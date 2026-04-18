@@ -16,6 +16,17 @@ window.addEventListener("message", (event) => {
             button.classList.remove("Roguelike", "Luggage"); //remove previous game class if needed
             button.classList.add(GameChoice);
         }
+        if (GameChoice === "Roguelike") {
+          window.parent.postMessage({
+            type: 'TRIGGER_BGM',
+            file: 'Sounds/Loop_Snake_Background_Playfull.mp3' // Path to your looping music file
+          }, '*');
+        } else if (GameChoice === "Luggage") {
+            window.parent.postMessage({
+              type: 'TRIGGER_BGM',
+              file: 'Sounds/Loop_Mover_Background_Nostalgic.mp3' // Path to your looping music file
+            }, '*');
+        }
     }
 });
 
