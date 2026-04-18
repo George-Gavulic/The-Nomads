@@ -90,6 +90,26 @@ function nextTick(){ // if running set speed and clear board, draw, move snake, 
     }
 };
 
+function resizeCanvas() {
+    const canvas = document.getElementById("gameBoard");
+    const parent = canvas.parentElement;
+    
+    // Get the space we are allowed to fill
+    const availableWidth = parent ? parent.clientWidth : window.innerWidth;
+    
+    // Calculate the scale multiplier based on the internal width (600)
+    // We multiply by 0.95 to leave a tiny 5% margin so it doesn't touch the exact edges
+    const scale = (availableWidth * 0.95) / canvas.width;
+
+    // Apply the scale purely to the CSS visuals
+    canvas.style.width  = (canvas.width * scale) + "px";
+    canvas.style.height = (canvas.height * scale) + "px";
+}
+
+// Run it when the page loads, and whenever the window/iframe resizes
+window.addEventListener('resize', resizeCanvas);
+window.addEventListener('DOMContentLoaded', resizeCanvas);
+
 
 function clearBoard() {
     for (let y = 0; y < height; y += unitSize) {
@@ -303,50 +323,6 @@ function snakeHoleCheck () {
 })
 }
 
-// function teleportSnake(entrance) {
-
-    
-//     const exitHole = entities.find(ent => ent.type === 'hole' && ent !== ent.inUse  );//&& ent !== 'inUse'
-//     // find a different hole entity to act as the exit
-//     if (holeCD > 0) return;
-//     if (entrance.inUse) return;
-//     if (!exitHole && entrance.inUse) return;
-//     // move the snake head to the exit hole's position
-//     snake[0].x = exitHole.x;
-//     snake[0].y = exitHole.y;
-//     holeCD = 2;
-//     entrance.inUse = true;
-//     // setTimeout( ()=> {
-//     //     exitHole.inUse = true;
-//     // },holeCD);
-    
-//     // if (entrance.inUse === false) then take it out, place in check entity collision under respawn
-//     // only take out the entrance
-//     // spawnEntity('hole'); // replace hole so i don't run into myself when going through hole
-    
-// }
-// show the hole while snake goes through it
-
-// function snakeHoleCheck() {
-//     entities.forEach((ent, index) => {
-//         if (ent.type === 'hole' && ent.inUse) {
-//             const snakeInHole = snake.some(part => part.x === ent.x && part.y === ent.y);
-//         } 
-//         if (ent.type === 'hole' && !snakeInHole){
-//             // ent.inUse = !ent.inUse
-//             ent.splice(index, 1)
-//         }
-
-//         if (ent.type === 'hole' && ent.inUse !== null && !ent.inUse )
-            
-//         //////////////////////////////
-//         if (ent === exitHole && snake[snake.length-1].x === exitHole.x && snake[snake.length-1].y === exitHole)
-//             if (snake[snake.length -1].x === ent.x && snake[snake.length -1].y === ent.y) {             
-//     }
-//     );
-    
-// }
-
 
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -481,73 +457,112 @@ const levels = {
     level1: {
         // speed: 150, // could change speed who knows
         map: [
-            "RRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR",
-            "R..............................R",
-            "R..............................R",
-            "R..............................R",
-            "R..............................R",
-            "R..............................R",
-            "R..............................R",
-            "R..............................R",
-            "R..............................R",
-            "R..............................R",
-            "R..............................R",
-            "R..............................R",
-            "R..............................R",
-            "RRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR"
+            "RRRRRRRRRRRRRRRRRRRRRRRR",
+            "R......................R",
+            "R......................R",
+            "R......................R",
+            "R......................R",
+            "R......................R",
+            "R......................R",
+            "R......................R",
+            "R......................R",
+            "R......................R",
+            "R......................R",
+            "R......................R",
+            "R......................R",
+            "RRRRRRRRRRRRRRRRRRRRRRRR"
         ],
         entities: [
-            { type: 'food',    count: 1 },
-            { type: 'poison',  count: 2 },
-            { type: 'hole',    count: 2 },
+            { type: 'food',    count: 5 },
         ]
         
     },
 
     level2: {
         map: [
-            "RRRRRRRRRRRRRRRRRRRR",
-            "R..................R",
-            "R..................R",
-            "R..................R",
-            "R..................R",
-            "R..................R",
-            "R..................R",
-            "R..................R",
-            "R..................R",
-            "R..................R",
-            "R..................R",
-            "R..................R",
-            "R..................R",
-            "RRRRRRRRRRRRRRRRRRRR"
+            "RRRRRRRRRRRRRRRRRRRRRRRR",
+            "R......................R",
+            "R......................R",
+            "R......................R",
+            "R......................R",
+            "R......................R",
+            "R......................R",
+            "R......................R",
+            "R......................R",
+            "R......................R",
+            "R......................R",
+            "R......................R",
+            "R......................R",
+            "RRRRRRRRRRRRRRRRRRRRRRRR"
         ],
         entities: [
-            { type: 'moreFood', count: 1},
-            { type: 'poison', count: 50}
+            { type: 'food', count: 1},
         ]
     },
         level3: {
         map: [
-            "RRRRRRRRRRRRRRRRRRRR",
-            "R..................R",
-            "R.....RRRRRRRR.....R",
-            "R..................R",
-            "R..................R",
-            "R..................R",
-            "R..................R",
-            "R..................R",
-            "R..................R",
-            "R..................R",
-            "R..................R",
-            "R.....RRRRRRRR.....R",
-            "R..................R",
-            "RRRRRRRRRRRRRRRRRRRR"
+            "RRRRRRRRRRRRRRRRRRRRRRRR",
+            "R......................R",
+            "R.......RRRRRRRR.......R",
+            "R...................R..R",
+            "R...................R..R",
+            "R.....RRR...........R..R",
+            "R.....R......R......R..R",
+            "R.....R......R.........R",
+            "R......................R",
+            "R......................R",
+            "R.......RRRRRRRR.......R",
+            "R..............R.......R",
+            "R..............R.......R",
+            "RRRRRRRRRRRRRRRRRRRRRRRR"
         ],
         entities: [
-            { type: 'moreFood', count: 1},
-            { type: 'poison', count: 50}
+            { type: 'food', count: 5},
         ]
-    }
+    },
+            level4: {
+        map: [
+            "RRRRRRRRRRRRRRRRRRRRRRRR",
+            "R......................R",
+            "R......................R",
+            "R......................R",
+            "R......................R",
+            "R......................R",
+            "R......................R",
+            "R......................R",
+            "R......................R",
+            "R......................R",
+            "R......................R",
+            "R......................R",
+            "R......................R",
+            "RRRRRRRRRRRRRRRRRRRRRRRR"
+        ],
+        entities: [
+            { type: 'food', count: 1},
+            { type: 'poison', count: 5}
+        ]
+    },
+            level5: {
+        map: [
+            "RRRRRRRRRRRRRRRRRRRRRRRR",
+            "R..R...................R",
+            "R..R....RRRRRRRR.......R",
+            "R..RRR.....R........R..R",
+            "R..R.......R........R..R",
+            "R......RR..R........R..R",
+            "R.....R....R.R......R..R",
+            "RRRRRRR....R.R.........R",
+            "R..........R...........R",
+            "R..........R...........R",
+            "R..RRRRRRRRRRRRR.......R",
+            "R..............R.......R",
+            "R..............R.......R",
+            "RRRRRRRRRRRRRRRRRRRRRRRR"
+        ],
+        entities: [
+            { type: 'food', count: 2},
+        ]
+    },
 };
 
 function loadMap(level) {
@@ -582,16 +597,6 @@ function loadLevel(levelName) {
 }
 
 
-
-
-// window.addEventListener("message", (event) => {
-//     if (!event.data || event.data.type !== "SWITCH_PAGE") return;
-//     if (!event.data.level) return;
-
-//     console.log("load level", event.data.level);
-//     currentLevel = event.data.level; // using currentLevel to send the level completed to the leaderboard when this level is completed
-//     gameStart();
-// });
 
 window.addEventListener("DOMContentLoaded", () => {
     const levelName = sessionStorage.getItem("selectedLevel");

@@ -12,7 +12,7 @@ body {
 }
 
 #gameContainer {
-    width: min(70vw, 520px);
+    /* width: min(70vw, 520px); */
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -24,11 +24,21 @@ h1 {
 }
 
 #gameBoard {
-    width: min(92vw, 1400px);
-    height: min(92vw, 400px);
+    /* Set the maximum width to 100% of the iframe/container */
+    width: 100%; 
+    max-width: 1000px; /* Optional: Stop it from getting TOO huge on massive monitors */
+    
+    /* Automatically adjust the height to match the internal 600x350 aspect ratio */
+    height: auto; 
+    aspect-ratio: 600 / 350; 
+    
     border: 3px solid black;
     display: block;
+    margin: 0 auto; /* Centers the canvas horizontally */
     background-color: white;
+    
+    /* Optional: Keeps the pixel art crisp when scaled up */
+    image-rendering: pixelated; 
 }
 
 #hud {
