@@ -738,6 +738,8 @@ function checkIfGate(block, testX, testY) {
             // TODO: exit animation (slide off screen)
             blocks = blocks.filter(b => b !== block); // b => b !== block, this means "keep all blocks that are not the current block", effectively removing the current block from the game
             Scoreboard(block);
+            triggerSound("Sounds/Success.mp3");
+            
             //check if player just completed the game, if so send win message and switch screen messgae
 
             if (blocks.length == 0) { 
@@ -834,7 +836,7 @@ function drawActiveOutline(block) {
     ctx.lineWidth = 1;
     ctx.shadowColor = "red";
     ctx.shadowBlur = 8;
-    ctx.strokeRect(
+    ctx.strokeRect( 
         minX * TILE_SIZE,
         minY * TILE_SIZE,
         width,
@@ -854,6 +856,14 @@ function getAvailableWidth() {
     return window.innerWidth;
 }
 
+function triggerSound(soundPath) {
+  window.parent.postMessage({
+    type: 'TRIGGER_SOUND',
+    file: soundPath
+  }, '*');
+}
+
+
 function resizeCanvas() {
     const parent = canvas.parentElement;
     const availableWidth = parent ? parent.clientWidth : window.innerWidth;
@@ -863,6 +873,7 @@ function resizeCanvas() {
     canvas.style.width  = canvas.width  * scale + "px";
     canvas.style.height = canvas.height * scale + "px";
 }
+
 
 function gameLoop() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -891,6 +902,7 @@ canvas.addEventListener("mousedown", (e) => {
                 my < (t.y + 1) * TILE_SIZE
             ) {
                 activeBlock = block;
+                triggerSound("Sounds/Pickup_Sound.mp3");
                 block.dragging = true;
                 mouseOffset.x = mx - block.pixelX;
                 mouseOffset.y = my - block.pixelY;
@@ -945,6 +957,8 @@ document.getElementById("back-to-level-choice")
     );
   }
 );
+
+
 
 function puzzleComboTimer() {
     const timer = document.getElementById("timer");

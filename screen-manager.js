@@ -65,6 +65,102 @@ function switchPage(newPageUrl) {
   iframe.src = resolvedUrl;
 }
 
+// function debounce(func, timeout = 50) {
+//   let timer;
+//   return (...args) => {
+//     clearTimeout(timer);
+//     timer = setTimeout(() => {
+//       func.apply(this, args);
+//     }, timeout);
+//   };
+// }
+
+// const playSound = (fileName) => {
+
+//   const soundUrl = chrome.runtime.getURL(fileName.toLowerCase()); 
+  
+//   console.log("Attempting to play:", soundUrl);
+//   const audio = new Audio(soundUrl);
+//   audio.play().catch(err => console.error("Playback Error:", err.name, err.message));
+// };
+
+// const debouncedPlay = debounce((file) => playSound(file), 50);
+
+// window.addEventListener('message', (event) => {
+//   // Check if message is the sound trigger
+//   if (event.data && event.data.type === 'TRIGGER_SOUND') {
+//     // Pass the filename from the iframe (e.g., 'pop.mp3')
+//     console.log("Received sound trigger for:", event.data.file);
+//     debouncedPlay(event.data.file);// || 'default.mp3');
+//   }
+// });
+
+
+// 1. Configuration: List your sounds here
+const SOUND_FILES = [
+  "Sounds/Pickup_Sound.mp3",
+  // "sounds/error.wav",
+  "Sounds/Success.mp3",
+];
+
+// 2. The Cache: Pre-load all sounds into memory
+const audioCache = {};
+
+SOUND_FILES.forEach(path => {
+  const url = chrome.runtime.getURL(path);
+  const audio = new Audio(url);
+  audio.preload = "auto";
+  audioCache[path] = audio; // Keyed by the path you'll send in the message
+});
+
+// 3. Immediate-trigger Debounce (Leading Edge)
+// Plays the sound immediately, then ignores subsequent calls for 'wait' ms
+function debounceImmediate(func, wait) {
+  let timeout;
+  return function(...args) {
+    const callNow = !timeout;
+    clearTimeout(timeout);
+    timeout = setTimeout(() => {
+      timeout = null;
+    }, wait);
+    if (callNow) func.apply(this, args);
+  };
+}
+
+// 4. The Play Logic
+const playSound = (requestedPath) => {
+  // Debug: See exactly what the iframe is asking for
+  console.log("Iframe requested:", requestedPath);
+
+  const audio = audioCache[requestedPath];
+  
+  if (!audio) {
+    console.error("CACHE MISS: No audio object found for key:", requestedPath);
+    console.log("Available keys in cache:", Object.keys(audioCache));
+    return;
+  }
+
+  // Check if the audio actually loaded
+  if (audio.networkState === 3) { // 3 = NETWORK_NO_SOURCE
+    console.error("LOAD ERROR: The file at this URL could not be found or was blocked:", audio.src);
+    return;
+  }
+
+  audio.currentTime = 0;
+  audio.play().catch(e => {
+    console.error("Playback error:", e.message, "Source:", audio.src);
+  });
+};
+
+// Apply debounce (50ms is usually plenty to prevent clipping while feeling instant)
+const fastPlay = debounceImmediate((path) => playSound(path), 50);
+
+// 5. Message Listener
+window.addEventListener('message', (event) => {
+  if (event.data?.type === 'TRIGGER_SOUND' && event.data.file) {
+    fastPlay(event.data.file);
+  }
+});
 
 //Here will be the location for all of the page switching functions
 // Listens for messages from the iframe to switch pages
