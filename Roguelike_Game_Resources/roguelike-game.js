@@ -1,4 +1,4 @@
-const sprites = {};
+const sprites = {}; // Sprites for the snake game
 
 function loadImage(path) {
     const img = new Image();
@@ -7,47 +7,42 @@ function loadImage(path) {
 }
 
 function loadSprites() {
-    sprites.apple = loadImage("./snake_graphics/apple.png");
+    sprites.apple = loadImage("Snake_graphics/apple.png"); // food sprite
 
-    sprites.head_up = loadImage("./snake_graphics/head_up.png");
-    sprites.head_down = loadImage("./snake_graphics/head_down.png");
-    sprites.head_left = loadImage("./snake_graphics/head_left.png");
-    sprites.head_right = loadImage("./snake_graphics/head_right.png");
+    sprites.hole = loadImage("Snake_graphics/hole_5.png");
 
-    sprites.tail_up = loadImage("./snake_graphics/tail_up.png");
-    sprites.tail_down = loadImage("./snake_graphics/tail_down.png");
-    sprites.tail_left = loadImage("./snake_graphics/tail_left.png");
-    sprites.tail_right = loadImage("./snake_graphics/tail_right.png");
+    sprites.head_up = loadImage("Snake_graphics/head_up.png"); // sprites for the snake head
+    sprites.head_down = loadImage("Snake_graphics/head_down.png");
+    sprites.head_left = loadImage("Snake_graphics/head_left.png");
+    sprites.head_right = loadImage("Snake_graphics/head_right.png");
 
-    sprites.body_vertical = loadImage("./snake_graphics/body_vertical.png");
-    sprites.body_horizontal = loadImage("./snake_graphics/body_horizontal.png");
+    sprites.tail_up = loadImage("Snake_graphics/tail_up.png"); // tail for the snake
+    sprites.tail_down = loadImage("Snake_graphics/tail_down.png");
+    sprites.tail_left = loadImage("Snake_graphics/tail_left.png");
+    sprites.tail_right = loadImage("Snake_graphics/tail_right.png");
 
-    sprites.body_topleft = loadImage("./snake_graphics/body_topleft.png");
-    sprites.body_topright = loadImage("./snake_graphics/body_topright.png");
-    sprites.body_bottomleft = loadImage("./snake_graphics/body_bottomleft.png");
-    sprites.body_bottomright = loadImage("./snake_graphics/body_bottomright.png");
+    sprites.body_vertical = loadImage("Snake_graphics/body_vertical.png"); // horizontal and vertical sprites for the snake
+    sprites.body_horizontal = loadImage("Snake_graphics/body_horizontal.png");
+
+    sprites.body_topleft = loadImage("Snake_graphics/body_topleft.png");
+    sprites.body_topright = loadImage("Snake_graphics/body_topright.png");
+    sprites.body_bottomleft = loadImage("Snake_graphics/body_bottomleft.png");
+    sprites.body_bottomright = loadImage("Snake_graphics/body_bottomright.png");
 }
 
 loadSprites();
 
 const gameBoard = document.querySelector("#gameBoard");
-const ctx = gameBoard.getContext("2d");
+const ctx =  gameBoard.getContext("2d");
 const scoreText = document.querySelector("#scoreText");
 const resetBtn = document.querySelector("#resetBtn");
 
-
-// const boardBackground = "white";
-
 ctx.imageSmoothingEnabled = false;
-
-
-
 
 const width = gameBoard.width;
 const height = gameBoard.height;
 const boardBackground = 'white';
-const poisonColor = 'purple';
-const rockColor = 'dark grey';
+
 const unitSize = 25;
 let running = false;
 let xVelocity = unitSize;
@@ -59,141 +54,52 @@ let snake = [
     { x: 75, y: 100 },
     { x: 50, y: 100 }
 ];
-let snakeTail = snake[-1];
+let snakeTail = snake[-1]
 const inputQ = [];
 const maxQ = 2;
-let foodX;
-let foodY;
 
-canvas.style.width = canvas.width  * SCALE + "px";
-canvas.style.height = canvas.height * SCALE + "px";
-
-const GAME_WIDTH = canvas.width  ;//* SCALE;
-const GAME_HEIGHT = canvas.height ;//* SCALE;
-//----------------------------------------------------------------------------------------------------
-//Above this is the canvas and general declaration settup
-//Here starts the section for the tile map
-//----------------------------------------------------------------------------------------------------
-// grabbing tileset image for backgroud tiles
-const groundTileSheet = new Image();
-const topTileSheet = new Image();
-groundTileSheet.src = "/AirPort.png"; // example tileset
-topTileSheet.src = "/AirPort.png"; // example tileset //TODO change this
-
-// TILE DEFINITIONS
-const tiles = {
-    0: { name: "topLeftCorner", solid: false, x: 0, y: 6 },
-    1: { name: "bottomLefteCorner", solid: false, x: 0, y: 7 },
-    2: { name: "topLeftCorner", solid: true,  x: 1, y: 6 },
-    3: { name: "bottomRightCorner", solid: true, x: 1, y: 7 },
-    4: { name: "leftWall", solid: false, x: 2, y: 7 },
-    5: { name: "floor", solid: false, x: 2, y: 4 },
-    6: { name: "rightWall", solid: true, x: 2, y: 6 },
-    7: { name: "topWall", solid: true, x: 1, y: 4 },
-    8: { name: "bottomWall", solid: true, x: 0, y: 4 },
-    9: { name: "window", solid: false, x: 3, y: 2 },
-    10: { name: "wall", solid: false, x: 4, y: 2 },
-    11: { name: "doorLeft", solid: false, x: 5, y: 2 },
-    12: { name: "doorRight", solid: true, x: 6, y: 2 },
-    13: { name: "topRoadLeft", solid: true, x: 5, y: 3 },
-    14: { name: "topRoadRight", solid: true, x: 6, y: 3 },
-    15: { name: "bottomRoadLeft", solid: true, x: 5, y: 4 },
-    16: { name: "bottomRoadRight", solid: true, x: 6, y: 4 }
+const entityTypes = { 
+    food: { color: 'red', points: +1, grow: true, shrink: false, respawn: true, sprite: 'apple'},
+    poison: { color: 'purple', points: 0, grow: false, shrink: true, respawn: true, sprite: null },
+    rock: { color: 'darkgrey', points: 0, grow: false, shrink: false, respawn: false, sprite: null },
+    hole: { color: 'brown', points: 0, grow: false, shrink: false, respawn: true, sprite: 'hole' },
+    moreFood: { color: 'red', points: +1, grow: true, shrink: false, respawn: true, sprite: 'apple'},
 };
 
-// LEVEL DATA
-const groundLayers = {
-    groundLevel1: [
-        [0,7,7,7,7,7,7,7,7,2],
-        [4,5,5,5,5,5,5,5,5,6],
-        [4,5,5,5,5,5,5,5,5,6],
-        [4,5,5,5,5,5,5,5,5,6],
-        [1,8,8,8,8,8,8,8,8,3],
-        [10,10,10,10,11,12,10,10,10,10],
-        [13,14,13,14,13,14,13,14,13,14],
-        [15,16,15,16,15,16,15,16,15,16],
-    ],
+let entities = [];
+window.addEventListener("keydown", changeDirection);
 
-    groundLevel2: [
-        [0,7,7,7,7,7,7,7,7,2],
-        [4,5,5,5,5,5,5,5,5,6],
-        [4,5,5,5,5,5,5,5,5,6],
-        [4,5,5,5,5,5,5,5,5,6],
-        [4,5,5,5,9,5,5,5,5,6],
-        [4,5,5,5,5,5,5,5,5,6],
-        [4,5,5,5,5,5,5,5,5,6],
-        [1,8,8,8,8,8,8,8,8,3],
-    ]
-};
 
-const topLayers = {
-    topLevel1: [
-        [0,7,9,7,7,7,7,7,7,2],
-        [4,5,9,5,5,5,5,5,5,6],
-        [4,5,9,9,5,5,5,9,5,6],
-        [4,5,5,5,5,5,5,5,5,6],
-        [1,8,8,8,8,8,8,8,8,3],
-        [10,10,10,10,11,12,10,10,10,10],
-        [13,14,13,14,13,14,13,14,13,14],
-        [15,16,15,16,15,16,15,16,15,16],
-    ],
-
-    topLevel2: [
-        [0,7,7,9,9,9,9,9,7,2],
-        [4,5,5,5,5,5,5,9,5,6],
-        [4,5,5,5,5,5,5,9,5,6],
-        [4,5,5,5,5,5,5,9,5,6],
-        [4,5,5,5,9,5,5,5,5,6],
-        [4,5,5,5,5,5,5,5,5,6],
-        [4,5,5,5,5,5,5,5,5,6],
-        [1,8,8,8,8,8,8,8,8,3],
-    ]
-};
-
-let currentGroundMap = groundLayers.groundLevel1;
-let currentTopMap = topLayers.topLevel1;
-
-function drawMap() {
-    for (let y = 0; y < currentGroundMap.length; y++) { //this is the GROUND layer
-        for (let x = 0; x < currentGroundMap[y].length; x++) {
+////////////////////////////////////////////////////////////////////////
+function nextTick(){ // if running set speed and clear board, draw, move snake, fnx game over, call self. loops n display game over
+    if (running){
+        setTimeout(()=>{
+            if (holeCD > 0)     holeCD--; // so no insta tele back
+            // tickHoleTimers();
+            clearBoard();
+            moveSnake();
+            snakeHoleCheck();
+            drawEntities();       
             
-            drawTile(currentGroundMap[y][x], x, y);
-        }
+            drawSnake();
+            checkGameOver();
+            nextTick();
+        }, 100); //higher num = slower
+    } else {
+        displayGameOver();
     }
-    for (let y = 0; y < currentTopMap.length; y++) { // this is the TOP layer
-        for (let x = 0; x < currentTopMap[y].length; x++) {
-        
-            drawTile(currentTopMap[y][x], x, y);
-        }
-    }
-}
+};
 
 
-//End of tile map
-//----------------------------------------------------------------------------------------------------
-//Above it the Tilemap
-//Below this is the testing for player movement
-//----------------------------------------------------------------------------------------------------
+function clearBoard() {
+    for (let y = 0; y < height; y += unitSize) {
+        for (let x = 0; x < width; x += unitSize) {
 
-//class and context can be moved to input.js
-class InputHandler {
-    constructor(){
-        //Key press
-        document.addEventListener('keydown', (event) => {
-            //alert(event.keyCode); //check for keypress and give alert in browser with keycode
-            switch(event.keyCode){
-                case 37: //37 is the keycode for left arrow key
-                    character.moveLeft();
-                    break;
-                case 38: //38 is the keycode for up arrow key
-                    character.moveUp();
-                    break;
-                case 39: //39 is the keycode for right arrow key
-                    character.moveRight();
-                    break;
-                case 40: //40 is the keycode for down arrow key
-                    character.moveDown();
-                    break;
+            // alternating grass colors
+            if ((x / unitSize + y / unitSize) % 2 === 0) {
+                ctx.fillStyle = "#7ccf5c"; // light grass
+            } else {
+                ctx.fillStyle = "#6bb84f"; // darker grass
             }
 
             ctx.fillRect(x, y, unitSize, unitSize);
@@ -201,21 +107,85 @@ class InputHandler {
     }
 }
 
-// function createFood() {
-//     function randomFood(min, max) {
-//         return Math.round((Math.random() * (max - min) + min) / unitSize) * unitSize;
-//     }
-
-//     foodX = randomFood(0, width - unitSize);
-//     foodY = randomFood(0, height - unitSize);
-// }
 ///////////////////////////////////////////////////////////////////
 function randomCoord(min,max){ // random pos maker
     const randPos = Math.round((Math.random() * (max - min) + min) / unitSize) * unitSize;
     return randPos;
-}  
+}
 
-////////////////////////////////////////////////////////////////////////////////////
+
+function changeDirection(event){  // change this for direction only
+    const key = event.key.toLowerCase();
+
+    if (["w", "a", "s", "d", "arrowup", "arrowdown", "arrowleft", "arrowright"].includes(key)) { // prevent scrolling
+        event.preventDefault();
+    }
+    if (inputQ.length < maxQ) {
+        inputQ.pop();
+        inputQ.unshift(event.keyCode);
+    } 
+}
+
+function checkGameOver(){ // game overs, make more like stone
+    switch(true){
+        case (snake[0].x < 0):
+            running = false;
+            break;
+        case (snake[0].x >= width): //gameover rightborder
+            running = false;
+            break;
+        case (snake[0].y >= height): //gameover bottom border
+            running = false;
+            break;
+        case (snake[0].y < 0): //gameover top border
+            running = false;
+            break;
+    }
+
+    if(snake.length === 1)
+        running = false;
+    for(let i = 1; i < snake.length; i++) { // for each body part (snake.length)
+        if(snake[i].x === snake[0].x && snake[i].y === snake[0].y) // if snake[0/head] would[i+=1]^ = snake body part spot game over
+            running = false;
+    }
+};
+
+function displayGameOver(){ // lol font, and message
+    ctx.font = "50px Ariel";
+    ctx.fillStyle = "black";
+    ctx.textAlign = "center";
+    ctx.fillText("GAME OVER!", width / 2, height / 2);
+};
+
+function resetGame(){ // make everything 0, start by going right, snake body arr, gamestart()
+    score = 0;
+    inputQ.length = 0; // to remove any prior input
+    xVelocity = unitSize;
+    yVelocity = 0;
+    running = false;
+    snake = [
+        { x: 100, y: 100 },
+        { x: 75, y: 100 },
+        { x: 50, y: 100 }
+    ];
+    gameStart();
+};
+// all the things in one place
+
+function drawEntities() { // for each ent draw on screen
+    entities.forEach(ent => {
+        // if (ent.sprite) { drawSprite(sprites[ent.sprite], ent.x, ent.y); //play time
+        if (ent.sprite === 'apple') { 
+            drawSprite(sprites.apple, ent.x, ent.y);
+        } else if (ent.sprite === 'hole'){
+            drawSprite(sprites.hole, ent.x, ent.y);
+        } else {
+            ctx.fillStyle = ent.color;
+            ctx.fillRect(ent.x, ent.y, unitSize, unitSize);
+        }
+    });
+}
+
 function moveSnake() { // moved stuff to move snake to limit snake direction change to change on tick
     if (inputQ.length > 0) {
         const keyPressed = inputQ.shift();
@@ -255,73 +225,8 @@ function moveSnake() { // moved stuff to move snake to limit snake direction cha
     const hitSomething = checkEntityCollision();
     if (!hitSomething) snake.pop();
 }
-function randomFood(min, max) {
-    return Math.round((Math.random() * (max - min) + min) / unitSize) * unitSize;
-}
-function createFood() {
-    foodX = randomFood(0, width - unitSize);
-    foodY = randomFood(0, height - unitSize);
-}
-
-// function moveSnake() {
-//     const head = {
-//         x: snake[0].x + xVelocity,
-//         y: snake[0].y + yVelocity
-//     };
-
-//     snake.unshift(head);
-
-//     if (head.x === foodX && head.y === foodY) {
-//         score++;
-//         scoreText.textContent = score;
-//         createFood();
-//     } else {
-//         snake.pop();
-//     }
-// }
-///////////////////////////////////////////////////////////////////////////////////////////
-function changeDirection(event){  // change this for direction only
-    const key = event.key.toLowerCase();
-
-    if (["w", "a", "s", "d", "arrowup", "arrowdown", "arrowleft", "arrowright"].includes(key)) { // prevent scrolling
-        event.preventDefault();
-    }
-    if (inputQ.length < maxQ) {
-        inputQ.push(event.keyCode);
-    }
-  
-};
-
-// function changeDirection(event) {
-//     const key = event.key.toLowerCase(); 
 
 
-//     if (["w", "a", "s", "d"].includes(key)) {
-//         event.preventDefault();
-//     }
-
-//     const goingUp = yVelocity === -unitSize;
-//     const goingDown = yVelocity === unitSize;
-//     const goingLeft = xVelocity === -unitSize;
-//     const goingRight = xVelocity === unitSize;
-
-//     if (key === "a" && !goingRight) {
-//         xVelocity = -unitSize;
-//         yVelocity = 0;
-//     } 
-//     else if (key === "w" && !goingDown) {
-//         xVelocity = 0;
-//         yVelocity = -unitSize;
-//     } 
-//     else if (key === "d" && !goingLeft) {
-//         xVelocity = unitSize;
-//         yVelocity = 0;
-//     } 
-//     else if (key === "s" && !goingUp) {
-//         xVelocity = 0;
-//         yVelocity = unitSize;
-//     }
-// }
 /////////////////////////////////////////////////////////////////////////////////////
 function checkEntityCollision() { // where ent is, if snake head there hit ent, upd n score points in arr,
     const entLocInd = entities.findIndex(ent => ent.x === snake[0].x && ent.y === snake[0].y)
@@ -338,164 +243,113 @@ function checkEntityCollision() { // where ent is, if snake head there hit ent, 
         snake.pop();
         snake.pop();
     }
-    // respawn ent // replace with new one of same type
     if (hit.type === 'hole') {
         teleportSnake(hit);
+        spawnEntity('hole');
+
         snake.pop();
     }
-    if (hit.respawn){
-        entities.splice(entLocInd, 1);
+    if (hit.type === 'moreFood'){
         spawnEntity(hit.type);
-    } else if (!hit.respawn) {
+    }  
+    if (hit.respawn && hit.type !== 'hole'){
+        spawnEntity(hit.type);
         entities.splice(entLocInd, 1);
     }
-        // double tap for more food
-    if (hit.type === 'moreFood'){
-        spawnEntity(hit.type)
-    } 
+    if (!hit.respawn && hit.type !== 'hole') {
+        entities.splice(entLocInd, 1);
+    }
+
+    // if (snake[-1].x === 'hole' && snake[-1].y === 'hole') {
+    //     entities.splice(entLocInd, 1); }
     // grow snake
     return true;
 }
 //////////////////////////////////////////////////////////////////////
 function teleportSnake(entrance) {
-    // find a different hole entity to act as the exit
-    if (holeCD > 0) return;
-    if (entrance.inUse) return;
-    const exitHole = entities.find(ent => ent.type === 'hole' && ent !== entrance && ent !== 'inUse');
-    if (!exitHole || entrance.inUse) return;
-    // move the snake head to the exit hole's position
+    const exitHole = entities.find(ent => ent.type === 'hole' && ent !== ent.inUse  );
+    if (entrance.cd > 0) return;
+    if (!exitHole) return;
+    /// coordinates
+    exitHole !== entrance;
+    // const enterX = entrance.x;
+    // const enterY = entrance.y;
     snake[0].x = exitHole.x;
     snake[0].y = exitHole.y;
+    //// cooldowns
+    entrance.cd = snake.length;
+    exitHole.cd = snake.length;
     entrance.inUse = true;
-     // only take out the entrance
-    // spawnEntity('hole'); // replace hole so i don't run into myself when going through hole
-    holeCD = 1;
+    exitHole.inUse = true;
+    spawnEntity('hole');
 }
+
+// function snakeHoleCheck () {
+//     entities.forEach((ent, index) => {
+//         // don't bother with non holes
+//         if (ent.type !== 'hole') return;
+//         // countdown CD
+//         if (ent.cd > 0) { 
+//             ent.cd--;
+//         }
+//         // when CD reaches 0
+//         if (ent.cd <= 0 && ent.inUse) {
+//             const snakeInHole = snake.some(part => part.x === ent.x && part.y === ent.y);
+//             if (!snakeInHole) {
+//                 entities.splice(index, 1);
+//                 ent.inUse = !ent.inUse;
+//             }
+//         }
+// })
+// }
+
+// function teleportSnake(entrance) {
+
+    
+//     const exitHole = entities.find(ent => ent.type === 'hole' && ent !== ent.inUse  );//&& ent !== 'inUse'
+//     // find a different hole entity to act as the exit
+//     if (holeCD > 0) return;
+//     if (entrance.inUse) return;
+//     if (!exitHole && entrance.inUse) return;
+//     // move the snake head to the exit hole's position
+//     snake[0].x = exitHole.x;
+//     snake[0].y = exitHole.y;
+//     holeCD = 2;
+//     entrance.inUse = true;
+//     // setTimeout( ()=> {
+//     //     exitHole.inUse = true;
+//     // },holeCD);
+    
+//     // if (entrance.inUse === false) then take it out, place in check entity collision under respawn
+//     // only take out the entrance
+//     // spawnEntity('hole'); // replace hole so i don't run into myself when going through hole
+    
+// }
 // show the hole while snake goes through it
-function tickHoleTimers() {
-    entities.forEach(ent => {
-        if (ent.type === 'hole' && ent.inUse) {
-            const snakeInHole = snake.some(part => part.x === ent.x && part.y === ent.y);
-            if (!snakeInHole) {
-                ent.inUse = false;
-                return false; // go away entrance
-            }
-        };
-    }
-}
 
-//class and context can be moved to character.js
-class Character {
-    constructor(gameWidth, gameHeight){
-        this.width = 10;
-        this.height = 10;
+// function snakeHoleCheck() {
+//     entities.forEach((ent, index) => {
+//         if (ent.type === 'hole' && ent.inUse) {
+//             const snakeInHole = snake.some(part => part.x === ent.x && part.y === ent.y);
+//         } 
+//         if (ent.type === 'hole' && !snakeInHole){
+//             // ent.inUse = !ent.inUse
+//             ent.splice(index, 1)
+//         }
 
-        this.maxSpeed = 7;
-        this.xspeed = 0;
-        this.yspeed = 0;
-
-        this.position = {
-            x: gameWidth / 2 - this.width / 2,
-            y: gameHeight / 2  - this.height / 2
-        };
-    }
-    moveLeft(){
-        this.xspeed = -this.maxSpeed;
-    }
-    moveRight(){
-        this.xspeed = this.maxSpeed;
-    }
-    moveUp(){
-        this.yspeed = -this.maxSpeed;
-    }
-    moveDown(){
-        this.yspeed = this.maxSpeed;
-    }
-    xstop(){
-        this.xspeed = 0;
-    }
-    ystop(){
-        this.yspeed = 0;
-    }
-
-    draw(ctx){
-        ctx.fillStyle = '#0ff'
-        ctx.fillRect(this.position.x, this.position.y, this.width, this.height);
-    }
-
-    update(deltaTime){
-        if(!deltaTime) return;
-
-        this.position.x += this.xspeed;
-        this.position.y += this.yspeed;
-
-        //keeps square within bounds of canvas
-        if(this.position.x < 0) this.position.x = 0;
-        if(this.position.x + this.width > GAME_WIDTH) this.position.x = GAME_WIDTH - this.width;
-
-        if(this.position.y < 0) this.position.y = 0;
-        if(this.position.y + this.height > GAME_HEIGHT) this.position.y = GAME_HEIGHT - this.height;
-
-    }
-}
-let character = new Character(GAME_WIDTH, GAME_HEIGHT);
-character.draw(ctx);
-new InputHandler();
-let lastTime = 0;
-//moved the game loop to the bottom, it is also being used for the tile map
-//----------------------------------------------------------------------------------------------------
-//Above this was all of the testing for possible player movement 
-//Below 
-//----------------------------------------------------------------------------------------------------
-
-//gameloop that updates every frame to redraw the canvas and player
-function gameLoop(timestamp){
-    //used for tilemap (drawing tiles first so that players are drawn over them)
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    drawMap();
-    //----------------------------
-
-    //used for player movement
-    let deltaTime = timestamp - lastTime;
-    lastTime = timestamp;
-
-    //ctx.clearRect(0,0, GAME_WIDTH, GAME_HEIGHT);
-    character.update(deltaTime);
-    character.draw(ctx);
+//         if (ent.type === 'hole' && ent.inUse !== null && !ent.inUse )
+            
+//         //////////////////////////////
+//         if (ent === exitHole && snake[snake.length-1].x === exitHole.x && snake[snake.length-1].y === exitHole)
+//             if (snake[snake.length -1].x === ent.x && snake[snake.length -1].y === ent.y) {             
+//     }
+//     );
     
+// }
 
-    requestAnimationFrame(gameLoop);
-    //------------------------------
-}
 
-/* =========================
-   LEVEL SWITCHING (DEMO)
-========================= */
-window.addEventListener("keydown", e => {
-    if (e.key === "1") {
-        currentGroundMap = groundLayers.groundLevel1;
-        currentTopMap = topLayers.topLevel1;
-    }
-    if (e.key === "2") {
-        currentGroundMap = groundLayers.groundLevel2;
-        currentTopMap = topLayers.topLevel2;
-    }
-});
-    
-// START GAME when TILESET LOADS
-groundTileSheet.onload = () => {
-    //TODO only when both load
-    gameLoop();
-}
 
-const mapTiles = {
-    'R': 'rock',
-    'F': 'food',
-    'H': 'hole',
-    'P': 'poison',
-    'M': 'moreFood'
-};
-
+////////////////////////////////////////////////////////////////////////////////
 function spawnEntity(type) { // insert entity into arr and generate coord for ent
     let x, y;
     let attempts = 0;
@@ -510,43 +364,13 @@ function spawnEntity(type) { // insert entity into arr and generate coord for en
         snake.some(s => s.x === x && s.y === y )
     );
     const ent = {
-        type,
-        x,
-        y,
-        ...entityTypes[type]    // spreads in color, points, etc
-        };
-
+        type,  x,  y,  ...entityTypes[type]    // spreads in color, points, etc
+    };
     if (type === 'hole') {
         ent.inUse = null;
     }
     entities.push(ent);
 }
-
-const levels = [{
-    level: 1,
-    speed: 150,
-    map: [            
-
-        "RRRRRRRRRRRRRRRRRR",
-        "R................R",
-        "R..RR........RR..R",
-        "R................R",
-        "R....RRRRRR......R",
-        "R................R",
-        "R..RR........RR..R",
-        "R................R",
-        "RRRRRRRRRRRRRRRRRR",
-        ],
-
-        entities: [
-            { type:  'food', qty: 1 },
-            { type:  'hole', qty: 2 },
-            { type:  'poison', qty: 2 },
-        ],
-        // winCon: {score, food eaten, poison eaten}
-}
-]
-
 
 function drawSprite(img, x, y) {
     ctx.drawImage(img, x, y, unitSize, unitSize);
@@ -614,9 +438,7 @@ function drawSnake() {
     }
 }
 
-// function drawFood() {
-//     drawSprite(sprites.apple, foodX, foodY);
-// }
+
 // BUTTONS
 document.getElementById("back-to-level-choice")
   .addEventListener("click", () => {
@@ -653,58 +475,6 @@ const mapTiles = {
     'H': 'hole',
     'M': 'moreFood',
 };
-
-function loadMap(level) {
-    level.map.forEach((row, rowIndex) => {
-        [...row].forEach((char, colIndex) => {
-            if (mapTiles[char]) {
-                entities.push({
-                    type: mapTiles[char],
-                    x: colIndex * unitSize,
-                    y: rowIndex * unitSize,
-                    ...entityTypes[mapTiles[char]]
-                });
-            }
-        });
-    });
-}
-//BUTTONS
-document.getElementById("back-to-level-choice")
-  .addEventListener("click", () => {
-    window.parent.postMessage(
-      { type: "SWITCH_PAGE", 
-        page: "Level_Choice_Resources/level-choice.html",
-        game: "Roguelike" },
-      "*"
-    );
-  }
-);
-
-document.getElementById("back-to-game-choice")
-  .addEventListener("click", () => {
-    window.parent.postMessage(
-      { type: "SWITCH_PAGE", 
-        page: "Game_Choice_Resources/game-choice.html"},
-      "*"
-    );
-  }
-);
-
-function loadLevel(levelName) {
-    const level = levels[levelName];
-    if (!level) {
-        console.log(`loadLevel error`);
-        return;
-    }
-    if (level.map) loadMap(level);
-    level.entities.forEach(({ type, count }) => {
-        for (let i = 0; i < count; i++) spawnEntity(type);
-    });
-    // currentMap = level.map;
-    // entities = level.entities;
-    // puzzleComboTimer();
-}
-
 
 const levels = {
     
@@ -780,6 +550,40 @@ const levels = {
     }
 };
 
+function loadMap(level) {
+    level.map.forEach((row, rowIndex) => {
+        [...row].forEach((char, colIndex) => {
+            if (mapTiles[char]) {
+                entities.push({
+                    type: mapTiles[char],
+                    x: colIndex * unitSize,
+                    y: rowIndex * unitSize,
+                    ...entityTypes[mapTiles[char]]
+                });
+            }
+        });
+    });
+}
+
+
+function loadLevel(levelName) {
+    const level = levels[levelName];
+    if (!level) {
+        console.log(`loadLevel error`);
+        return;
+    }
+    if (level.map) loadMap(level);
+    level.entities.forEach(({ type, count }) => {
+        for (let i = 0; i < count; i++) spawnEntity(type);
+    });
+    // currentMap = level.map;
+    // entities = level.entities;
+    // puzzleComboTimer();
+}
+
+
+
+
 // window.addEventListener("message", (event) => {
 //     if (!event.data || event.data.type !== "SWITCH_PAGE") return;
 //     if (!event.data.level) return;
@@ -822,3 +626,4 @@ function gameStart() { // running = true, ent arr clear iterate food, poison
     drawSnake();
     nextTick();
 }
+
