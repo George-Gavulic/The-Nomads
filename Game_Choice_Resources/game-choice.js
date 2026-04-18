@@ -1,7 +1,7 @@
 // Start the menu music
 window.parent.postMessage({
   type: 'TRIGGER_BGM',
-  file: 'Sounds/Loop_Game_Choice_Background.mp3' // Path to your looping music file
+  file: 'Sounds/Loop_Game_Choice_Background1.mp3' // Path to your looping music file
 }, '*');
 
 document.getElementById("luggage-game-button")
