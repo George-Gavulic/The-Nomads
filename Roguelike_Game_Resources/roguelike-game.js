@@ -546,8 +546,8 @@ const levels = {
         map: [
             "RRRRRRRRRRRRRRRRRRRRRRRR",
             "R..R...................R",
-            "R..R....RRRRRRRR.......R",
-            "R..RRR.....R........R..R",
+            "R..R...RRRRRRRRR.......R",
+            "R..RR......R........R..R",
             "R..R.......R........R..R",
             "R......RR..R........R..R",
             "R.....R....R.R......R..R",
