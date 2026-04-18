@@ -353,14 +353,14 @@ const levels = {
 
         ],
         blocks: [
-            { shape: "large_tan_table", x: 22, y: 1, goals: [{x: 14, y: 1}], highlight: "yellow" },
-            { shape: "large_tan_table_vert", x: 23, y: 3, goals: [{x: 14, y: 1},{x: 15, y: 1}], highlight: "yellow" },
+            { shape: "large_tan_table", x: 22, y: 1, goals: [{x: 14, y: 1}], highlight: "brown" },
+            { shape: "large_tan_table_vert", x: 23, y: 3, goals: [{x: 14, y: 1},{x: 15, y: 1}], highlight: "brown" },
             { shape: "white_side_chair", x: 22, y: 2, goals: [{x: 22, y: 1},{x: 23, y: 1}], highlight: "white" },
             { shape: "white_side_chair", x: 22, y: 3, goals: [{x: 22, y: 1},{x: 23, y: 1}], highlight: "white" },
             { shape: "white_side_chair", x: 22, y: 4, goals: [{x: 22, y: 1},{x: 23, y: 1}], highlight: "white" },
             { shape: "white_side_chair", x: 22, y: 5, goals: [{x: 22, y: 1},{x: 23, y: 1}], highlight: "white" },
             { shape: "lamp", x: 17, y: 4, goals: [{x: 24, y: 2}], highlight: "yellow" },
-            { shape: "large_tan_table_vert", x: 18, y: 2, goals: [{x: 14, y: 1},{x: 15, y: 1}], highlight: "yellow" },
+            { shape: "large_tan_table_vert", x: 18, y: 2, goals: [{x: 14, y: 1},{x: 15, y: 1}], highlight: "brown" },
             { shape: "white_side_chair", x: 17, y: 2, goals: [{x: 22, y: 1},{x: 23, y: 1}], highlight: "white" }
         ]
     },
@@ -632,21 +632,43 @@ const levels = {
     },
 
     level15: { 
-        map:    [
-            [900,900,900,900,900,900,900,900,900,900,900,900,900,900,900,900,900,900,900,900,900,900,900,900,900,900], 
-            [900,900,900,900,900,900,900,900,900,900,900,900,900,900,900,900,900,900,900,900,900,900,900,900,900,900], 
-            [900,900,900,900,900,900,900,900,900,900,900,900,900,900,900,900,900,900,900,900,900,900,900,900,900,900], 
-            [900,900,900,900,900,900,900,900,900,900,900,900,900,900,900,900,900,900,900,900,900,900,900,900,900,900],
-            [900,900,900,900,900,900,900,900,900,900,900,900,900,900,900,900,900,900,900,900,900,900,900,900,900,900],
-            [900,900,900,900,900,900,900,900,900,900,900,900,900,900,900,900,900,900,900,900,900,900,900,900,900,900],
-            [900,900,900,900,900,900,900,900,900,900,900,900,900,900,900,900,900,900,900,900,900,900,900,900,900,900],
-            [900,900,900,900,900,900,900,900,900,900,900,900,900,900,900,900,900,900,900,900,900,900,900,900,900,900],
-            [900,900,900,900,900,900,900,900,900,900,900,900,900,900,900,900,900,900,900,900,900,900,900,900,900,900],
-            [900,900,900,900,900,900,900,900,900,900,900,900,900,900,900,900,900,900,900,900,900,900,900,900,900,900],
+            map:    [
+            [900,900,900,200,207,207,207,207,207,207,207,207,207,207,986,998,987,207,207,207,202,200,978,979,207,202],
+            [900,900,900,204,214,213,214,213,214,213,214,213,214,213,205,205,205,205,205,205,206,204,209,209,209,206],
+            [900,900,900,204,214,213,214,213,214,213,214,213,214,213,205,205,205,205,205,205,206,204,209,209,209,988],
+            [200,207,207,218,214,213,214,213,214,213,214,213,214,213,205,205,205,205,205,205,206,204,209,209,209,997],
+            [204,205,205,205,205,205,205,205,205,205,214,213,214,213,205,205,205,205,205,205,206,204,209,209,209,989],
+            [204,205,205,205,205,205,205,205,205,205,214,213,214,213,205,205,205,205,205,205,216,218,209,209,209,206],
+            [204,205,205,205,205,205,205,205,205,205,214,213,214,213,214,213,214,213,214,213,214,213,209,209,209,206],
+            [204,205,205,205,205,205,205,205,205,205,214,213,214,213,214,213,214,213,214,213,214,213,209,209,209,206],
+            [204,205,205,205,205,205,205,205,205,205,214,213,214,213,214,213,214,213,214,213,214,213,209,209,209,206],
+            [201,208,208,208,208,208,208,208,208,208,208,208,208,208,208,208,208,208,208,208,208,208,208,208,208,203],
 
         ],
         blocks: [
-
+            { shape: "large_tan_table", x: 22, y: 1, goals: [{x: 14, y: 1}], highlight: "brown" },
+            { shape: "large_tan_table", x: 12, y: 5, goals: [{x: 14, y: 1}], highlight: "brown" },
+            { shape: "large_tan_table", x: 10, y: 7, goals: [{x: 14, y: 1}], highlight: "brown" },
+            { shape: "large_tan_table", x: 5, y: 3, goals: [{x: 14, y: 1}], highlight: "brown" },
+            { shape: "large_tan_table_vert", x: 23, y: 3, goals: [{x: 14, y: 1},{x: 15, y: 1}], highlight: "brown" },
+            { shape: "large_tan_table_vert", x: 23, y: 6, goals: [{x: 14, y: 1},{x: 15, y: 1}], highlight: "brown" },
+            { shape: "large_tan_table_vert", x: 3, y: 5, goals: [{x: 14, y: 1},{x: 15, y: 1}], highlight: "brown" },
+            { shape: "white_side_chair", x: 22, y: 2, goals: [{x: 22, y: 1},{x: 23, y: 1}], highlight: "white" },
+            { shape: "white_side_chair", x: 22, y: 4, goals: [{x: 22, y: 1},{x: 23, y: 1}], highlight: "white" },
+            { shape: "white_side_chair", x: 22, y: 5, goals: [{x: 22, y: 1},{x: 23, y: 1}], highlight: "white" },
+            { shape: "white_side_chair", x: 22, y: 7, goals: [{x: 22, y: 1},{x: 23, y: 1}], highlight: "white" },
+            { shape: "white_side_chair", x: 2, y: 5, goals: [{x: 22, y: 1},{x: 23, y: 1}], highlight: "white" },
+            { shape: "white_side_chair", x: 2, y: 6, goals: [{x: 22, y: 1},{x: 23, y: 1}], highlight: "white" },
+            { shape: "white_chair", x: 5, y: 1, goals: [{x: 22, y: 1},{x: 23, y: 1}], highlight: "white" },
+            { shape: "white_chair", x: 7, y: 1, goals: [{x: 22, y: 1},{x: 23, y: 1}], highlight: "white" },
+            { shape: "white_chair", x: 12, y: 3, goals: [{x: 22, y: 1},{x: 23, y: 1}], highlight: "white" },
+            { shape: "white_chair", x: 14, y: 3, goals: [{x: 22, y: 1},{x: 23, y: 1}], highlight: "white" },
+            { shape: "lamp", x: 17, y: 4, goals: [{x: 24, y: 2}], highlight: "yellow" },
+            { shape: "lamp", x: 7, y: 6, goals: [{x: 24, y: 2}], highlight: "yellow" },
+            { shape: "lamp", x: 1, y: 5, goals: [{x: 24, y: 2}], highlight: "yellow" },
+            { shape: "lamp", x: 15, y: 1, goals: [{x: 24, y: 2}], highlight: "yellow" },
+            { shape: "large_tan_table_vert", x: 18, y: 2, goals: [{x: 14, y: 1},{x: 15, y: 1}], highlight: "brown" },
+            { shape: "white_side_chair", x: 17, y: 2, goals: [{x: 22, y: 1},{x: 23, y: 1}], highlight: "white" }
         ]
     },
 
