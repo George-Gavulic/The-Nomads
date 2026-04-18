@@ -4,7 +4,6 @@ if (!document.getElementById("my-circle-button")) { // if already open, do nothi
   btn.className = "my-circle-button"; // the look of all of this is crafted in good-game-button.css
   btn.textContent = "GG";
 
-  
   btn.addEventListener("click", () => {
     console.log("Circle button clicked");
     openGamePanel();
@@ -44,6 +43,7 @@ function closeGamePanel() {
   const iframe = document.getElementById("game-panel-frame");
   if (iframe) {
     iframe.remove();
+    stopBackgroundMusic();
   }
 }
 
@@ -65,41 +65,9 @@ function switchPage(newPageUrl) {
   iframe.src = resolvedUrl;
 }
 
-// function debounce(func, timeout = 50) {
-//   let timer;
-//   return (...args) => {
-//     clearTimeout(timer);
-//     timer = setTimeout(() => {
-//       func.apply(this, args);
-//     }, timeout);
-//   };
-// }
-
-// const playSound = (fileName) => {
-
-//   const soundUrl = chrome.runtime.getURL(fileName.toLowerCase()); 
-  
-//   console.log("Attempting to play:", soundUrl);
-//   const audio = new Audio(soundUrl);
-//   audio.play().catch(err => console.error("Playback Error:", err.name, err.message));
-// };
-
-// const debouncedPlay = debounce((file) => playSound(file), 50);
-
-// window.addEventListener('message', (event) => {
-//   // Check if message is the sound trigger
-//   if (event.data && event.data.type === 'TRIGGER_SOUND') {
-//     // Pass the filename from the iframe (e.g., 'pop.mp3')
-//     console.log("Received sound trigger for:", event.data.file);
-//     debouncedPlay(event.data.file);// || 'default.mp3');
-//   }
-// });
-
-
 // 1. Configuration: List your sounds here
 const SOUND_FILES = [
   "Sounds/Pickup_Sound.mp3",
-  // "sounds/error.wav",
   "Sounds/Success.mp3",
 ];
 
@@ -156,11 +124,43 @@ const playSound = (requestedPath) => {
 const fastPlay = debounceImmediate((path) => playSound(path), 50);
 
 // 5. Message Listener
-window.addEventListener('message', (event) => {
-  if (event.data?.type === 'TRIGGER_SOUND' && event.data.file) {
-    fastPlay(event.data.file);
+//moved to the other listeners (lets keep this code organized)
+
+// 6. Background Music (BGM) Manager
+// ==========================================
+let currentBGM = null;
+let currentBgmUrl = ""; // Keep track of the URL to prevent restarting the same song
+
+function playBackgroundMusic(path) {
+  const targetUrl = chrome.runtime.getURL(path);
+
+  // If the requested song is ALREADY playing, just let it keep going seamlessly
+  if (currentBGM && currentBgmUrl === targetUrl) {
+    return; 
   }
-});
+
+  // If a different song is playing, stop it cleanly
+  stopBackgroundMusic();
+
+  // Load and play the new song
+  currentBGM = new Audio(targetUrl);
+  currentBGM.loop = true;  // This makes it loop endlessly!
+  currentBGM.volume = 0.3; // BGM is usually quieter than SFX (0.0 to 1.0)
+  currentBgmUrl = targetUrl;
+
+  currentBGM.play().catch(e => {
+    console.error("BGM Playback error:", e.message);
+  });
+}
+
+function stopBackgroundMusic() {
+  if (currentBGM) {
+    currentBGM.pause();
+    currentBGM.currentTime = 0; // Rewind to the start
+    currentBGM = null;
+    currentBgmUrl = "";
+  }
+}
 
 //Here will be the location for all of the page switching functions
 // Listens for messages from the iframe to switch pages
@@ -168,21 +168,38 @@ let selectedGame = "Sceen Manager Default Game"; // this will store the game cho
 let selectedLevel = "Screen Manager Default Level"; // this will store the level choice, and can be imported by the game page to load the correct level. It will be updated when the level choice page sends a message with the level choice.
 let score = -998;
 
-window.addEventListener("message", (event) => {
+
+// Listens for messages from the iframe
+window.addEventListener('message', (event) => {
   if (!event.data || !event.data.type) return;
 
+  // -- SOUND EFFECTS --
+  if (event.data.type === 'TRIGGER_SOUND' && event.data.file) {
+    fastPlay(event.data.file);
+  }
+
+  // -- BACKGROUND MUSIC --
+  if (event.data.type === 'TRIGGER_BGM') {
+    if (event.data.file) {
+      playBackgroundMusic(event.data.file);
+    } else {
+      // If the iframe sends TRIGGER_BGM with no file, we stop the music
+      stopBackgroundMusic(); 
+    }
+  }
+
+  // -- PAGE SWITCHING --
   if (event.data.type === "SWITCH_PAGE") {
-    //alert("Screen Manager received game choice: " + event.data.game);
-    if (event.data.game) {
-      selectedGame = event.data.game;
-    }
-    if (event.data.level) {
-      selectedLevel = event.data.level;
-    }
-    if (event.data.score){
-      score = event.data.score;
-    }
+    if (event.data.game) selectedGame = event.data.game;
+    if (event.data.level) selectedLevel = event.data.level;
+    if (event.data.score) score = event.data.score;
+    
     switchPage(event.data.page);
   }
 });
 
+window.addEventListener('message', (event) => {
+  if (event.data?.type === 'TRIGGER_SOUND' && event.data.file) {
+    fastPlay(event.data.file);
+  }
+});
