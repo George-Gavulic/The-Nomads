@@ -410,12 +410,12 @@ const levels = {
         ],
         blocks: [
             { shape: "large_brown_endtable", x: 1, y: 1, goals: [{x: 18, y: 5},{x: 18, y: 6}], highlight: "brown" },
-            { shape: "large_tan_table_vert", x: 18, y: 5, goals: [{x: 12, y: 1},{x: 13, y: 1}], highlight: "yellow" },
+            { shape: "large_tan_table_vert", x: 18, y: 5, goals: [{x: 12, y: 1}], highlight: "orange" },
             { shape: "white_side_chair", x: 17, y: 5, goals: [{x: 1, y: 2}], highlight: "white" },
-            { shape: "large_tan_table_vert", x: 15, y: 5, goals: [{x: 12, y: 1},{x: 13, y: 1}], highlight: "yellow" },
-            { shape: "large_orange_bookcase", x: 12, y: 6, goals: [{x: 17, y: 5}], highlight: "orange" },
+            { shape: "large_tan_table_vert", x: 15, y: 5, goals: [{x: 12, y: 1}], highlight: "orange" },
+            { shape: "large_orange_bookcase", x: 12, y: 6, goals: [{x: 17, y: 5}], highlight: "brown" },
             { shape: "white_chair", x: 12, y: 2, goals: [{x: 1, y: 2}], highlight: "white" },
-            { shape: "orange_clock", x: 10, y: 3, goals: [{x: 18, y: 5}], highlight: "orange" },
+            { shape: "orange_clock", x: 10, y: 3, goals: [{x: 18, y: 5}], highlight: "brown" },
         ]
     },
 
@@ -462,11 +462,11 @@ const levels = {
         blocks: [
             { shape: "white_chair", x: 15, y: 4, goals: [{x: 1, y: 3},{x: 1, y: 4}], highlight: "white" },
             { shape: "white_side_chair", x: 17, y: 5, goals: [{x: 1, y: 3},{x: 1, y: 4}], highlight: "white" },
-            { shape: "lamp", x: 7, y: 4, goals: [{x: 1, y: 3}], highlight: "yellow" },
+            { shape: "lamp", x: 7, y: 4, goals: [{x: 1, y: 3}], highlight: "white" },
             { shape: "brown_stool", x: 2, y: 3, goals: [{x: 22, y: 3},{x: 22, y: 4},{x: 22, y: 5}], highlight: "brown" },
             { shape: "brown_stool", x: 1, y: 5, goals: [{x: 22, y: 3},{x: 22, y: 4},{x: 22, y: 5}], highlight: "brown" },
             { shape: "large_brown_endtable", x: 16, y: 2, goals: [{x: 21, y: 3}], highlight: "brown" },
-            { shape: "orange_clock", x: 10, y: 3, goals: [{x: 21, y: 3}], highlight: "orange" },
+            { shape: "orange_clock", x: 10, y: 3, goals: [{x: 21, y: 3}], highlight: "brown" },
         ]
     },
 
