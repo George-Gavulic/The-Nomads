@@ -284,24 +284,24 @@ function teleportSnake(entrance) {
     spawnEntity('hole');
 }
 
-// function snakeHoleCheck () {
-//     entities.forEach((ent, index) => {
-//         // don't bother with non holes
-//         if (ent.type !== 'hole') return;
-//         // countdown CD
-//         if (ent.cd > 0) { 
-//             ent.cd--;
-//         }
-//         // when CD reaches 0
-//         if (ent.cd <= 0 && ent.inUse) {
-//             const snakeInHole = snake.some(part => part.x === ent.x && part.y === ent.y);
-//             if (!snakeInHole) {
-//                 entities.splice(index, 1);
-//                 ent.inUse = !ent.inUse;
-//             }
-//         }
-// })
-// }
+function snakeHoleCheck () {
+    entities.forEach((ent, index) => {
+        // don't bother with non holes
+        if (ent.type !== 'hole') return;
+        // countdown CD
+        if (ent.cd > 0) { 
+            ent.cd--;
+        }
+        // when CD reaches 0
+        if (ent.cd <= 0 && ent.inUse) {
+            const snakeInHole = snake.some(part => part.x === ent.x && part.y === ent.y);
+            if (!snakeInHole) {
+                entities.splice(index, 1);
+                ent.inUse = !ent.inUse;
+            }
+        }
+})
+}
 
 // function teleportSnake(entrance) {
 
@@ -440,26 +440,26 @@ function drawSnake() {
 
 
 // BUTTONS
-document.getElementById("back-to-level-choice")
-  .addEventListener("click", () => {
-    window.parent.postMessage(
-      { type: "SWITCH_PAGE", 
-        page: "Level_Choice_Resources/level-choice.html",
-        game: "Roguelike" },
-      "*"
-    );
-  }
-);
+// document.getElementById("back-to-level-choice")
+//   .addEventListener("click", () => {
+//     window.parent.postMessage(
+//       { type: "SWITCH_PAGE", 
+//         page: "Level_Choice_Resources/level-choice.html",
+//         game: "Roguelike" },
+//       "*"
+//     );
+//   }
+// );
 
-document.getElementById("back-to-game-choice")
-  .addEventListener("click", () => {
-    window.parent.postMessage(
-      { type: "SWITCH_PAGE", 
-        page: "Game_Choice_Resources/game-choice.html"},
-      "*"
-    );
-  }
-);
+// document.getElementById("back-to-game-choice")
+//   .addEventListener("click", () => {
+//     window.parent.postMessage(
+//       { type: "SWITCH_PAGE", 
+//         page: "Game_Choice_Resources/game-choice.html"},
+//       "*"
+//     );
+//   }
+// );
 
 resetBtn.addEventListener("click", resetGame);
 // loadLevel('level1');
@@ -481,20 +481,20 @@ const levels = {
     level1: {
         // speed: 150, // could change speed who knows
         map: [
-            "RRRRRRRRRRRRRRRRRRRR",
-            "R..................R",
-            "R..................R",
-            "R..................R",
-            "R..................R",
-            "R..................R",
-            "R..................R",
-            "R..................R",
-            "R..................R",
-            "R..................R",
-            "R..................R",
-            "R..................R",
-            "R..................R",
-            "RRRRRRRRRRRRRRRRRRRR"
+            "RRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR",
+            "R..............................R",
+            "R..............................R",
+            "R..............................R",
+            "R..............................R",
+            "R..............................R",
+            "R..............................R",
+            "R..............................R",
+            "R..............................R",
+            "R..............................R",
+            "R..............................R",
+            "R..............................R",
+            "R..............................R",
+            "RRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR"
         ],
         entities: [
             { type: 'food',    count: 1 },
