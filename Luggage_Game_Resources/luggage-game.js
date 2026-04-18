@@ -310,8 +310,8 @@ const levels = {
         ],
         blocks: [
             { shape: "orange_couch", x: 6, y: 4, goals: [{x: 8, y: 1},{x: 9, y: 1},{x: 10, y: 1},{x: 11, y: 1}], highlight: "orange" },
-            { shape: "large_tan_table", x: 7, y: 2, goals: [{x: 14, y: 3}], highlight: "yellow" },
-            { shape: "small_tan_bookcase", x: 10, y: 4, goals: [{x: 15, y: 3}], highlight: "yellow" },
+            { shape: "large_tan_table", x: 7, y: 2, goals: [{x: 14, y: 3}], highlight: "white" },
+            { shape: "small_tan_bookcase", x: 10, y: 4, goals: [{x: 15, y: 3}], highlight: "white" },
             { shape: "white_side_chair", x: 15, y: 5, goals: [{x: 16, y: 3}], highlight: "white" },
         ]
     },
@@ -380,17 +380,17 @@ const levels = {
 
         ],
         blocks: [
-            { shape: "small_orange_endtable", x: 2, y: 1, goals: [{x: 16, y: 7},{x: 17, y: 7},{x: 18, y: 7}], highlight: "orange" },
-            { shape: "large_tan_table_vert", x: 3, y: 3, goals: [{x: 4, y: 6},{x: 5, y: 6}], highlight: "yellow" },
+            { shape: "small_orange_endtable", x: 2, y: 1, goals: [{x: 16, y: 7},{x: 17, y: 7},{x: 18, y: 7}], highlight: "brown" },
+            { shape: "large_tan_table_vert", x: 3, y: 3, goals: [{x: 4, y: 6},{x: 5, y: 6}], highlight: "orange" },
             { shape: "white_back_chair", x: 15, y: 1, goals: [{x: 9, y: 1},{x: 10, y: 1}], highlight: "white" },
             { shape: "white_chair", x: 12, y: 3, goals: [{x: 9, y: 1},{x: 10, y: 1}], highlight: "white" },
             { shape: "white_side_chair", x: 10, y: 4, goals: [{x: 9, y: 1},{x: 10, y: 1}], highlight: "white" },
             { shape: "white_chair", x: 17, y: 2, goals: [{x: 9, y: 1},{x: 10, y: 1}], highlight: "white" },
-            { shape: "lamp", x: 7, y: 4, goals: [{x: 4, y: 6},{x: 5, y: 6}], highlight: "yellow" },
-            { shape: "large_orange_bookcase", x: 2, y: 6, goals: [{x: 16, y: 6},{x: 17, y: 6},{x: 18, y: 6}], highlight: "orange" },
+            { shape: "lamp", x: 7, y: 4, goals: [{x: 4, y: 6},{x: 5, y: 6}], highlight: "orange" },
+            { shape: "large_orange_bookcase", x: 2, y: 6, goals: [{x: 16, y: 6},{x: 17, y: 6},{x: 18, y: 6}], highlight: "brown" },
             { shape: "white_back_chair", x: 7, y: 7, goals: [{x: 9, y: 1},{x: 10, y: 1}], highlight: "white" },
-            { shape: "lamp", x: 15, y: 5, goals: [{x: 4, y: 6},{x: 5, y: 6}], highlight: "yellow" },
-            { shape: "large_tan_table_vert", x: 16, y: 4, goals: [{x: 4, y: 6},{x: 5, y: 6}], highlight: "yellow" },
+            { shape: "lamp", x: 15, y: 5, goals: [{x: 4, y: 6},{x: 5, y: 6}], highlight: "orange" },
+            { shape: "large_tan_table_vert", x: 16, y: 4, goals: [{x: 4, y: 6},{x: 5, y: 6}], highlight: "orange" },
         ]
     },
 
