@@ -955,11 +955,29 @@ function checkIfGate(block, testX, testY) {
             //check if player just completed the game, if so send win message and switch screen messgae
 
             if (blocks.length == 0) { 
+                //unlock next level 
+                let i = 0;
+                for (i; i <= 16; i++){
+                    let temp = ('level'+i);
+                    if (temp == currentLevel){
+                        i++; //unlock the next level
+                        console.log("sending to screen: " + 'level'+i);
+                        window.parent.postMessage(
+                            { 
+                                type: "UNLOCK_LEVEL", 
+                                unlock: 'level'+i
+                            }, 
+                            "*"
+                        );
+                    }
+                }
+
                 // 1. Save the score data into a temporary "pending" slot
+                //send data to leaderboard
                 const pendingData = {
                     level: currentLevel,
                     score: points,
-                    game: "luggageGame" // Put your actual game name here
+                    game: "Luggage" // Put your actual game name here
                 };
                 localStorage.setItem("pendingScoreData", JSON.stringify(pendingData));
 

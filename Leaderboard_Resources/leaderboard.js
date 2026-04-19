@@ -6,6 +6,7 @@ window.parent.postMessage({
 
 const tableBody = document.getElementById("tableBody");
 const leadh1 = document.getElementById("lead");
+let currentGame = "default";
 
 const dummyScores = [
     // { iter: 1, name: "dood", score: 85, day: "1/1/2026" },
@@ -62,6 +63,7 @@ function makeATable(scoresArray, gameContext = "", levelContext = "", newScore =
             <td>${entry.day}</td>`;
         tableBody.appendChild(row);
     });
+    currentGame = gameContext;
 
     // Update Header Text dynamically
     if (gameContext && levelContext) {
@@ -114,11 +116,22 @@ checkForPendingScore();
 
 document.getElementById("backButton")
   .addEventListener("click", () => {
-    window.parent.postMessage(
-      { type: "SWITCH_PAGE", 
-        page: "Level_Choice_Resources/level-choice.html",
-        game: "Luggage" },
-      "*"
-    );
+    console.log(currentGame);
+    if (currentGame == "Luggage"){
+        window.parent.postMessage(
+            { type: "SWITCH_PAGE", 
+                page: "Level_Choice_Resources/level-choice.html",
+                game: "Luggage" },
+            "*"
+        );
+    } else if (currentGame == "Roguelike"){
+        window.parent.postMessage(
+            { type: "SWITCH_PAGE", 
+                page: "Level_Choice_Resources/level-choice.html",
+                game: "Roguelike" },
+            "*"
+        );
+    }
+
   }
 );
