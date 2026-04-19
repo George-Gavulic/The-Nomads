@@ -1,3 +1,10 @@
+window.parent.postMessage({
+  type: 'TRIGGER_BGM',
+  file: 'Sounds/Loop_Leaderboard_Background_Uplifting.mp3' // Path to your looping music file
+}, '*'
+);
+
+
 const tableBody = document.getElementById("tableBody");
 const leadh1 = document.getElementById("lead");
 

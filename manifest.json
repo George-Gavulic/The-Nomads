@@ -10,6 +10,7 @@
   "web_accessible_resources": [
     {
       "resources": [
+        "Sounds/*",
         "Hidden Panel Resources/hidden-panel.html",
         "Game_Choice_Resources/game-choice.html",
         "Game_Choice_Resources/game-choice.css",
