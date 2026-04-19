@@ -292,7 +292,7 @@ function checkEntityCollision() { // where ent is, if snake head there hit ent, 
     // readability
     const hit = entities[entLocInd];
     score += hit.points;
-    scoreText.textContent = `Score: ${score}`;
+    scoreText.textContent = `${score}`;
     // shrink
     if (hit.type === 'rock') {
         return running = false;
