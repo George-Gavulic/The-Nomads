@@ -64,36 +64,62 @@ h1 {
     border-radius: 14px;
     cursor: pointer;
     background: white;
+    background-image: url('../../organicGrass_sample.png');
+    background-size: contain;
+    margin-right:18px;
 
-    animation-duration: 2s;
-    animation-name: shake;
+
+}
+#resetBtn:hover {
+    animation-duration: 1s;
+    animation-name: shakeB;
     animation-timing-function: ease-in-out;
     animation-delay: 0ms;
     animation-iteration-count: infinite;
     animation-direction: normal;
-    animation-fill-mode: forwards;
-    animation-play-state: running;
-    
+    animation-fill-mode: backwards;
 
 }
-@keyframes shake{
+
+
+@keyframes shakeB{
     0%{
         transform: rotate(-18deg);
+        margin-right:9px;
+
+        width: 156px;
+        height: 66px;
     }
 
     25%{
         transform: rotate(0deg);
+        margin-right:18px;
     }
 
     50%{
         transform: rotate(18deg);
+        margin-right:9px;
+
+        width: 156px;
+        height: 66px;
     }
 
     75%{
         transform: rotate(0deg);
+        margin-right:18px;
     }
 
     100%{
         transform: rotate(-18deg);
+        margin-right:9px;
+
+        width: 156px;
+        height: 66px;
+    }
+    .box{
+        animation-play-state: paused;        
+    }
+    .box:hover {
+        animation-play-state: running;
     }
 }

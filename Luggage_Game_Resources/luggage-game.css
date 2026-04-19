@@ -12,85 +12,69 @@
     text-align: center;
     margin-bottom: 20px;
 }
+#luggage-game-points{
+     justify-content: flex-end;
+}
+
 #back-to-level-choice{
-     animation-duration: 3s;
-    animation-name: shake2;
+    background: #845401;
+    background-image: url('../../../HouseFloorsAndWalls.png');
+    background-position: 10% -50%;
+    background-size: 800% 400%;
+    background-attachment: fixed;
+}
+#back-to-level-choice:hover{
+    background-image: url('../../../HouseFloorsAndWalls.png');
+    background-position: 10% -50%;
+    background-size: 800% 400%;
+    background-attachment: fixed;
+    animation-duration: 2s;
+    animation-name: shake;
     animation-timing-function: ease-in-out;
     animation-delay: 0ms;
     animation-iteration-count: infinite;
     animation-direction: normal;
     animation-fill-mode:none;
     animation-play-state: running;
+    
 }
 
-@keyframes shake2{
-   
+
+@keyframes shake{
     0%{
-        transform: rotate(20deg) translate3d(-20px,0,0);
+        transform: rotate(-18deg);
+        background-size: 960 480%;
+        scale: 1.2;
     }
 
-    10%{
-        transform: rotate(0deg) translate3d(0px,0,0);
+    25%{
+        transform: rotate(0deg);
+        background-size: 800 400%;
+        scale: 1.0;
     }
 
-    20%{
-        transform: rotate(0deg) translate3d(20px,0,0);
-    }
-
-   30%{
-        transform: rotate(-20deg)translate3d(0px,0,0);        
-    }
-
-   40%{
-        transform: rotate(0deg) translate3d(-20px,0,0);
-
-    }
     50%{
-        transform: rotate(10deg) translate3d(0px,0,0);
-    }
-
-    60%{
-        transform: rotate(0deg) translate3d(20px,0,0);
-    }
-
-    70%{
-        transform: rotate(-10deg)translate3d(0px,0,0);        
-    }
-
-    80%{
-        transform: rotate(0deg) translate3d(-0px,0,0);
+        transform: rotate(18deg);
+        background-size: 960 480%;
+        scale: 1.2;
 
     }
-    90%{
-        transform: rotate(20deg) translate3d(-20px,0,0); 
+
+    75%{
+        transform: rotate(0deg);
+        background-size: 800 400%;
+        scale: 1.0;
     }
+
     100%{
-        transform: rotate(20deg) translate3d(-0px,0,0); 
-    }    
-    
-}
-
-@keyframes shake200001{
-
-    0%{
-        transform: rotate(0deg) translate3d(-20px,0,0);
-
+        transform: rotate(-18deg);
+        background-size: 960 480%;
+        scale: 1.2;
     }
-        25%{
-        transform: rotate(0deg) translate3d(0px,0,0);
+    .box{
+        animation-play-state: paused;        
     }
-
-    50%{
-        transform: rotate(0deg) translate3d(20px,0,0);
+    .box:hover {
+        animation-play-state: running;
     }
-
-   75%{
-        transform: rotate(-20deg)translate3d(0px,0,0);        
-    }
-
-   100%{
-        transform: rotate(0deg) translate3d(-20px,0,0);
-
-    }
-    
 }
