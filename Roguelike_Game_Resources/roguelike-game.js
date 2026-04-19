@@ -137,9 +137,19 @@ function randomCoord(min,max){ // random pos maker
 
 function changeDirection(event){  // change this for direction only
     const key = event.key.toLowerCase();
+    console.log(key);
 
     if (["w", "a", "s", "d", "arrowup", "arrowdown", "arrowleft", "arrowright"].includes(key)) { // prevent scrolling
         event.preventDefault();
+    } else if (["r"].includes(key)){
+        running = false; //needed so speed does not multiply
+        setTimeout(() => {
+            resetGame();
+        }, 1000);
+        
+    } else if (([" "].includes(key))&&(running == false)){
+        console.log("clicked t");
+        switchToLeaderboard();
     }
     if (inputQ.length < maxQ) {
         inputQ.pop();
@@ -176,19 +186,46 @@ function displayGameOver(){ // lol font, and message
     ctx.fillStyle = "black";
     ctx.textAlign = "center";
     ctx.fillText("GAME OVER!", width / 2, height / 2);
+    ctx.font = "30px Ariel";
+    ctx.fillStyle = "black";
+    ctx.textAlign = "center";
+    ctx.fillText("Press 'Space' for leaderboard!", width / 2, (height / 2) + 30);
+    ctx.fillText("Press 'R' to restart!", width / 2, (height / 2) + 60);
 };
+
+function switchToLeaderboard(){
+    console.log("running function");
+    const pendingData = {
+        level: currentLevel,
+        score: score,
+        game: "Roguelike" // Put your actual game name here
+    };
+    console.log("sending: " + pendingData);
+    localStorage.setItem("pendingScoreData", JSON.stringify(pendingData));
+
+    // 2. Now tell the parent to switch the page
+    console.log("sending posts");
+    window.parent.postMessage(
+        { 
+            type: "SWITCH_PAGE", 
+            page: "Leaderboard_Resources/leaderboard.html"
+        }, 
+        "*"
+    );
+}
 
 function resetGame(){ // make everything 0, start by going right, snake body arr, gamestart()
     score = 0;
     inputQ.length = 0; // to remove any prior input
-    xVelocity = unitSize;
-    yVelocity = 0;
+    // xVelocity = unitSize;
+    // yVelocity = 0; // we set these in game start, no need to reset them here
     running = false;
     snake = [
         { x: 100, y: 100 },
         { x: 75, y: 100 },
         { x: 50, y: 100 }
     ];
+    console.log(xVelocity);
     gameStart();
 };
 // all the things in one place
@@ -222,19 +259,19 @@ function moveSnake() { // moved stuff to move snake to limit snake direction cha
 
         switch(true){
 
-            case(keyPressed == LEFT && !goingRIGHT):
+            case(((keyPressed == 37)||(keyPressed == 65)) && !goingRIGHT):
                 xVelocity = -unitSize;
                 yVelocity = 0;
                 break;
-            case(keyPressed == RIGHT && !goingLEFT):
+            case(((keyPressed == 39)||(keyPressed == 68)) && !goingLEFT):
                 xVelocity = unitSize;
                 yVelocity = 0;
                 break;
-            case(keyPressed == UP && !goingDOWN):
+            case(((keyPressed == 38)||(keyPressed == 87)) && !goingDOWN):
                 xVelocity = 0;
                 yVelocity = -unitSize;
                 break;
-            case(keyPressed == DOWN && !goingUP):
+            case(((keyPressed == 40)||(keyPressed == 83)) && !goingUP):
                 xVelocity = 0;
                 yVelocity = unitSize;
                 break;
@@ -595,6 +632,7 @@ function ChangeScreenSize(levelString) {
     const shrink = ["level1", "level2", "level3", "level4", "level5", "level7", "level8", "level9", "level10", "level11"];
 
     const superSpeed = ["level14", "level16"];
+    const tutorialSpeed = ["level1", "level2", "level3", "level4", "level5"];
 
     if (grow.includes(levelString)) {
         canvas.width = 900;
@@ -610,7 +648,9 @@ function ChangeScreenSize(levelString) {
 
     if (superSpeed.includes(levelString)){
         gameSpeed = 100;
-    } else {
+    } else if(tutorialSpeed.includes(levelString)){
+        gameSpeed = 200;
+    }else {
         gameSpeed = 150;
     }
 
@@ -638,7 +678,9 @@ function loadLevel(levelName) {
         console.log(`loadLevel error`);
         return;
     }
+    console.log(xVelocity + " 3");
     ChangeScreenSize(levelName);
+    console.log(xVelocity + " 4");
 
     if (level.map) loadMap(level);
     level.entities.forEach(({ type, count }) => {
@@ -665,6 +707,7 @@ function gameStart() { // running = true, ent arr clear iterate food, poison
     entities = [];
     score = 0;
     holeCD = 0;
+    // ChangeScreenSize(currentLevel); //resetting the player speed on reset
     snake = [
         { x: 100, y: 100 },
         { x: 75, y: 100 },
@@ -679,6 +722,7 @@ function gameStart() { // running = true, ent arr clear iterate food, poison
     // for (let i = 0; i < 2; i++) spawnEntity('poison');
     // spawnEntity('rock');
     xVelocity = unitSize;
+    console.log(xVelocity);
     yVelocity = 0;
     loadLevel(currentLevel);
     drawSnake();

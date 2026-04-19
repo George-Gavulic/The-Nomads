@@ -7,12 +7,19 @@ body {
     display: flex;
     justify-content: center;
     align-items: flex-start;
-    background-color: #e9e9e9;
+    background-color: red;
+    background-image: url("Snake_graphics/apple.png";);
+    /* background-size: 100% 100%; */
+    background-position: left;
+    background-repeat: repeat;
+    
     font-family: "Times New Roman", serif;
 }
 
+
+
 #gameContainer {
-    width: min(70vw, 520px);
+    /* width: min(70vw, 520px); */
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -43,15 +50,18 @@ h1 {
 
 #hud {
     width: min(92vw, 700px);
+    width: 100%;
+    background-color: orange;
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-top: 14px;
+
 }
 
 #scoreText {
     align-self: right;
-    font-size: 64px;
+    font-size: 52px;
     line-height: 1;
 }
 

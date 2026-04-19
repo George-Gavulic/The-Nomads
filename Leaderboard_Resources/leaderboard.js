@@ -7,6 +7,12 @@ window.parent.postMessage({
 const tableBody = document.getElementById("tableBody");
 const leadh1 = document.getElementById("lead");
 
+const dummyScores = [
+    // { iter: 1, name: "dood", score: 85, day: "1/1/2026" },
+    // { iter: 2, name: "bobbeh", score: 90, day: "2/1/2026" },
+    // { iter: 3, name: "crispy", score: 78, day: "3/1/2026" },
+    // { iter: 4, name: "fredfredburger", score: 20, day: "4/3/2026" }
+];
 
 function getFormattedDate() {
     const date = new Date();
