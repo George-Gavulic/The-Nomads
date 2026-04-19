@@ -57,6 +57,7 @@ let snake = [
 let snakeTail = snake[-1]
 const inputQ = [];
 const maxQ = 2;
+let gameSpeed = 150;
 
 const entityTypes = { 
     food: { color: 'red', points: +1, grow: true, shrink: false, respawn: true, sprite: 'apple'},
@@ -84,7 +85,7 @@ function nextTick(){ // if running set speed and clear board, draw, move snake, 
             drawSnake();
             checkGameOver();
             nextTick();
-        }, 100); //higher num = slower
+        }, gameSpeed); //higher num = slower
     } else {
         displayGameOver();
     }
@@ -499,7 +500,7 @@ const levels = {
             { type: 'food', count: 1},
         ]
     },
-        level3: {
+    level3: {
         map: [
             "RRRRRRRRRRRRRRRRRRRRRRRR",
             "R......................R",
@@ -520,7 +521,7 @@ const levels = {
             { type: 'food', count: 5},
         ]
     },
-            level4: {
+    level4: {
         map: [
             "RRRRRRRRRRRRRRRRRRRRRRRR",
             "R......................R",
@@ -542,7 +543,7 @@ const levels = {
             { type: 'poison', count: 5}
         ]
     },
-            level5: {
+    level5: {
         map: [
             "RRRRRRRRRRRRRRRRRRRRRRRR",
             "R..R...................R",
@@ -563,7 +564,57 @@ const levels = {
             { type: 'food', count: 2},
         ]
     },
+    level6: {
+        map: [
+            "RRRRRRRRRRRRRRRRRRRRRRRR",
+            "R......................R",
+            "R......................R",
+            "R......................R",
+            "R......................R",
+            "R......................R",
+            "R......................R",
+            "R......................R",
+            "R......................R",
+            "R......................R",
+            "R......................R",
+            "R......................R",
+            "R......................R",
+            "RRRRRRRRRRRRRRRRRRRRRRRR"
+        ],
+        entities: [
+            { type: 'moreFood', count: 1},
+        ]
+    },
 };
+
+function ChangeScreenSize(levelString) {
+    const canvas = document.getElementById("gameBoard");
+
+    // Define exactly which levels go to which function
+    const grow = ["level6", "level12", "level13", "level14", "level15", "level16"];
+    const shrink = ["level1", "level2", "level3", "level4", "level5", "level7", "level8", "level9", "level10", "level11"];
+
+    const superSpeed = ["level14", "level16"];
+
+    if (grow.includes(levelString)) {
+        canvas.width = 900;
+        canvas.height = 425;
+    } 
+    else if (shrink.includes(levelString)) {
+        canvas.width = 600;
+        canvas.height = 350;
+    } 
+    else {
+        console.warn("Level not recognized:", levelString);
+    }
+
+    if (superSpeed.includes(levelString)){
+        gameSpeed = 100;
+    } else {
+        gameSpeed = 150;
+    }
+
+}
 
 function loadMap(level) {
     level.map.forEach((row, rowIndex) => {
@@ -587,6 +638,8 @@ function loadLevel(levelName) {
         console.log(`loadLevel error`);
         return;
     }
+    ChangeScreenSize(levelName);
+
     if (level.map) loadMap(level);
     level.entities.forEach(({ type, count }) => {
         for (let i = 0; i < count; i++) spawnEntity(type);
