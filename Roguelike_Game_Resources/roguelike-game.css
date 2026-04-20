@@ -146,12 +146,12 @@ h1 {
         transform: rotate(-18deg);
     }
 
-    .box{
+    /* .box{
         animation-play-state: paused;        
     }
     .box:hover {
         animation-play-state: running;
-    }
+    } */
 
 }
 
