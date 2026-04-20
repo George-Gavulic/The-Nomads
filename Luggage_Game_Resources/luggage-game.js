@@ -1238,7 +1238,8 @@ if (muteBtn) {
 }
 
 function puzzleComboTimer() {
-    const timer = document.getElementById("timer");
+    // const timer = document.getElementById("timer");
+    const combo = document.getElementById("combo");
 
      // clear existing timer
     clearInterval(timerInterval);
@@ -1248,7 +1249,10 @@ function puzzleComboTimer() {
             timeLeft--; // time goes down at speed of 1000ms
         } else {console.log("puzzleTimer bigger than zero error")}
 
-        timer.textContent = `x${comboMulti} ${timeLeft} sec`;
+        // timer.textContent = `${timeLeft} sec`;
+        combo.innerHTML = `
+            <div class="combo-multiplier">X${comboMulti}</div>
+            <div class="combo-timer">${timeLeft}s</div>`;
 
         if (reachedGoal === true) {
             clearInterval(timerInterval);
