@@ -50,18 +50,36 @@ html, body {
     width: 50%;
 }
 
+#game-images { 
+    position: absolute;
+    justify-content: space-around;
+    background: transparent;
+    border: none;
+    width: 100%;
+}
 
 #left-game-image{
-    padding: 50px 150px 0px 65px ;
-    height: 15%;
+    left: 25%;
+    top: 50%;
     width: 40%;
-    /* position: center; */
+    height: 15%;
+    margin-top: 50px;
+    margin-right: 140px;
+    /* padding: 50px 0px 0px 0px ; */
+    /* height: 15%;
+    width: 40%; */ */
+     /* position: center; */
 }
 #right-game-image{
-    padding: 0px 0px 0px 60px ;
+    left: 55%;
+    top: 50%;
+    width: 25%;
+    height: 10%;
+    margin-right: 90px;
+    /* padding: 0px 0px 0px 60px ;
     height: 10%;
     width : 25%; 
-    position: center;
+    position: center; */
 }
 
 body {
@@ -102,6 +120,7 @@ body {
     width: 25%;
     height: 16%;
 }
+
 #luggage-game-button{
     background-image: url("Game_Choice_Assets/Play_Button.png");
     background-size: contain;
@@ -111,4 +130,22 @@ body {
     background-image: url("Game_Choice_Assets/Play_Button.png");
     background-size: contain;
     background-repeat: no-repeat;
+}
+
+.global-mute-btn {
+    position: fixed;
+    top: 15px;
+    right: 15px;
+    width: 45px;
+    height: 45px;
+    font-size: 24px;
+    border-radius: 50%;
+    border: 3px solid white;
+    background-color: #015d04ff;
+    color: white;
+    cursor: pointer;
+    z-index: 999999; /* Keeps it above everything else */
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }

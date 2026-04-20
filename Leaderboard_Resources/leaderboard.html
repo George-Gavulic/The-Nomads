@@ -1,11 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <meta charset="UTF-8">
     <link rel="stylesheet" href="leaderboard.css">
 </head>
-<body>
-    <h1 id="lead">Leaderboard </h1>
-    <table id="leaderboard">
+<body id="body" class="body">
+    <div id="hud">
+        <h1 id="lead" class="lead">LEADERBOARD </h1>
+        <p id="header" class="header"></p>
+        
+    </div>
+    <table id="leaderboard" class="leaderboard">
         <thead>
             <tr>
                 <th>Rank</th>
@@ -19,9 +24,11 @@
             <!-- Rows will be added here -->
         </tbody>
     </table>
-    <div id="buttons">
-        <button id="backButton">Continue</button>
-    </div>
+    <button id="backButton" class="backButton">Play Again!</button>
+    <!-- <div id="buttons">
+        
+    </div> -->
+    <button id="mute-btn" class="global-mute-btn">🔊</button>
     <script src="leaderboard.js"> </script>
 </body>
 </html>

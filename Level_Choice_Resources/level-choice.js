@@ -1,65 +1,110 @@
-// This file will handle the level choice page, it will listen for messages from the game choice page to know which game was selected, and then display the correct levels for that game.
-let GameChoice = "level non-selected";
+// 1. Try to remember the game from a previous visit, default to something safe
+let GameChoice = sessionStorage.getItem("CurrentGame") || "level non-selected";
 
-//setting up the level screen
-//this listerner is used to set up the look based on the game chosen
+// 2. Extract the unlocking logic into a reusable function
+function refreshLevelLocks() {
+    if (GameChoice === "level non-selected") return;
+
+    const buttons = Array.from(document.getElementsByClassName("level-button"));
+    const storageKey = GameChoice + "_MaxLevel"; 
+    
+    // Get max unlocked from localStorage
+    const maxUnlocked = parseInt(localStorage.getItem(storageKey)) || 1;
+
+    buttons.forEach(button => {
+        button.classList.remove("Roguelike", "Luggage");
+        button.classList.add(GameChoice);
+
+        const btnLevelNum = parseInt(button.id.replace("level", ""), 10);
+
+        // Lock or Unlock based on progress
+        if (btnLevelNum <= maxUnlocked) {
+            button.classList.remove("locked");
+            button.classList.add("unlocked");
+        } else {
+            button.classList.remove("unlocked");
+            button.classList.add("locked");
+        }
+    });
+}
+
+// 3. Run this immediately when the page loads!
+refreshLevelLocks();
+
+// 4. Update the listener to save the choice and refresh locks
 window.addEventListener("message", (event) => {
-    if (!event.data || event.data.type !== "GAME_SELECTED") return;
-    if (!event.data.game) return;
+    if (!event.data || event.data.type !== "GAME_SELECTED" || !event.data.game) return;
 
-    if (event.data.type === "GAME_SELECTED") {
-        GameChoice = event.data.game;
-        const buttons = document.getElementsByClassName("level-button");
-        
-        //alert("Level 1 selected!" + " Game Choice is: " + GameChoice);
-        for (let button of buttons) {
-            button.classList.remove("Roguelike", "Luggage"); //remove previous game class if needed
-            button.classList.add(GameChoice);
-        }
-        if (GameChoice === "Roguelike") {
-          window.parent.postMessage({
+    GameChoice = event.data.game;
+    sessionStorage.setItem("CurrentGame", GameChoice); // Save it so we remember next time!
+    
+    refreshLevelLocks(); // Update the visuals now that we have a confirmed game
+
+    // Trigger Music
+    if (GameChoice === "Roguelike") {
+        window.parent.postMessage({
             type: 'TRIGGER_BGM',
-            file: 'Sounds/Loop_Snake_Background_Playfull.mp3' // Path to your looping music file
-          }, '*');
-        } else if (GameChoice === "Luggage") {
-            window.parent.postMessage({
-              type: 'TRIGGER_BGM',
-              file: 'Sounds/Loop_Mover_Background_Nostalgic.mp3' // Path to your looping music file
-            }, '*');
-        }
+            file: 'Sounds/Loop_Snake_Background_Playfull.mp3'
+        }, '*');
+    } else if (GameChoice === "Luggage") {
+        window.parent.postMessage({
+            type: 'TRIGGER_BGM',
+            file: 'Sounds/Loop_Mover_Background_Nostalgic.mp3'
+        }, '*');
     }
 });
 
-//prepping for leaving the screen
+// 5. Prepping for leaving the screen
 for (let button of document.getElementsByClassName("level-button")) {
-    if (button.classList.contains("locked")) continue; //skip locked levels (no action on click)
     button.addEventListener("click", () => {
-        //alert("Level 1 selected!" + " Game Choice is: " + GameChoice);
+        // Double check it's not locked at the moment of click
+        if (button.classList.contains("locked")) return; 
+
         if (GameChoice === "Roguelike") {
-          sessionStorage.setItem("selectedLevel", button.id);
+            sessionStorage.setItem("selectedLevel", button.id);
             window.parent.postMessage(
-                { type: "SWITCH_PAGE", 
-                  page: "Roguelike_Game_Resources/roguelike-game.html",
-                  level: button.id}, // button.id will be the level choice, and can be used by the roguelike game to load the correct level
+                { type: "SWITCH_PAGE", page: "Roguelike_Game_Resources/roguelike-game.html", level: button.id },
                 "*"
             );
         } else if (GameChoice === "Luggage") {
+
             window.parent.postMessage(
-                { type: "SWITCH_PAGE",
-                  page: "Luggage_Game_Resources/luggage-game.html",
-                  level: button.id},
+                { type: "SWITCH_PAGE", page: "Luggage_Game_Resources/luggage-game.html", level: button.id },
                 "*"
             );
         }
     });
 }
 
-document.getElementById("back-to-game-choice")
-  .addEventListener("click", () => {
+document.getElementById("back-to-game-choice").addEventListener("click", () => {
     window.parent.postMessage(
-      { type: "SWITCH_PAGE", 
-        page: "Game_Choice_Resources/game-choice.html"},
-      "*"
+        { type: "SWITCH_PAGE", page: "Game_Choice_Resources/game-choice.html" },
+        "*"
     );
-  }
-);
+});
+
+const muteBtn = document.getElementById("mute-btn");
+
+if (muteBtn) {
+    // 1. Read the extension's true local storage
+    let isMuted = localStorage.getItem("globalMute") === "true";
+    muteBtn.innerText = isMuted ? "🔇" : "🔊";
+
+    // 2. NEW: Immediately tell the Screen Manager the true state BEFORE music triggers!
+    window.parent.postMessage({
+        type: "SYNC_MUTE",
+        isMuted: isMuted
+    }, "*");
+
+    // 3. Listen for future clicks
+    muteBtn.addEventListener("click", () => {
+        isMuted = !isMuted; 
+        localStorage.setItem("globalMute", isMuted);
+        muteBtn.innerText = isMuted ? "🔇" : "🔊";
+        
+        window.parent.postMessage({
+            type: "TOGGLE_MUTE",
+            isMuted: isMuted
+        }, "*");
+    });
+}

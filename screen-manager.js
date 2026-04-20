@@ -12,6 +12,8 @@ if (!document.getElementById("my-circle-button")) { // if already open, do nothi
   document.body.appendChild(btn);
 }
 
+let isGlobalMuted = false;
+
 function openGamePanel() { 
   if (document.getElementById("game-panel-frame")){ //the look of this panel is also crafted in game-panel.css
     closeGamePanel(); // this will oporate as a toggle, if the panel is open, close it
@@ -97,6 +99,7 @@ function debounceImmediate(func, wait) {
 
 // 4. The Play Logic
 const playSound = (requestedPath) => {
+  if (isGlobalMuted) return; // Abort if muted #super simple muting system
   // Debug: See exactly what the iframe is asking for
   console.log("Iframe requested:", requestedPath);
 
@@ -132,25 +135,24 @@ let currentBGM = null;
 let currentBgmUrl = ""; // Keep track of the URL to prevent restarting the same song
 
 function playBackgroundMusic(path) {
-  const targetUrl = chrome.runtime.getURL(path);
+    const targetUrl = chrome.runtime.getURL(path);
 
-  // If the requested song is ALREADY playing, just let it keep going seamlessly
-  if (currentBGM && currentBgmUrl === targetUrl) {
-    return; 
-  }
+    // isGlobalMuted = localStorage.getItem("globalMute") === "true";
 
-  // If a different song is playing, stop it cleanly
-  stopBackgroundMusic();
+    if (currentBGM && currentBgmUrl === targetUrl) {
+        return; 
+    }
 
-  // Load and play the new song
-  currentBGM = new Audio(targetUrl);
-  currentBGM.loop = true;  // This makes it loop endlessly!
-  currentBGM.volume = 0.3; // BGM is usually quieter than SFX (0.0 to 1.0)
-  currentBgmUrl = targetUrl;
+    stopBackgroundMusic();
 
-  currentBGM.play().catch(e => {
-    console.error("BGM Playback error:", e.message);
-  });
+    currentBGM = new Audio(targetUrl);
+    currentBGM.loop = true;  
+    
+    // <-- UPDATE THIS: Check mute state before setting volume
+    currentBGM.volume = isGlobalMuted ? 0 : 0.3; 
+    
+    currentBgmUrl = targetUrl;
+    currentBGM.play().catch(e => console.error("BGM error:", e.message));
 }
 
 function stopBackgroundMusic() {
@@ -167,7 +169,6 @@ function stopBackgroundMusic() {
 let selectedGame = "Sceen Manager Default Game"; // this will store the game choice, and can be imported by the level choice page to know which levels to show. It will be updated when the game choice page sends a message with the game choice.
 let selectedLevel = "Screen Manager Default Level"; // this will store the level choice, and can be imported by the game page to load the correct level. It will be updated when the level choice page sends a message with the level choice.
 let score = -998;
-
 
 // Listens for messages from the iframe
 window.addEventListener('message', (event) => {
@@ -188,18 +189,31 @@ window.addEventListener('message', (event) => {
     }
   }
 
+  // if (event.data.type === "TOGGLE_MUTE") {
+  //   isGlobalMuted = event.data.isMuted;
+    
+  //   // Instantly mute/unmute currently playing music
+  //   if (currentBGM) {
+  //       currentBGM.volume = isGlobalMuted ? 0 : 0.3;
+  //   }
+  // }
+  // Notice we added SYNC_MUTE here so the iframe can update the manager silently on load
+  if (event.data.type === "TOGGLE_MUTE" || event.data.type === "SYNC_MUTE") {
+    isGlobalMuted = event.data.isMuted;
+    
+    // Instantly mute/unmute currently playing music
+    if (currentBGM) {
+        currentBGM.volume = isGlobalMuted ? 0 : 0.3;
+    }
+  }
+
   // -- PAGE SWITCHING --
   if (event.data.type === "SWITCH_PAGE") {
     if (event.data.game) selectedGame = event.data.game;
     if (event.data.level) selectedLevel = event.data.level;
     if (event.data.score) score = event.data.score;
-    
+
     switchPage(event.data.page);
   }
-});
 
-window.addEventListener('message', (event) => {
-  if (event.data?.type === 'TRIGGER_SOUND' && event.data.file) {
-    fastPlay(event.data.file);
-  }
 });

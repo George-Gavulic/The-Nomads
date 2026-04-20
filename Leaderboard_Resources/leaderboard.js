@@ -5,13 +5,20 @@ window.parent.postMessage({
 );
 
 const tableBody = document.getElementById("tableBody");
-const leadh1 = document.getElementById("lead");
+const leadh1 = document.getElementById("header");
+let currentGame = "default";
 
+const dummyScores = [
+    // { iter: 1, name: "dood", score: 85, day: "1/1/2026" },
+    // { iter: 2, name: "bobbeh", score: 90, day: "2/1/2026" },
+    // { iter: 3, name: "crispy", score: 78, day: "3/1/2026" },
+    // { iter: 4, name: "fredfredburger", score: 20, day: "4/3/2026" }
+];
 
 function getFormattedDate() {
     const date = new Date();
     // Added padding so you get "4/03/2026" instead of "4/3/2026"
-    return `${date.getDate()}/${String(date.getMonth() + 1).padStart(2, '0')}/${date.getFullYear()}`;
+    return `${String(date.getMonth() + 1).padStart(2, '0')}/${date.getDate()}/${date.getFullYear()}`;
 }
 
 function getStorageKey(game, level) {
@@ -38,6 +45,21 @@ function saveScores(game, level, scoresArray) {
     const key = getStorageKey(game, level);
     localStorage.setItem(key, JSON.stringify(scoresArray));
 }
+function addMoverColor(){
+    document.getElementById("backButton").classList.add("moverBackground2");
+    document.getElementById("header").classList.add("moverBackground2");
+    document.getElementById("lead").classList.add("moverBackground2");
+    document.getElementById("body").classList.add("moverBackground1");
+    document.getElementById("body").classList.remove("body");
+}
+function removerMoverColor(){
+    document.getElementById("backButton").classList.remove("moverBackground2");
+    document.getElementById("header").classList.remove("moverBackground2");
+    document.getElementById("lead").classList.remove("moverBackground2");
+    document.getElementById("body").classList.remove("moverBackground1");
+    document.getElementById("body").classList.add("body");
+}
+
 
 function makeATable(scoresArray, gameContext = "", levelContext = "", newScore = null) {
     tableBody.innerHTML = ""; // Clear table before repopulating
@@ -56,11 +78,19 @@ function makeATable(scoresArray, gameContext = "", levelContext = "", newScore =
             <td>${entry.day}</td>`;
         tableBody.appendChild(row);
     });
+    currentGame = gameContext;
+
+    if (currentGame == "Roguelike"){
+        removerMoverColor();
+    } else if (currentGame == "Luggage"){
+        addMoverColor();
+    }
+    
 
     // Update Header Text dynamically
     if (gameContext && levelContext) {
-        let headerText = `Leaderboard - ${levelContext} - Game: ${gameContext}`;
-        if (newScore !== null) headerText += ` - New Score: ${newScore}`;
+        let headerText = `${gameContext}  -  ${levelContext}`;
+        if (newScore !== null) headerText += `  -  Score: ${newScore}`;
         leadh1.textContent = headerText;
     } else {
         leadh1.textContent = `Leaderboard (${scoresArray.length} total attempts)`;
@@ -103,16 +133,53 @@ function checkForPendingScore() {
     }
 }
 
+const muteBtn = document.getElementById("mute-btn");
+
+if (muteBtn) {
+    // 1. Read the extension's true local storage
+    let isMuted = localStorage.getItem("globalMute") === "true";
+    muteBtn.innerText = isMuted ? "🔇" : "🔊";
+
+    // 2. NEW: Immediately tell the Screen Manager the true state BEFORE music triggers!
+    window.parent.postMessage({
+        type: "SYNC_MUTE",
+        isMuted: isMuted
+    }, "*");
+
+    // 3. Listen for future clicks
+    muteBtn.addEventListener("click", () => {
+        isMuted = !isMuted; 
+        localStorage.setItem("globalMute", isMuted);
+        muteBtn.innerText = isMuted ? "🔇" : "🔊";
+        
+        window.parent.postMessage({
+            type: "TOGGLE_MUTE",
+            isMuted: isMuted
+        }, "*");
+    });
+}
+
 // Run this right when the script loads
 checkForPendingScore();
 
 document.getElementById("backButton")
   .addEventListener("click", () => {
-    window.parent.postMessage(
-      { type: "SWITCH_PAGE", 
-        page: "Level_Choice_Resources/level-choice.html",
-        game: "Luggage" },
-      "*"
-    );
+    console.log(currentGame);
+    if (currentGame == "Luggage"){
+        window.parent.postMessage(
+            { type: "SWITCH_PAGE", 
+                page: "Level_Choice_Resources/level-choice.html",
+                game: "Luggage" },
+            "*"
+        );
+    } else if (currentGame == "Snake"){
+        window.parent.postMessage(
+            { type: "SWITCH_PAGE", 
+                page: "Level_Choice_Resources/level-choice.html",
+                game: "Roguelike" },
+            "*"
+        );
+    }
+
   }
 );

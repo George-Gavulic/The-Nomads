@@ -43,7 +43,7 @@ const width = gameBoard.width;
 const height = gameBoard.height;
 const boardBackground = 'white';
 
-const unitSize = 25;
+let unitSize = 25;
 let running = false;
 let xVelocity = unitSize;
 let yVelocity = 0;
@@ -137,9 +137,19 @@ function randomCoord(min,max){ // random pos maker
 
 function changeDirection(event){  // change this for direction only
     const key = event.key.toLowerCase();
+    console.log(key);
 
     if (["w", "a", "s", "d", "arrowup", "arrowdown", "arrowleft", "arrowright"].includes(key)) { // prevent scrolling
         event.preventDefault();
+    } else if (["r"].includes(key)){
+        running = false; //needed so speed does not multiply
+        setTimeout(() => {
+            resetGame();
+        }, 1000);
+        
+    } else if (([" "].includes(key))&&(running == false)){
+        console.log("clicked t");
+        switchToLeaderboard();
     }
     if (inputQ.length < maxQ) {
         inputQ.pop();
@@ -176,19 +186,56 @@ function displayGameOver(){ // lol font, and message
     ctx.fillStyle = "black";
     ctx.textAlign = "center";
     ctx.fillText("GAME OVER!", width / 2, height / 2);
+    ctx.font = "30px Ariel";
+    ctx.fillStyle = "black";
+    ctx.textAlign = "center";
+    ctx.fillText("Press 'Space' for leaderboard!", width / 2, (height / 2) + 30);
+    ctx.fillText("Press 'R' to restart!", width / 2, (height / 2) + 60);
 };
+
+function switchToLeaderboard(){
+    const currentLevelNum = parseInt(currentLevel.replace("level", ""), 10);
+    const nextLevelNum = currentLevelNum + 1;
+    
+    // We only update it if the next level is higher than what they already unlocked
+    const storageKey = "Roguelike_MaxLevel"; // Change this dynamically if you reuse this file for both games
+    const currentlyUnlocked = parseInt(localStorage.getItem(storageKey)) || 1;
+    
+    if (nextLevelNum > currentlyUnlocked) {
+        localStorage.setItem(storageKey, nextLevelNum);
+    }
+
+    const pendingData = {
+        level: currentLevel,
+        score: score,
+        game: "Snake" // Put your actual game name here
+    };
+    console.log("sending: " + pendingData);
+    localStorage.setItem("pendingScoreData", JSON.stringify(pendingData));
+
+    // 2. Now tell the parent to switch the page
+    console.log("sending posts");
+    window.parent.postMessage(
+        { 
+            type: "SWITCH_PAGE", 
+            page: "Leaderboard_Resources/leaderboard.html"
+        }, 
+        "*"
+    );
+}
 
 function resetGame(){ // make everything 0, start by going right, snake body arr, gamestart()
     score = 0;
     inputQ.length = 0; // to remove any prior input
-    xVelocity = unitSize;
-    yVelocity = 0;
+    // xVelocity = unitSize;
+    // yVelocity = 0; // we set these in game start, no need to reset them here
     running = false;
     snake = [
         { x: 100, y: 100 },
         { x: 75, y: 100 },
         { x: 50, y: 100 }
     ];
+    console.log(xVelocity);
     gameStart();
 };
 // all the things in one place
@@ -222,19 +269,19 @@ function moveSnake() { // moved stuff to move snake to limit snake direction cha
 
         switch(true){
 
-            case(keyPressed == LEFT && !goingRIGHT):
+            case(((keyPressed == 37)||(keyPressed == 65)) && !goingRIGHT):
                 xVelocity = -unitSize;
                 yVelocity = 0;
                 break;
-            case(keyPressed == RIGHT && !goingLEFT):
+            case(((keyPressed == 39)||(keyPressed == 68)) && !goingLEFT):
                 xVelocity = unitSize;
                 yVelocity = 0;
                 break;
-            case(keyPressed == UP && !goingDOWN):
+            case(((keyPressed == 38)||(keyPressed == 87)) && !goingDOWN):
                 xVelocity = 0;
                 yVelocity = -unitSize;
                 break;
-            case(keyPressed == DOWN && !goingUP):
+            case(((keyPressed == 40)||(keyPressed == 83)) && !goingUP):
                 xVelocity = 0;
                 yVelocity = unitSize;
                 break;
@@ -255,7 +302,7 @@ function checkEntityCollision() { // where ent is, if snake head there hit ent, 
     // readability
     const hit = entities[entLocInd];
     score += hit.points;
-    scoreText.textContent = `Score: ${score}`;
+    scoreText.textContent = `${score}`;
     // shrink
     if (hit.type === 'rock') {
         return running = false;
@@ -566,20 +613,20 @@ const levels = {
     },
     level6: {
         map: [
-            "RRRRRRRRRRRRRRRRRRRRRRRR",
-            "R......................R",
-            "R......................R",
-            "R......................R",
-            "R......................R",
-            "R......................R",
-            "R......................R",
-            "R......................R",
-            "R......................R",
-            "R......................R",
-            "R......................R",
-            "R......................R",
-            "R......................R",
-            "RRRRRRRRRRRRRRRRRRRRRRRR"
+            "RRRRRRRRRRRRRRRRRRRRRRRRR",
+            "R.......................R",
+            "R.......................R",
+            "R.......................R",
+            "R.......................R",
+            "R.......................R",
+            "R.......................R",
+            "R.......................R",
+            "R.......................R",
+            "R.......................R",
+            "R.......................R",
+            "R........................",
+            "R.......................R",
+            "RRRRRRRRRRRRRRRRRRRRRRRRR"
         ],
         entities: [
             { type: 'moreFood', count: 1},
@@ -595,14 +642,14 @@ function ChangeScreenSize(levelString) {
     const shrink = ["level1", "level2", "level3", "level4", "level5", "level7", "level8", "level9", "level10", "level11"];
 
     const superSpeed = ["level14", "level16"];
+    const tutorialSpeed = ["level1", "level2", "level3", "level4", "level5"];
 
     if (grow.includes(levelString)) {
-        canvas.width = 900;
-        canvas.height = 425;
+        unitSize = 10;
+        console.log("turn it back!");
     } 
     else if (shrink.includes(levelString)) {
-        canvas.width = 600;
-        canvas.height = 350;
+        unitSize = 25;
     } 
     else {
         console.warn("Level not recognized:", levelString);
@@ -610,7 +657,9 @@ function ChangeScreenSize(levelString) {
 
     if (superSpeed.includes(levelString)){
         gameSpeed = 100;
-    } else {
+    } else if(tutorialSpeed.includes(levelString)){
+        gameSpeed = 200;
+    }else {
         gameSpeed = 150;
     }
 
@@ -638,7 +687,9 @@ function loadLevel(levelName) {
         console.log(`loadLevel error`);
         return;
     }
-    ChangeScreenSize(levelName);
+    console.log(xVelocity + " 3");
+    //ChangeScreenSize(levelName);
+    console.log(xVelocity + " 4");
 
     if (level.map) loadMap(level);
     level.entities.forEach(({ type, count }) => {
@@ -647,6 +698,32 @@ function loadLevel(levelName) {
     // currentMap = level.map;
     // entities = level.entities;
     // puzzleComboTimer();
+}
+
+const muteBtn = document.getElementById("mute-btn");
+
+if (muteBtn) {
+    // 1. Read the extension's true local storage
+    let isMuted = localStorage.getItem("globalMute") === "true";
+    muteBtn.innerText = isMuted ? "🔇" : "🔊";
+
+    // 2. NEW: Immediately tell the Screen Manager the true state BEFORE music triggers!
+    window.parent.postMessage({
+        type: "SYNC_MUTE",
+        isMuted: isMuted
+    }, "*");
+
+    // 3. Listen for future clicks
+    muteBtn.addEventListener("click", () => {
+        isMuted = !isMuted; 
+        localStorage.setItem("globalMute", isMuted);
+        muteBtn.innerText = isMuted ? "🔇" : "🔊";
+        
+        window.parent.postMessage({
+            type: "TOGGLE_MUTE",
+            isMuted: isMuted
+        }, "*");
+    });
 }
 
 
@@ -665,6 +742,7 @@ function gameStart() { // running = true, ent arr clear iterate food, poison
     entities = [];
     score = 0;
     holeCD = 0;
+    ChangeScreenSize(currentLevel); //resetting the player speed on reset
     snake = [
         { x: 100, y: 100 },
         { x: 75, y: 100 },
@@ -679,6 +757,7 @@ function gameStart() { // running = true, ent arr clear iterate food, poison
     // for (let i = 0; i < 2; i++) spawnEntity('poison');
     // spawnEntity('rock');
     xVelocity = unitSize;
+    console.log(xVelocity);
     yVelocity = 0;
     loadLevel(currentLevel);
     drawSnake();

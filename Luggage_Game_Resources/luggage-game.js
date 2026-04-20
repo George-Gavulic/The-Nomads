@@ -907,7 +907,7 @@ function canPlaceBlock(block, testX, testY) {
             t.x >= MAP_WIDTH || t.y >= MAP_HEIGHT ||
             tiles[currentMap[t.y][t.x]]?.solid
         ) { 
-            checkIfGate(block, testX, testY);
+            // checkIfGate(block, testX, testY);
             return false;
         }
 
@@ -919,6 +919,8 @@ function canPlaceBlock(block, testX, testY) {
     }
     return true; 
 }
+
+
 let scoreBoard = document.getElementById("luggage-game-points");
 function Scoreboard(block) {
     //TODO add a precondition to prevent this from being called multiple times for the same block.
@@ -954,16 +956,29 @@ function checkIfGate(block, testX, testY) {
             triggerSound("Sounds/Success.mp3");
             //check if player just completed the game, if so send win message and switch screen messgae
 
-            if (blocks.length == 0) { 
-                // 1. Save the score data into a temporary "pending" slot
+            if (blocks.length === 0) { 
+                // 1. Calculate the next level
+                const currentLevelNum = parseInt(currentLevel.replace("level", ""), 10);
+                const nextLevelNum = currentLevelNum + 1;
+                
+                // 2. Save progress to localStorage (e.g., key: "Luggage_MaxLevel")
+                // We only update it if the next level is higher than what they already unlocked
+                const storageKey = "Luggage_MaxLevel"; // Change this dynamically if you reuse this file for both games
+                const currentlyUnlocked = parseInt(localStorage.getItem(storageKey)) || 1;
+                
+                if (nextLevelNum > currentlyUnlocked) {
+                    localStorage.setItem(storageKey, nextLevelNum);
+                }
+
+                // 3. Save the score data into a temporary "pending" slot
                 const pendingData = {
                     level: currentLevel,
                     score: points,
-                    game: "luggageGame" // Put your actual game name here
+                    game: "Luggage" 
                 };
                 localStorage.setItem("pendingScoreData", JSON.stringify(pendingData));
 
-                // 2. Now tell the parent to switch the page
+                // 4. Tell the parent to switch the page to the leaderboard
                 window.parent.postMessage(
                     { 
                         type: "SWITCH_PAGE", 
@@ -972,29 +987,6 @@ function checkIfGate(block, testX, testY) {
                     "*"
                 );
             }
-
-            // if (blocks.length == 0){ //checking if there any any more blocks of the screen
-            //     //alert("sending point" + points);
-            //     window.parent.postMessage(
-            //         { type: "LEVEL_COMPLETE", 
-            //         level: currentLevel,
-            //         score: points}, // button.id will be the level choice, and can be used by the roguelike game to load the correct level
-            //         "*"
-            //     );
-            //     window.parent.postMessage(
-            //     { type: "SWITCH_PAGE", 
-            //       page: "Leaderboard_Resources/leaderboard.html",
-            //     }, // button.id will be the level choice, and can be used by the roguelike game to load the correct level
-            //     "*"
-            //     )
-// //added something here to pull up prompt for username, untested
-//                 window.addEventListener('reachedGoal', function() {
-//                 let userName = prompt("Please enter name:");
-//                 if (userName !== null) {
-//                     console.log("User entered:", userName);
-//                 },
-//                 });   
-                
 
         }
         return;
@@ -1129,18 +1121,69 @@ canvas.addEventListener("mousemove", (e) => {
     const mx = (e.clientX - rect.left) / SCALE;
     const my = (e.clientY - rect.top) / SCALE;
 
-    const desiredGridX = Math.round((mx - mouseOffset.x) / TILE_SIZE);
-    const desiredGridY = Math.round((my - mouseOffset.y) / TILE_SIZE);
+    // The exact pixel location the mouse WANTS the block to be
+    let targetPixelX = mx - mouseOffset.x;
+    let targetPixelY = my - mouseOffset.y;
 
-    if (canPlaceBlock(activeBlock, desiredGridX, desiredGridY)) {
-        activeBlock.gridX = desiredGridX;
-        activeBlock.gridY = desiredGridY;
-        activeBlock.lastValidX = desiredGridX;
-        activeBlock.lastValidY = desiredGridY;
+    // The grid cell the mouse WANTS the block to be in
+    const desiredGridX = Math.round(targetPixelX / TILE_SIZE);
+    const desiredGridY = Math.round(targetPixelY / TILE_SIZE);
+
+    const oldGridX = activeBlock.gridX;
+    const oldGridY = activeBlock.gridY;
+
+    // --- STEP 1: FIX WARPING (Step-by-Step Pathing) ---
+    // Move X axis step-by-step
+    let dx = desiredGridX - activeBlock.gridX;
+    while (dx !== 0) {
+        const stepX = Math.sign(dx); // Gives us 1 or -1
+        if (canPlaceBlock(activeBlock, activeBlock.gridX + stepX, activeBlock.gridY)) {
+            activeBlock.gridX += stepX;
+            activeBlock.lastValidX = activeBlock.gridX;
+            dx -= stepX;
+        } else {
+            break; // Hit a wall, stop calculating X movement
+        }
     }
 
-    activeBlock.pixelX = activeBlock.gridX * TILE_SIZE;
-    activeBlock.pixelY = activeBlock.gridY * TILE_SIZE;
+    // Move Y axis step-by-step
+    let dy = desiredGridY - activeBlock.gridY;
+    while (dy !== 0) {
+        const stepY = Math.sign(dy); // Gives us 1 or -1
+        if (canPlaceBlock(activeBlock, activeBlock.gridX, activeBlock.gridY + stepY)) {
+            activeBlock.gridY += stepY;
+            activeBlock.lastValidY = activeBlock.gridY;
+            dy -= stepY;
+        } else {
+            break; // Hit a wall, stop calculating Y movement
+        }
+    }
+
+    // PROPER GOAL CHECK: Only check if we actually moved to a new logical space!
+    if (activeBlock.gridX !== oldGridX || activeBlock.gridY !== oldGridY) {
+        checkIfGate(activeBlock, activeBlock.gridX, activeBlock.gridY);
+    }
+
+    // --- STEP 2: SMOOTH VISUALS (Pixel Clamping) ---
+    // Check surrounding spaces from our CURRENT valid grid location
+    const canMoveRight = canPlaceBlock(activeBlock, activeBlock.gridX + 1, activeBlock.gridY);
+    const canMoveLeft  = canPlaceBlock(activeBlock, activeBlock.gridX - 1, activeBlock.gridY);
+    const canMoveDown  = canPlaceBlock(activeBlock, activeBlock.gridX, activeBlock.gridY + 1);
+    const canMoveUp    = canPlaceBlock(activeBlock, activeBlock.gridX, activeBlock.gridY - 1);
+
+    const currentTruePixelX = activeBlock.gridX * TILE_SIZE;
+    const currentTruePixelY = activeBlock.gridY * TILE_SIZE;
+
+    // Clamp the visual pixel position so it slides up against the wall, but not into it
+    if (!canMoveRight && targetPixelX > currentTruePixelX) targetPixelX = currentTruePixelX;
+    if (!canMoveLeft  && targetPixelX < currentTruePixelX) targetPixelX = currentTruePixelX;
+    
+    if (!canMoveDown && targetPixelY > currentTruePixelY) targetPixelY = currentTruePixelY;
+    if (!canMoveUp   && targetPixelY < currentTruePixelY) targetPixelY = currentTruePixelY;
+
+    // Update the visual coordinates dynamically
+    activeBlock.pixelX = targetPixelX;
+    activeBlock.pixelY = targetPixelY;
 });
 
 canvas.addEventListener("mouseup", releaseBlock);
@@ -1167,6 +1210,32 @@ document.getElementById("back-to-level-choice")
     );
   }
 );
+
+const muteBtn = document.getElementById("mute-btn");
+
+if (muteBtn) {
+    // 1. Read the extension's true local storage
+    let isMuted = localStorage.getItem("globalMute") === "true";
+    muteBtn.innerText = isMuted ? "🔇" : "🔊";
+
+    // 2. NEW: Immediately tell the Screen Manager the true state BEFORE music triggers!
+    window.parent.postMessage({
+        type: "SYNC_MUTE",
+        isMuted: isMuted
+    }, "*");
+
+    // 3. Listen for future clicks
+    muteBtn.addEventListener("click", () => {
+        isMuted = !isMuted; 
+        localStorage.setItem("globalMute", isMuted);
+        muteBtn.innerText = isMuted ? "🔇" : "🔊";
+        
+        window.parent.postMessage({
+            type: "TOGGLE_MUTE",
+            isMuted: isMuted
+        }, "*");
+    });
+}
 
 function puzzleComboTimer() {
     const timer = document.getElementById("timer");
