@@ -22,9 +22,12 @@ body {
     display: flex;
     justify-content: center;
 
-    background-image: url("Snake_graphics/Snake_Watermark_Background.png";);
-    background-size: 100% 100%;
-    background-position: left;
+    background-color: rgb(132, 244, 244);
+
+    background-image: url("/Global_Assets/Snake_Watermark_Background.png");
+    /* Snake_graphics/Snake_Watermark_Background.png */
+    /* background-size: 100% 100%; */
+    background-position: center;
     background-repeat: repeat;
 }
 
@@ -96,7 +99,6 @@ h1 {
     animation-fill-mode: forwards;
     animation-play-state: running;
     
-
 }
 @keyframes shake{
     0%{

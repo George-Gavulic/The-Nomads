@@ -5,7 +5,7 @@ window.parent.postMessage({
 );
 
 const tableBody = document.getElementById("tableBody");
-const leadh1 = document.getElementById("lead");
+const leadh1 = document.getElementById("header");
 let currentGame = "default";
 
 const dummyScores = [
@@ -45,6 +45,21 @@ function saveScores(game, level, scoresArray) {
     const key = getStorageKey(game, level);
     localStorage.setItem(key, JSON.stringify(scoresArray));
 }
+function addMoverColor(){
+    document.getElementById("backButton").classList.add("moverBackground2");
+    document.getElementById("header").classList.add("moverBackground2");
+    document.getElementById("lead").classList.add("moverBackground2");
+    document.getElementById("body").classList.add("moverBackground1");
+    document.getElementById("body").classList.remove("body");
+}
+function removerMoverColor(){
+    document.getElementById("backButton").classList.remove("moverBackground2");
+    document.getElementById("header").classList.remove("moverBackground2");
+    document.getElementById("lead").classList.remove("moverBackground2");
+    document.getElementById("body").classList.remove("moverBackground1");
+    document.getElementById("body").classList.add("body");
+}
+
 
 function makeATable(scoresArray, gameContext = "", levelContext = "", newScore = null) {
     tableBody.innerHTML = ""; // Clear table before repopulating
@@ -65,10 +80,17 @@ function makeATable(scoresArray, gameContext = "", levelContext = "", newScore =
     });
     currentGame = gameContext;
 
+    if (currentGame == "Roguelike"){
+        removerMoverColor();
+    } else if (currentGame == "Luggage"){
+        addMoverColor();
+    }
+    
+
     // Update Header Text dynamically
     if (gameContext && levelContext) {
-        let headerText = `Leaderboard - ${levelContext} - Game: ${gameContext}`;
-        if (newScore !== null) headerText += ` - New Score: ${newScore}`;
+        let headerText = `${gameContext}  -  ${levelContext}`;
+        if (newScore !== null) headerText += `  -  Score: ${newScore}`;
         leadh1.textContent = headerText;
     } else {
         leadh1.textContent = `Leaderboard (${scoresArray.length} total attempts)`;
@@ -124,7 +146,7 @@ document.getElementById("backButton")
                 game: "Luggage" },
             "*"
         );
-    } else if (currentGame == "Roguelike"){
+    } else if (currentGame == "Snake"){
         window.parent.postMessage(
             { type: "SWITCH_PAGE", 
                 page: "Level_Choice_Resources/level-choice.html",

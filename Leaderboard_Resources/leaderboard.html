@@ -3,12 +3,13 @@
 <head>
     <link rel="stylesheet" href="leaderboard.css">
 </head>
-<body>
+<body id="body" class="body">
     <div id="hud">
-        <h1 id="lead">Leaderboard </h1>
-        <button id="backButton">Continue</button>
+        <h1 id="lead" class="lead">LEADERBOARD </h1>
+        <p id="header" class="header"></p>
+        
     </div>
-    <table id="leaderboard">
+    <table id="leaderboard" class="leaderboard">
         <thead>
             <tr>
                 <th>Rank</th>
@@ -22,9 +23,10 @@
             <!-- Rows will be added here -->
         </tbody>
     </table>
-    <div id="buttons">
+    <button id="backButton" class="backButton">Play Again!</button>
+    <!-- <div id="buttons">
         
-    </div>
+    </div> -->
     <script src="leaderboard.js"> </script>
 </body>
 </html>

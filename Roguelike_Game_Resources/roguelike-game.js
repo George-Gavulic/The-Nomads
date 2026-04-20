@@ -198,7 +198,7 @@ function switchToLeaderboard(){
     const pendingData = {
         level: currentLevel,
         score: score,
-        game: "Roguelike" // Put your actual game name here
+        game: "Snake" // Put your actual game name here
     };
     console.log("sending: " + pendingData);
     localStorage.setItem("pendingScoreData", JSON.stringify(pendingData));
