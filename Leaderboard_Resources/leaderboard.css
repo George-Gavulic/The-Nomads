@@ -65,7 +65,7 @@ tr:hover {
     transform: translateX(-50%); /* Centers the element perfectly */
 
     width: 100vw;
-    max-width: 800px;
+    /* max-width: 800px; */
     height: 102px;
     border-radius: 5px;
 
@@ -91,7 +91,6 @@ tr:hover {
 
     transform: translateX(-50%); /* Centers the element perfectly */
 
-    hight: 30px;
 
     display: flex;
     align-items: center;

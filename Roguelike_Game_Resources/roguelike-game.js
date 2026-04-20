@@ -194,7 +194,17 @@ function displayGameOver(){ // lol font, and message
 };
 
 function switchToLeaderboard(){
-    console.log("running function");
+    const currentLevelNum = parseInt(currentLevel.replace("level", ""), 10);
+    const nextLevelNum = currentLevelNum + 1;
+    
+    // We only update it if the next level is higher than what they already unlocked
+    const storageKey = "Roguelike_MaxLevel"; // Change this dynamically if you reuse this file for both games
+    const currentlyUnlocked = parseInt(localStorage.getItem(storageKey)) || 1;
+    
+    if (nextLevelNum > currentlyUnlocked) {
+        localStorage.setItem(storageKey, nextLevelNum);
+    }
+
     const pendingData = {
         level: currentLevel,
         score: score,

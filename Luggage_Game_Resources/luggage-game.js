@@ -954,34 +954,29 @@ function checkIfGate(block, testX, testY) {
             triggerSound("Sounds/Success.mp3");
             //check if player just completed the game, if so send win message and switch screen messgae
 
-            if (blocks.length == 0) { 
-                //unlock next level 
-                let i = 0;
-                for (i; i <= 16; i++){
-                    let temp = ('level'+i);
-                    if (temp == currentLevel){
-                        i++; //unlock the next level
-                        console.log("sending to screen: " + 'level'+i);
-                        window.parent.postMessage(
-                            { 
-                                type: "UNLOCK_LEVEL", 
-                                unlock: 'level'+i
-                            }, 
-                            "*"
-                        );
-                    }
+            if (blocks.length === 0) { 
+                // 1. Calculate the next level
+                const currentLevelNum = parseInt(currentLevel.replace("level", ""), 10);
+                const nextLevelNum = currentLevelNum + 1;
+                
+                // 2. Save progress to localStorage (e.g., key: "Luggage_MaxLevel")
+                // We only update it if the next level is higher than what they already unlocked
+                const storageKey = "Luggage_MaxLevel"; // Change this dynamically if you reuse this file for both games
+                const currentlyUnlocked = parseInt(localStorage.getItem(storageKey)) || 1;
+                
+                if (nextLevelNum > currentlyUnlocked) {
+                    localStorage.setItem(storageKey, nextLevelNum);
                 }
 
-                // 1. Save the score data into a temporary "pending" slot
-                //send data to leaderboard
+                // 3. Save the score data into a temporary "pending" slot
                 const pendingData = {
                     level: currentLevel,
                     score: points,
-                    game: "Luggage" // Put your actual game name here
+                    game: "Luggage" 
                 };
                 localStorage.setItem("pendingScoreData", JSON.stringify(pendingData));
 
-                // 2. Now tell the parent to switch the page
+                // 4. Tell the parent to switch the page to the leaderboard
                 window.parent.postMessage(
                     { 
                         type: "SWITCH_PAGE", 
@@ -990,29 +985,6 @@ function checkIfGate(block, testX, testY) {
                     "*"
                 );
             }
-
-            // if (blocks.length == 0){ //checking if there any any more blocks of the screen
-            //     //alert("sending point" + points);
-            //     window.parent.postMessage(
-            //         { type: "LEVEL_COMPLETE", 
-            //         level: currentLevel,
-            //         score: points}, // button.id will be the level choice, and can be used by the roguelike game to load the correct level
-            //         "*"
-            //     );
-            //     window.parent.postMessage(
-            //     { type: "SWITCH_PAGE", 
-            //       page: "Leaderboard_Resources/leaderboard.html",
-            //     }, // button.id will be the level choice, and can be used by the roguelike game to load the correct level
-            //     "*"
-            //     )
-// //added something here to pull up prompt for username, untested
-//                 window.addEventListener('reachedGoal', function() {
-//                 let userName = prompt("Please enter name:");
-//                 if (userName !== null) {
-//                     console.log("User entered:", userName);
-//                 },
-//                 });   
-                
 
         }
         return;

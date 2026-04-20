@@ -32,7 +32,6 @@ function openGamePanel() {
         game: selectedGame,
         level: selectedLevel,
         score: score,
-        unlock: unlockLevel,
       },
       "*"
     );
@@ -168,7 +167,6 @@ function stopBackgroundMusic() {
 let selectedGame = "Sceen Manager Default Game"; // this will store the game choice, and can be imported by the level choice page to know which levels to show. It will be updated when the game choice page sends a message with the game choice.
 let selectedLevel = "Screen Manager Default Level"; // this will store the level choice, and can be imported by the game page to load the correct level. It will be updated when the level choice page sends a message with the level choice.
 let score = -998;
-let unlockLevel = "level0";
 
 
 // Listens for messages from the iframe
@@ -189,18 +187,13 @@ window.addEventListener('message', (event) => {
       stopBackgroundMusic(); 
     }
   }
-
   // -- PAGE SWITCHING --
-  else if (event.data.type === "SWITCH_PAGE") {
+  if (event.data.type === "SWITCH_PAGE") {
     if (event.data.game) selectedGame = event.data.game;
     if (event.data.level) selectedLevel = event.data.level;
     if (event.data.score) score = event.data.score;
 
     switchPage(event.data.page);
-  }
-
-  if (event.data.type === "UNLOCK_LEVEL" && event.data.level){
-    unlockLevel = event.data.unlock;
   }
   else {
     console.log("Screen Manager recieved a message but could not identify it"); //this needs to be an error thingy
