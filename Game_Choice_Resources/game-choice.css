@@ -1,8 +1,85 @@
+@font-face {
+    font-family: "Game Intro Font";
+    src: url("/Global_Assets/Fonts/yukari.ttf");
+}
+
 html, body {
     margin: 0;
     padding: 0;
     width: 100%;
     height: 100%;
+}
+
+.row_header{
+    display: flex;
+    flex-direction: row;
+    text-align: center;
+    margin-bottom: 0px;
+}
+.mover_title{
+    color: rgb(85, 13, 13);
+    font-family: "Game Intro Font", serif;
+    font-size: 46px;
+    text-shadow: 2px 2px 4px rgb(209, 74, 74);
+}
+.snake_title{
+    color: rgb(22, 70, 19);
+    font-family: "Game Intro Font", serif;
+    font-size: 46px;
+    text-shadow: 2px 2px 4px rgb(48, 189, 48);
+}
+
+#game-choice-header {
+    /* display: flex;
+    flex-direction: row; */
+    gap: 10px;
+    /* text-align: center;
+    margin-bottom: 20px; */
+}
+
+.left-game{
+    text-align: center;
+    margin-bottom: 20px;
+    /* left: 0%; */
+    width: 50%;
+}
+.right-game{
+    text-align: center;
+    margin-bottom: 20px;
+    left: 50%;
+    width: 50%;
+}
+
+#game-images { 
+    position: absolute;
+    justify-content: space-around;
+    background: transparent;
+    border: none;
+    width: 100%;
+}
+
+#left-game-image{
+    left: 25%;
+    top: 50%;
+    width: 40%;
+    height: 15%;
+    margin-top: 50px;
+    margin-right: 140px;
+    /* padding: 50px 0px 0px 0px ; */
+    /* height: 15%;
+    width: 40%; */ */
+     /* position: center; */
+}
+#right-game-image{
+    left: 55%;
+    top: 50%;
+    width: 25%;
+    height: 10%;
+    margin-right: 90px;
+    /* padding: 0px 0px 0px 60px ;
+    height: 10%;
+    width : 25%; 
+    position: center; */
 }
 
 body {
@@ -16,7 +93,7 @@ body {
     width: 100vw;
     height: 100vh;
 
-    background-image: url("TitlePage.png");
+    background-image: url("Game_Choice_Assets/Choice_Background_V1.png");
     background-size: 100% 100%;
     background-position: center;
     background-repeat: no-repeat;
@@ -31,15 +108,44 @@ body {
 }
 
 .left-button {
-    left: 11%;
+    left: 13%;
     top: 78%;
-    width: 38%;
+    width: 25%;
     height: 16%;
 }
 
 .right-button {
     left: 64%;
     top: 78%;
-    width: 34%;
+    width: 25%;
     height: 16%;
+}
+
+#luggage-game-button{
+    background-image: url("Game_Choice_Assets/Play_Button.png");
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+#roguelike-game-button{
+    background-image: url("Game_Choice_Assets/Play_Button.png");
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
+.global-mute-btn {
+    position: fixed;
+    top: 15px;
+    right: 15px;
+    width: 45px;
+    height: 45px;
+    font-size: 24px;
+    border-radius: 50%;
+    border: 3px solid white;
+    background-color: #015d04ff;
+    color: white;
+    cursor: pointer;
+    z-index: 999999; /* Keeps it above everything else */
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }

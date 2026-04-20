@@ -1,6 +1,11 @@
-#luggageGameScreen{   
-    /*border: 2px solid #444;*/ 
+body{
+    background-color: rgb(187, 136, 78);
+}
+#luggageGameScreen{
+    /border: 2px solid #444;/ 
     background: white;
+    padding-left: 25px;
+    padding-top: 50px;
     image-rendering: pixelated;
     /* width: calc(32px * 10 * 3);   TILE_SIZE * MAP_WIDTH * SCALE 
     height: calc(32px * 8 * 3);   TILE_SIZE * MAP_HEIGHT * SCALE */
@@ -12,85 +17,198 @@
     text-align: center;
     margin-bottom: 20px;
 }
+#luggage-game-points{
+     justify-content: flex-end;
+}
+
 #back-to-level-choice{
-     animation-duration: 3s;
-    animation-name: shake2;
+    border-radius: 5px;
+    background: #845401;
+    background-image: url('../../../HouseFloorsAndWalls.png');
+    background-position: 10% -50%;
+    background-size: 800% 400%;
+    background-attachment: fixed;
+
+    width: 80px;
+    height: 80px;
+
+    color: white;
+    justify-content: center;
+
+    border: 3px solid white;
+
+    position: fixed;
+    top: 20px;
+    left: 75%;
+}
+
+#back-to-level-choice:hover{
+    background-image: url('../../../HouseFloorsAndWalls.png');
+    background-position: 10% -50%;
+    background-size: 800% 400%;
+    background-attachment: fixed;
+    animation-duration: 2s;
+    animation-name: shake;
     animation-timing-function: ease-in-out;
     animation-delay: 0ms;
     animation-iteration-count: infinite;
     animation-direction: normal;
     animation-fill-mode:none;
     animation-play-state: running;
+
 }
 
-@keyframes shake2{
-   
+#mover{
+    position: fixed;
+    
+    top: -30px;
+    left: 50%;
+    transform: translateX(-50%); /* Centers the element perfectly */
+
+    width: 100vw;
+    max-width: 800px;
+    /* height: 102px; */
+    border-radius: 5px;
+    
+
+    border: 3px solid white;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-family: "Game Intro Font";
+    font-size: 52px;
+    font-weight: 300;
+
+    background: rgb(96, 64, 31);
+    color: white;
+    
+}
+
+
+#combo{
+    border-radius: 5px;
+    background: #845401;
+    background-image: url('../../../HouseFloorsAndWalls.png');
+    background-position: 10% -50%;
+    background-size: 800% 400%;
+    background-attachment: fixed;
+
+    text-align: center;
+
+    vertical-align: center;
+
+    width: 75px;
+    height: 75px;
+
+    color: white;
+    justify-content: center;
+
+    border: 3px solid white;
+
+    position: fixed;
+    top: 10px;
+    left: 20%;
+}
+
+.combo-multiplier {
+    font-size: 2em; /* Makes the text twice as large */
+    font-weight: bold; 
+    /* color: #FFD700; Optional: Make it gold so it pops! */
+}
+
+.combo-timer {
+    font-size: 1em; /* Normal text size */
+    /* opacity: 0.8; Optional: slightly fade the timer text so the combo stands out more */
+}
+
+#luggage-game-points{
+    position: fixed;
+    top: 35px;
+    left: 50%;
+
+    border-radius: 5px;
+    background: rgb(96, 64, 31); 
+    /* background-image: url('../../../HouseFloorsAndWalls.png'); */
+    /* background-position: 10% -50%; */
+    background-size: 800% 400%;
+    /* background-attachment: fixed; */
+
+    transform: translateX(-50%); /* Centers the element perfectly */
+
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border: 3px solid white;
+
+    font-family: "Game Intro Font";
+    font-size: 25px;
+    font-weight: 200;
+
+    border-radius: 5px;
+
+    /* background: rgb(96, 64, 31); */
+    color: white;
+
+}
+
+
+@keyframes shake{
     0%{
-        transform: rotate(20deg) translate3d(-20px,0,0);
+        transform: rotate(-18deg);
+        background-size: 960 480%;
+        scale: 1.2;
     }
 
-    10%{
-        transform: rotate(0deg) translate3d(0px,0,0);
+    25%{
+        transform: rotate(0deg);
+        background-size: 800 400%;
+        scale: 1.0;
     }
 
-    20%{
-        transform: rotate(0deg) translate3d(20px,0,0);
-    }
-
-   30%{
-        transform: rotate(-20deg)translate3d(0px,0,0);        
-    }
-
-   40%{
-        transform: rotate(0deg) translate3d(-20px,0,0);
-
-    }
     50%{
-        transform: rotate(10deg) translate3d(0px,0,0);
-    }
-
-    60%{
-        transform: rotate(0deg) translate3d(20px,0,0);
-    }
-
-    70%{
-        transform: rotate(-10deg)translate3d(0px,0,0);        
-    }
-
-    80%{
-        transform: rotate(0deg) translate3d(-0px,0,0);
+        transform: rotate(18deg);
+        background-size: 960 480%;
+        scale: 1.2;
 
     }
-    90%{
-        transform: rotate(20deg) translate3d(-20px,0,0); 
+
+    75%{
+        transform: rotate(0deg);
+        background-size: 800 400%;
+        scale: 1.0;
     }
+
     100%{
-        transform: rotate(20deg) translate3d(-0px,0,0); 
-    }    
-    
+        transform: rotate(-18deg);
+        background-size: 960 480%;
+        scale: 1.2;
+    }
+    .box{
+        animation-play-state: paused;
+    }
+    .box:hover {
+        animation-play-state: running;
+    }
 }
 
-@keyframes shake200001{
-
-    0%{
-        transform: rotate(0deg) translate3d(-20px,0,0);
-
-    }
-        25%{
-        transform: rotate(0deg) translate3d(0px,0,0);
-    }
-
-    50%{
-        transform: rotate(0deg) translate3d(20px,0,0);
-    }
-
-   75%{
-        transform: rotate(-20deg)translate3d(0px,0,0);        
-    }
-
-   100%{
-        transform: rotate(0deg) translate3d(-20px,0,0);
-
-    }
-    
+.global-mute-btn {
+    position: fixed;
+    top: 15px;
+    right: 15px;
+    width: 45px;
+    height: 45px;
+    font-size: 24px;
+    border-radius: 50%;
+    border: 3px solid white;
+    background-color: #015d04ff;
+    color: white;
+    cursor: pointer;
+    z-index: 999999; /* Keeps it above everything else */
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }

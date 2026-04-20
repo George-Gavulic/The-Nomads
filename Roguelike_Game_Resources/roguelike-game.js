@@ -7,11 +7,10 @@ function loadImage(path) {
 }
 
 function loadSprites() {
-    sprites.apple = loadImage("Snake_graphics/apple.png"); // food sprite
-
+    sprites.apple = loadImage("Snake_graphics/apple.png");
     sprites.hole = loadImage("Snake_graphics/hole_5.png");
 
-    sprites.head_up = loadImage("Snake_graphics/head_up.png"); // sprites for the snake head
+    sprites.head_up = loadImage("Snake_graphics/head_up.png");
     sprites.head_down = loadImage("Snake_graphics/head_down.png");
     sprites.head_left = loadImage("Snake_graphics/head_left.png");
     sprites.head_right = loadImage("Snake_graphics/head_right.png");
@@ -36,6 +35,9 @@ const gameBoard = document.querySelector("#gameBoard");
 const ctx =  gameBoard.getContext("2d");
 const scoreText = document.querySelector("#scoreText");
 const resetBtn = document.querySelector("#resetBtn");
+const muteBtn = document.getElementById("mute-btn");
+
+ctx.imageSmoothingEnabled = false;
 
 ctx.imageSmoothingEnabled = true;
 
@@ -120,12 +122,10 @@ function clearBoard() {
 
     for (let y = 0; y < height; y += unitSize) {
         for (let x = 0; x < width; x += unitSize) {
-
-            // alternating grass colors
             if ((x / unitSize + y / unitSize) % 2 === 0) {
-                ctx.fillStyle = "#7ccf5c"; // light grass
+                ctx.fillStyle = "#7ccf5c";
             } else {
-                ctx.fillStyle = "#6bb84f"; // darker grass
+                ctx.fillStyle = "#6bb84f";
             }
             ctx.fillRect(x, y, unitSize, unitSize);
         }
@@ -358,6 +358,163 @@ function spawnEntity(type) { // insert entity into arr and generate coord for en
     if (type === 'hole') {
         ent.inUse = null;
     }
+    entities.push(ent);
+}
+
+function drawEntities() {
+    entities.forEach(ent => {
+        if (ent.sprite === "apple") {
+            drawSprite(sprites.apple, ent.x, ent.y);
+        } else if (ent.sprite === "hole") {
+            drawSprite(sprites.hole, ent.x, ent.y);
+        } else {
+            ctx.fillStyle = ent.color;
+            ctx.fillRect(ent.x, ent.y, unitSize, unitSize);
+        }
+    });
+}
+
+function moveSnake() {
+    if (inputQ.length > 0) {
+        const keyPressed = inputQ.shift();
+
+        const goingUp = yVelocity === -unitSize;
+        const goingDown = yVelocity === unitSize;
+        const goingRight = xVelocity === unitSize;
+        const goingLeft = xVelocity === -unitSize;
+
+        if (keyPressed === 65 && !goingRight) {
+            xVelocity = -unitSize;
+            yVelocity = 0;
+        } else if (keyPressed === 68 && !goingLeft) {
+            xVelocity = unitSize;
+            yVelocity = 0;
+        } else if (keyPressed === 87 && !goingDown) {
+            xVelocity = 0;
+            yVelocity = -unitSize;
+        } else if (keyPressed === 83 && !goingUp) {
+            xVelocity = 0;
+            yVelocity = unitSize;
+        }
+    }
+
+    const head = {
+        x: snake[0].x + xVelocity,
+        y: snake[0].y + yVelocity
+    };
+
+    snake.unshift(head);
+
+    const hitSomething = checkEntityCollision();
+    if (!hitSomething) {
+        snake.pop();
+    }
+}
+
+function checkEntityCollision() {
+    const entLocInd = entities.findIndex(ent => ent.x === snake[0].x && ent.y === snake[0].y);
+    if (entLocInd === -1) return false;
+
+    const hit = entities[entLocInd];
+
+    if (hit.type === "food" || hit.type === "moreFood") {
+        playEatSound();
+    }
+
+    score += hit.points;
+    scoreText.textContent = `Score: ${score}`;
+
+    if (hit.type === "rock") {
+        running = false;
+        return true;
+    }
+
+    if (hit.shrink) {
+        if (snake.length > 1) snake.pop();
+        if (snake.length > 1) snake.pop();
+    }
+
+    if (hit.type === "hole") {
+        teleportSnake(hit);
+        spawnEntity("hole");
+        snake.pop();
+    }
+
+    if (hit.type === "moreFood") {
+        spawnEntity(hit.type);
+    }
+
+    if (hit.respawn && hit.type !== "hole") {
+        spawnEntity(hit.type);
+        entities.splice(entLocInd, 1);
+    }
+
+    if (!hit.respawn && hit.type !== "hole") {
+        entities.splice(entLocInd, 1);
+    }
+
+    return true;
+}
+
+function teleportSnake(entrance) {
+    const exitHole = entities.find(ent => ent.type === "hole" && ent !== entrance && !ent.inUse);
+    if (entrance.cd > 0) return;
+    if (!exitHole) return;
+
+    snake[0].x = exitHole.x;
+    snake[0].y = exitHole.y;
+
+    entrance.cd = snake.length;
+    exitHole.cd = snake.length;
+    entrance.inUse = true;
+    exitHole.inUse = true;
+    spawnEntity("hole");
+}
+
+function snakeHoleCheck() {
+    entities.forEach((ent, index) => {
+        if (ent.type !== "hole") return;
+
+        if (ent.cd > 0) {
+            ent.cd--;
+        }
+
+        if (ent.cd <= 0 && ent.inUse) {
+            const snakeInHole = snake.some(part => part.x === ent.x && part.y === ent.y);
+            if (!snakeInHole) {
+                entities.splice(index, 1);
+                ent.inUse = false;
+            }
+        }
+    });
+}
+
+function spawnEntity(type) {
+    let x, y;
+    let attempts = 0;
+
+    do {
+        x = randomCoord(0, width - unitSize);
+        y = randomCoord(0, height - unitSize);
+        attempts++;
+        if (attempts > 100) return;
+    } while (
+        entities.some(e => e.x === x && e.y === y) ||
+        snake.some(s => s.x === x && s.y === y)
+    );
+
+    const ent = {
+        type,
+        x,
+        y,
+        ...entityTypes[type]
+    };
+
+    if (type === "hole") {
+        ent.inUse = false;
+        ent.cd = 0;
+    }
+
     entities.push(ent);
 }
 
@@ -953,25 +1110,21 @@ function ChangeScreenSize(levelString) {
     const shrink = ["level1", "level2", "level3", "level4", "level5", "level7", "level8", "level9", "level10", "level11"];
 
     const superSpeed = ["level14", "level16"];
+    const tutorialSpeed = ["level1", "level2", "level3", "level4", "level5"];
 
     if (grow.includes(levelString)) {
         unitSize = 10;
-    //    canvas.height = 425;
-    } 
-    else if (shrink.includes(levelString)) {
+    } else if (shrink.includes(levelString)) {
         unitSize = 25;
-        // canvas.height = 350;
-    } 
-    else {
-        console.warn("Level not recognized:", levelString);
     }
 
-    if (superSpeed.includes(levelString)){
-        gameSpeed = 100;
+    if (superSpeed.includes(levelString)) {
+        gameSpeed = 65;
+    } else if (tutorialSpeed.includes(levelString)) {
+        gameSpeed = 120;
     } else {
-        gameSpeed = 150;
+        gameSpeed = 90;
     }
-
 }
 
 function loadMap(level) {
