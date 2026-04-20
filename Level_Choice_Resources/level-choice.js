@@ -42,11 +42,13 @@ window.addEventListener("message", (event) => {
 
     // Trigger Music
     if (GameChoice === "Roguelike") {
+        document.getElementByID("body1").classList.remove("moverBG");
         window.parent.postMessage({
             type: 'TRIGGER_BGM',
             file: 'Sounds/Loop_Snake_Background_Playfull.mp3'
         }, '*');
     } else if (GameChoice === "Luggage") {
+        document.getElementByID("body1").classList.add("moverBG");
         window.parent.postMessage({
             type: 'TRIGGER_BGM',
             file: 'Sounds/Loop_Mover_Background_Nostalgic.mp3'
@@ -67,7 +69,6 @@ for (let button of document.getElementsByClassName("level-button")) {
                 "*"
             );
         } else if (GameChoice === "Luggage") {
-
             window.parent.postMessage(
                 { type: "SWITCH_PAGE", page: "Luggage_Game_Resources/luggage-game.html", level: button.id },
                 "*"
