@@ -14,6 +14,8 @@ if (!document.getElementById("my-circle-button")) { // if already open, do nothi
 
 let isGlobalMuted = false;
 
+let globalVolume = parseFloat(localStorage.getItem("globalVolume")) || 0.3;
+
 function openGamePanel() { 
   if (document.getElementById("game-panel-frame")){ //the look of this panel is also crafted in game-panel.css
     closeGamePanel(); // this will oporate as a toggle, if the panel is open, close it
@@ -149,7 +151,7 @@ function playBackgroundMusic(path) {
     currentBGM.loop = true;  
     
     // <-- UPDATE THIS: Check mute state before setting volume
-    currentBGM.volume = isGlobalMuted ? 0 : 0.3; 
+    currentBGM.volume = isGlobalMuted ? 0 : globalVolume;
     
     currentBgmUrl = targetUrl;
     currentBGM.play().catch(e => console.error("BGM error:", e.message));
@@ -188,7 +190,15 @@ window.addEventListener('message', (event) => {
       stopBackgroundMusic(); 
     }
   }
+// Volume control
+if (event.data.type === "SET_VOLUME") {
+    globalVolume = event.data.volume;
+    localStorage.setItem("globalVolume", globalVolume);
 
+    if (currentBGM && !isGlobalMuted) {
+        currentBGM.volume = globalVolume;
+    }
+}
   // if (event.data.type === "TOGGLE_MUTE") {
   //   isGlobalMuted = event.data.isMuted;
     
@@ -198,15 +208,13 @@ window.addEventListener('message', (event) => {
   //   }
   // }
   // Notice we added SYNC_MUTE here so the iframe can update the manager silently on load
-  if (event.data.type === "TOGGLE_MUTE" || event.data.type === "SYNC_MUTE") {
+if (event.data.type === "TOGGLE_MUTE" || event.data.type === "SYNC_MUTE") {
     isGlobalMuted = event.data.isMuted;
-    
-    // Instantly mute/unmute currently playing music
-    if (currentBGM) {
-        currentBGM.volume = isGlobalMuted ? 0 : 0.3;
-    }
-  }
 
+    if (currentBGM) {
+        currentBGM.volume = isGlobalMuted ? 0 : globalVolume;
+    }
+}
   // -- PAGE SWITCHING --
   if (event.data.type === "SWITCH_PAGE") {
     if (event.data.game) selectedGame = event.data.game;

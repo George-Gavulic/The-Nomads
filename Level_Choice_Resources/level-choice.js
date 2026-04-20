@@ -85,27 +85,48 @@ document.getElementById("back-to-game-choice").addEventListener("click", () => {
 });
 
 const muteBtn = document.getElementById("mute-btn");
+const volumeSlider = document.getElementById("volume-slider");
 
-if (muteBtn) {
-    // 1. Read the extension's true local storage
+if (muteBtn && volumeSlider) {
+
+    // Load saved settings
     let isMuted = localStorage.getItem("globalMute") === "true";
-    muteBtn.innerText = isMuted ? "🔇" : "🔊";
+    let volume = parseFloat(localStorage.getItem("globalVolume"));
 
-    // 2. NEW: Immediately tell the Screen Manager the true state BEFORE music triggers!
+    if (isNaN(volume)) volume = 0.5; // default
+
+    // Apply UI
+    muteBtn.innerText = isMuted ? "🔇" : "🔊";
+    volumeSlider.value = volume;
+
+    // Sync BOTH mute + volume to computer sound
     window.parent.postMessage({
-        type: "SYNC_MUTE",
-        isMuted: isMuted
+        type: "SYNC_AUDIO",
+        isMuted: isMuted,
+        volume: volume
     }, "*");
 
-    // 3. Listen for future clicks
+    // MUTE BUTTON
     muteBtn.addEventListener("click", () => {
-        isMuted = !isMuted; 
+        isMuted = !isMuted;
+
         localStorage.setItem("globalMute", isMuted);
         muteBtn.innerText = isMuted ? "🔇" : "🔊";
-        
+
         window.parent.postMessage({
             type: "TOGGLE_MUTE",
             isMuted: isMuted
+        }, "*");
+    });
+
+    // VOLUME SLIDER
+    volumeSlider.addEventListener("input", () => {
+        volume = parseFloat(volumeSlider.value);
+        localStorage.setItem("globalVolume", volume);
+
+        window.parent.postMessage({
+            type: "SET_VOLUME",
+            volume: volume
         }, "*");
     });
 }

@@ -25,6 +25,13 @@ h1{
 .Roguelike{
     background-color: #6bb84f;
 }
+#volume-slider {
+    position: fixed;
+    top: 70px;
+    right: 15px;
+    width: 120px;
+    z-index: 999999;
+}
 .Luggage{
     background-color: rgb(187, 136, 78);
 }
