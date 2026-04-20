@@ -24,6 +24,7 @@ h2{
 }
 .level-grid {
     display: grid;
+    grid-template-rows: auto;
     Grid-template: 1fr / repeat(9, min-content);
     Gap: 8px;
     justify-content: center;
@@ -71,6 +72,10 @@ h2{
     transition: background-color 0.3s, transform 0.2s;
     align-items: left;
     justify-content: left;
+}
+
+#back-to-game-choice:hover{
+    background-color: lightgray;
 }
 
 .global-mute-btn {
