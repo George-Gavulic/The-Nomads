@@ -18,7 +18,7 @@ const dummyScores = [
 function getFormattedDate() {
     const date = new Date();
     // Added padding so you get "4/03/2026" instead of "4/3/2026"
-    return `${date.getDate()}/${String(date.getMonth() + 1).padStart(2, '0')}/${date.getFullYear()}`;
+    return `${String(date.getMonth() + 1).padStart(2, '0')}/${date.getDate()}/${date.getFullYear()}`;
 }
 
 function getStorageKey(game, level) {
