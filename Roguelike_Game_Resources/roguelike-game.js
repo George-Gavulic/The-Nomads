@@ -15,12 +15,12 @@ function loadSprites() {
     sprites.head_left = loadImage("Snake_graphics/head_left.png");
     sprites.head_right = loadImage("Snake_graphics/head_right.png");
 
-    sprites.tail_up = loadImage("Snake_graphics/tail_up.png"); // tail for the snake
+    sprites.tail_up = loadImage("Snake_graphics/tail_up.png");
     sprites.tail_down = loadImage("Snake_graphics/tail_down.png");
     sprites.tail_left = loadImage("Snake_graphics/tail_left.png");
     sprites.tail_right = loadImage("Snake_graphics/tail_right.png");
 
-    sprites.body_vertical = loadImage("Snake_graphics/body_vertical.png"); // horizontal and vertical sprites for the snake
+    sprites.body_vertical = loadImage("Snake_graphics/body_vertical.png");
     sprites.body_horizontal = loadImage("Snake_graphics/body_horizontal.png");
 
     sprites.body_topleft = loadImage("Snake_graphics/body_topleft.png");
@@ -32,94 +32,97 @@ function loadSprites() {
 loadSprites();
 
 const gameBoard = document.querySelector("#gameBoard");
-const ctx =  gameBoard.getContext("2d");
+const ctx = gameBoard.getContext("2d");
 const scoreText = document.querySelector("#scoreText");
 const resetBtn = document.querySelector("#resetBtn");
 const muteBtn = document.getElementById("mute-btn");
 
 ctx.imageSmoothingEnabled = false;
 
-ctx.imageSmoothingEnabled = true;
-
 const width = gameBoard.width;
 const height = gameBoard.height;
-const boardBackground = 'white';
-
 let unitSize = 25;
+
 let running = false;
 let xVelocity = unitSize;
 let yVelocity = 0;
 let holeCD = 0;
 let score = 0;
+let gameSpeed = 90;
+
 let snake = [
-    { x: 100, y: 50 },
-    { x: 100 - unitSize, y: 50 },
-    { x: 100 - unitSize*2, y: 50 }
-    ];
-let snakeTail = snake[-1]
+    { x: 100, y: 100 },
+    { x: 75, y: 100 },
+    { x: 50, y: 100 }
+];
+
 const inputQ = [];
 const maxQ = 2;
-let gameSpeed = 150;
 
-const entityTypes = { 
-    food: { color: 'red', points: +1, grow: true, shrink: false, respawn: true, sprite: 'apple'},
-    poison: { color: 'purple', points: 0, grow: false, shrink: true, respawn: true, sprite: null },
-    rock: { color: 'darkgrey', points: 0, grow: false, shrink: false, respawn: false, sprite: null },
-    hole: { color: 'brown', points: 0, grow: false, shrink: false, respawn: true, sprite: 'hole' },
-    moreFood: { color: 'red', points: +1, grow: true, shrink: false, respawn: true, sprite: 'apple'},
-    statHole: { color: 'brown', points: 0, grow: false, shrink: false, respawn: false, sprite: 'hole' },
-    // water: { color: 'skyblue', points: 0, grow: false, shrink: false, respawn: true, sprite: null, special: 1.3},
+// ===== SOUND FOR APPLE EFFECT
+const eatSound = new Audio("Apple.Crunch.wav");
+eatSound.preload = "auto";
+eatSound.volume = 0.5;
+
+function playEatSound() {
+    const isMuted = localStorage.getItem("globalMute") === "true";
+    if (isMuted) return;
+
+    eatSound.currentTime = 0;
+    eatSound.play().catch(() => {});
+}
+
+const entityTypes = {
+    food:     { color: "red",      points: 1, grow: true,  shrink: false, respawn: true,  sprite: "apple" },
+    poison:   { color: "purple",   points: 0, grow: false, shrink: true,  respawn: true,  sprite: null },
+    rock:     { color: "darkgrey", points: 0, grow: false, shrink: false, respawn: false, sprite: null },
+    hole:     { color: "brown",    points: 0, grow: false, shrink: false, respawn: true,  sprite: "hole" },
+    moreFood: { color: "red",      points: 1, grow: true,  shrink: false, respawn: true,  sprite: "apple" }
 };
 
 let entities = [];
+let currentLevel = null;
+
 window.addEventListener("keydown", changeDirection);
+resetBtn.addEventListener("click", resetGame);
 
-
-////////////////////////////////////////////////////////////////////////
-function nextTick(){ // if running set speed and clear board, draw, move snake, fnx game over, call self. loops n display game over
-    if (running){
-        setTimeout(()=>{
-            if (holeCD > 0)     holeCD--; // so no insta tele back
+function nextTick() {
+    if (running) {
+        setTimeout(() => {
+            if (holeCD > 0) holeCD--;
 
             clearBoard();
             moveSnake();
             snakeHoleCheck();
-            drawEntities();       
+            drawEntities();
             drawSnake();
             checkGameOver();
-            nextTick();
-        }, gameSpeed); //higher num = slower
 
+            if (running) {
+                nextTick();
+            } else {
+                displayGameOver();
+            }
+        }, gameSpeed);
     } else {
         displayGameOver();
     }
-};
-
+}
 
 function resizeCanvas() {
     const canvas = document.getElementById("gameBoard");
     const parent = canvas.parentElement;
-    
-    // Get the space we are allowed to fill
     const availableWidth = parent ? parent.clientWidth : window.innerWidth;
-    
-    // Calculate the scale multiplier based on the internal width (600)
-    // We multiply by 0.95 to leave a tiny 5% margin so it doesn't touch the exact edges
     const scale = (availableWidth * 0.95) / canvas.width;
 
-    // Apply the scale purely to the CSS visuals
-    canvas.style.width  = (canvas.width * scale) + "px";
+    canvas.style.width = (canvas.width * scale) + "px";
     canvas.style.height = (canvas.height * scale) + "px";
 }
 
-// Run it when the page loads, and whenever the window/iframe resizes
-window.addEventListener('resize', resizeCanvas);
-window.addEventListener('DOMContentLoaded', resizeCanvas);
-
+window.addEventListener("resize", resizeCanvas);
+window.addEventListener("DOMContentLoaded", resizeCanvas);
 
 function clearBoard() {
-
-
     for (let y = 0; y < height; y += unitSize) {
         for (let x = 0; x < width; x += unitSize) {
             if ((x / unitSize + y / unitSize) % 2 === 0) {
@@ -132,233 +135,134 @@ function clearBoard() {
     }
 }
 
-///////////////////////////////////////////////////////////////////
-function randomCoord(min,max){ // random pos maker
-    const randPos = Math.round((Math.random() * (max - min) + min) / unitSize) * unitSize;
-    return randPos;
+function randomCoord(min, max) {
+    return Math.round((Math.random() * (max - min) + min) / unitSize) * unitSize;
 }
 
-
-function changeDirection(event){  // change this for direction only
+function changeDirection(event) {
     const key = event.key.toLowerCase();
 
-    if (["w", "a", "s", "d", "arrowup", "arrowdown", "arrowleft", "arrowright"].includes(key)) { // prevent scrolling
+    if (["w", "a", "s", "d", "arrowup", "arrowdown", "arrowleft", "arrowright", "r", " ", "escape"].includes(key)) {
         event.preventDefault();
     }
-    if (inputQ.length < maxQ) {
+
+    if (key === "escape") {
+        running = false;
+        window.parent.postMessage(
+            {
+                type: "SWITCH_PAGE",
+                page: "Level_Choice_Resources/level-choice.html",
+                game: "Roguelike"
+            },
+            "*"
+        );
+        return;
+    }
+
+    if (key === "r") {
+        running = false;
+        setTimeout(() => {
+            resetGame();
+        }, 150);
+        return;
+    }
+
+    if (key === " " && running === false) {
+        switchToLeaderboard();
+        return;
+    }
+
+    const validKeys = {
+        a: 65,
+        w: 87,
+        d: 68,
+        s: 83,
+        arrowleft: 65,
+        arrowup: 87,
+        arrowright: 68,
+        arrowdown: 83
+    };
+
+    const mappedKey = validKeys[key];
+    if (!mappedKey) return;
+
+    const lastQueued = inputQ[0];
+    if (lastQueued === mappedKey) return;
+
+    if (inputQ.length >= maxQ) {
         inputQ.pop();
-        inputQ.unshift(event.keyCode);
-    } 
+    }
+
+    inputQ.unshift(mappedKey);
+}
+function checkGameOver() {
+    switch (true) {
+        case (snake[0].x < 0):
+        case (snake[0].x >= width):
+        case (snake[0].y >= height):
+        case (snake[0].y < 0):
+            running = false;
+            break;
+    }
+
+    if (snake.length === 1) running = false;
+
+    for (let i = 1; i < snake.length; i++) {
+        if (snake[i].x === snake[0].x && snake[i].y === snake[0].y) {
+            running = false;
+        }
+    }
 }
 
-function checkGameOver(){ // game overs, make more like stone
-    switch(true){
-        case (snake[0].x < 0):
-            running = false;
-            break;
-        case (snake[0].x >= width): //gameover rightborder
-            running = false;
-            break;
-        case (snake[0].y >= height): //gameover bottom border
-            running = false;
-            break;
-        case (snake[0].y < 0): //gameover top border
-            running = false;
-            break;
-    }
-
-    if(snake.length === 1)
-        running = false;
-    for(let i = 1; i < snake.length; i++) { // for each body part (snake.length)
-        if(snake[i].x === snake[0].x && snake[i].y === snake[0].y) // if snake[0/head] would[i+=1]^ = snake body part spot game over
-            running = false;
-    }
-};
-
-function displayGameOver(){ // lol font, and message
-    ctx.font = "50px Ariel";
+function displayGameOver() {
+    ctx.font = "50px Arial";
     ctx.fillStyle = "black";
     ctx.textAlign = "center";
     ctx.fillText("GAME OVER!", width / 2, height / 2);
-};
 
-function resetGame(){ // make everything 0, start by going right, snake body arr, gamestart()
+    ctx.font = "30px Arial";
+    ctx.fillText("Press 'Space' for leaderboard!", width / 2, (height / 2) + 30);
+    ctx.fillText("Press 'R' to restart!", width / 2, (height / 2) + 60);
+}
+
+function switchToLeaderboard() {
+    const currentLevelNum = parseInt(currentLevel.replace("level", ""), 10);
+    const nextLevelNum = currentLevelNum + 1;
+
+    const storageKey = "Roguelike_MaxLevel";
+    const currentlyUnlocked = parseInt(localStorage.getItem(storageKey)) || 1;
+
+    if (nextLevelNum > currentlyUnlocked) {
+        localStorage.setItem(storageKey, nextLevelNum);
+    }
+
+    const pendingData = {
+        level: currentLevel,
+        score: score,
+        game: "Snake"
+    };
+
+    localStorage.setItem("pendingScoreData", JSON.stringify(pendingData));
+
+    window.parent.postMessage(
+        {
+            type: "SWITCH_PAGE",
+            page: "Leaderboard_Resources/leaderboard.html"
+        },
+        "*"
+    );
+}
+
+function resetGame() {
     score = 0;
-    inputQ.length = 0; // to remove any prior input
-    xVelocity = unitSize;
-    yVelocity = 0;
+    inputQ.length = 0;
     running = false;
     snake = [
-        { x: 100, y: 50 },
-        { x: 100 - unitSize, y: 50 },
-        { x: 100 - unitSize*2, y: 50 }
+        { x: 100, y: 100 },
+        { x: 75, y: 100 },
+        { x: 50, y: 100 }
     ];
     gameStart();
-};
-// all the things in one place
-
-function drawEntities() { // for each ent draw on screen
-    entities.forEach(ent => {
-        // if (ent.sprite) { drawSprite(sprites[ent.sprite], ent.x, ent.y); //play time
-        if (ent.sprite === 'apple') { 
-            drawSprite(sprites.apple, ent.x, ent.y);
-        } else if (ent.sprite === 'hole'){
-            drawSprite(sprites.hole, ent.x, ent.y);
-        } else {
-            ctx.fillStyle = ent.color;
-            ctx.fillRect(ent.x, ent.y, unitSize, unitSize);
-        }
-    });
-}
-
-function moveSnake() { // moved stuff to move snake to limit snake direction change to change on tick
-    if (inputQ.length > 0) {
-        const keyPressed = inputQ.shift();
-        const LEFT = 37 && 65;
-        const UP = 38 && 87;
-        const RIGHT = 39 && 68;
-        const DOWN = 40 && 83;
-
-        const goingUP = (yVelocity == -unitSize);
-        const goingDOWN = (yVelocity == unitSize);
-        const goingRIGHT = (xVelocity == unitSize);
-        const goingLEFT = (xVelocity == -unitSize);
-
-        switch(true){
-
-            case(keyPressed == LEFT && !goingRIGHT):
-                xVelocity = -unitSize;
-                yVelocity = 0;
-                break;
-            case(keyPressed == RIGHT && !goingLEFT):
-                xVelocity = unitSize;
-                yVelocity = 0;
-                break;
-            case(keyPressed == UP && !goingDOWN):
-                xVelocity = 0;
-                yVelocity = -unitSize;
-                break;
-            case(keyPressed == DOWN && !goingUP):
-                xVelocity = 0;
-                yVelocity = unitSize;
-                break;
-        }
-    } // head of snake, if hit check ent collision
-    const head = { x: snake[0].x + xVelocity, y: snake[0].y + yVelocity };
-    snake.unshift(head);
-
-    const hitSomething = checkEntityCollision();
-    if (!hitSomething) snake.pop();
-}
-
-
-/////////////////////////////////////////////////////////////////////////////////////
-function checkEntityCollision() { // where ent is, if snake head there hit ent, upd n score points in arr,
-    const entLocInd = entities.findIndex(ent => ent.x === snake[0].x && ent.y === snake[0].y)
-    if (entLocInd === -1) return false;
-    // readability
-    const hit = entities[entLocInd];
-    score += hit.points;
-    scoreText.textContent = `Score: ${score}`;
-    // shrink
-    if (hit.type === 'rock') {
-        return running = false;
-    }
-    if (hit.shrink){
-        snake.pop();
-        snake.pop();
-    }
-    if (hit.type === 'hole') {
-        teleportSnake(hit);
-        spawnEntity('hole');
-        snake.pop();
-    }
-    if (hit.type === 'statHole'){
-        stationaryHole(hit);
-        snake.pop();
-    }
-    if (hit.type === 'moreFood'){
-        spawnEntity(hit.type);
-    }  
-    if (hit.respawn && hit.type !== 'hole'){
-        spawnEntity(hit.type);
-        entities.splice(entLocInd, 1);
-    }
-    if (!hit.respawn && hit.type !== 'hole' && hit.type !== 'statHole') {
-        entities.splice(entLocInd, 1);
-    }
-    // grow snake
-    return true;
-}
-//////////////////////////////////////////////////////////////////////
-function stationaryHole(entrance) {
-    const exitHole = entities.find(ent => ent.type === 'statHole' && ent !== entrance  );
-    if (entrance.cd > 0) return;
-    if (!exitHole) return;
-    snake[0].x = exitHole.x;
-    snake[0].y = exitHole.y;
-
-}
-
-function teleportSnake(entrance) {
-    const exitHole = entities.find(ent => ent.type === 'hole' && ent !== entrance  );
-    if (entrance.cd > 0) return;
-    if (!exitHole) return;
-    /// coordinates
-    exitHole !== entrance;
-
-    snake[0].x = exitHole.x;
-    snake[0].y = exitHole.y;
-    //// cooldowns
-    entrance.cd = snake.length;
-    exitHole.cd = snake.length;
-    entrance.inUse = true;
-    exitHole.inUse = true; // if only want one hole gone and one spawn
-    spawnEntity('hole');   // comment these lines out or the entrance.inUse
-}
-
-function snakeHoleCheck () {
-    entities.forEach((ent, index) => {
-        // don't bother with non holes
-        if (ent.type !== 'hole' || ent.type !== 'statHole') return;
-        // countdown CD
-        if (ent.cd > 0) { 
-            ent.cd--;
-        }
-        // when CD reaches 0
-        if (ent.cd <= 0 && ent.inUse) {
-            const snakeInHole = snake.some(part => part.x === ent.x && part.y === ent.y);
-            if (!snakeInHole) {
-                entities.splice(index, 1);
-                ent.inUse = !ent.inUse;
-            }
-        }
-})
-}
-
-
-
-////////////////////////////////////////////////////////////////////////////////
-function spawnEntity(type) { // insert entity into arr and generate coord for ent
-    let x, y;
-    let attempts = 0;
-    // while entity === another, do change coordinate, while loop safety
-    do {
-        x = randomCoord(0, width - unitSize);
-        y = randomCoord(0, height - unitSize);
-        attempts ++;
-        if (attempts > 100) return; // so it doesn't run forever unlikely
-    } while (
-        entities.some(e => e.x === x && e.y === y) || 
-        snake.some(s => s.x === x && s.y === y )
-    );
-    const ent = {
-        type,  x,  y,  ...entityTypes[type]    // spreads in color, points, etc
-    };
-    if (type === 'hole') {
-        ent.inUse = null;
-    }
-    entities.push(ent);
 }
 
 function drawEntities() {
@@ -584,43 +488,12 @@ function drawSnake() {
     }
 }
 
-
-// BUTTONS
-// document.getElementById("back-to-level-choice")
-//   .addEventListener("click", () => {
-//     window.parent.postMessage(
-//       { type: "SWITCH_PAGE", 
-//         page: "Level_Choice_Resources/level-choice.html",
-//         game: "Roguelike" },
-//       "*"
-//     );
-//   }
-// );
-
-// document.getElementById("back-to-game-choice")
-//   .addEventListener("click", () => {
-//     window.parent.postMessage(
-//       { type: "SWITCH_PAGE", 
-//         page: "Game_Choice_Resources/game-choice.html"},
-//       "*"
-//     );
-//   }
-// );
-
-resetBtn.addEventListener("click", resetGame);
-// loadLevel('level1');
-// gameStart()
-
-// /////////////////////////////////////////// MAKE LEVELS \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
-
-let currentLevel = null;
 const mapTiles = {
-    'R' :  'rock',
-    'F' :  'food',
-    'P': 'poison',
-    'H': 'hole',
-    'M': 'moreFood',
-    'S': 'statHole',
+    R: "rock",
+    F: "food",
+    P: "poison",
+    H: "hole",
+    M: "moreFood"
 };
 
 const levels = {    // MAP SIZES small: med: 36w x 17h
@@ -1103,9 +976,6 @@ const levels = {    // MAP SIZES small: med: 36w x 17h
 };
 
 function ChangeScreenSize(levelString) {
-    const canvas = document.getElementById("gameBoard");
-
-    // Define exactly which levels go to which function
     const grow = ["level6", "level12", "level13", "level14", "level15", "level16"];
     const shrink = ["level1", "level2", "level3", "level4", "level5", "level7", "level8", "level9", "level10", "level11"];
 
@@ -1142,52 +1012,74 @@ function loadMap(level) {
     });
 }
 
-
 function loadLevel(levelName) {
     const level = levels[levelName];
     if (!level) {
-        console.log(`loadLevel error`);
+        console.log("loadLevel error");
         return;
     }
-    // ChangeScreenSize(levelName);
 
     if (level.map) loadMap(level);
+
     level.entities.forEach(({ type, count }) => {
-        for (let i = 0; i < count; i++) spawnEntity(type);
+        for (let i = 0; i < count; i++) {
+            spawnEntity(type);
+        }
     });
-    // currentMap = level.map;
-    // entities = level.entities;
-    // puzzleComboTimer();
 }
 
+if (muteBtn) {
+    let isMuted = localStorage.getItem("globalMute") === "true";
+    muteBtn.innerText = isMuted ? "🔇" : "🔊";
 
+    window.parent.postMessage({
+        type: "SYNC_MUTE",
+        isMuted: isMuted
+    }, "*");
+
+    muteBtn.addEventListener("click", () => {
+        isMuted = !isMuted;
+        localStorage.setItem("globalMute", isMuted);
+        muteBtn.innerText = isMuted ? "🔇" : "🔊";
+
+        window.parent.postMessage({
+            type: "TOGGLE_MUTE",
+            isMuted: isMuted
+        }, "*");
+    });
+}
 
 window.addEventListener("DOMContentLoaded", () => {
     const levelName = sessionStorage.getItem("selectedLevel");
-    console.log("level from storage:", levelName);
     if (levelName) {
         currentLevel = levelName;
         gameStart();
     }
 });
-let cLevel = levelName;
-function gameStart() { // running = true, ent arr clear iterate food, poison
+
+function gameStart() {
     running = true;
     entities = [];
     score = 0;
     holeCD = 0;
+    inputQ.length = 0;
+
     ChangeScreenSize(currentLevel);
+
     snake = [
-        { x: 100, y: 50 },
-        { x: 100 - unitSize, y: 50 },
-        { x: 100 - unitSize*2, y: 50 }
+        { x: 100, y: 100 },
+        { x: 75, y: 100 },
+        { x: 50, y: 100 }
     ];
+
     scoreText.textContent = `Score: ${score}`;
-   
+
     xVelocity = unitSize;
     yVelocity = 0;
+
     loadLevel(currentLevel);
+    clearBoard();
+    drawEntities();
     drawSnake();
     nextTick();
 }
-
