@@ -65,7 +65,7 @@ tr:hover {
     transform: translateX(-50%); /* Centers the element perfectly */
 
     width: 100vw;
-    /* max-width: 800px; */
+    max-width: 800px;
     height: 102px;
     border-radius: 5px;
 
@@ -142,4 +142,23 @@ tr:hover {
 }
 .moverHighlight:hover{
     background-color: rgb(205, 141, 78);
+}
+
+.global-mute-btn {
+    position: fixed;
+    top: 15px;
+    right: 15px;
+    width: 45px;
+    height: 45px;
+    font-family: arial;
+    font-size: 24px;
+    border-radius: 50%;
+    border: 3px solid white;
+    background-color: #015d04ff;
+    color: white;
+    cursor: pointer;
+    z-index: 999999; /* Keeps it above everything else */
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }

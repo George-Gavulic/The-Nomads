@@ -131,3 +131,21 @@ body {
     background-size: contain;
     background-repeat: no-repeat;
 }
+
+.global-mute-btn {
+    position: fixed;
+    top: 15px;
+    right: 15px;
+    width: 45px;
+    height: 45px;
+    font-size: 24px;
+    border-radius: 50%;
+    border: 3px solid white;
+    background-color: #015d04ff;
+    color: white;
+    cursor: pointer;
+    z-index: 999999; /* Keeps it above everything else */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
