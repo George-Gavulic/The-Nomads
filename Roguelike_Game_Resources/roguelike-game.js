@@ -302,7 +302,7 @@ function checkEntityCollision() { // where ent is, if snake head there hit ent, 
     // readability
     const hit = entities[entLocInd];
     score += hit.points;
-    scoreText.textContent = `${score}`;
+    scoreText.textContent = `Score:${score}`;
     // shrink
     if (hit.type === 'rock') {
         return running = false;
@@ -748,7 +748,7 @@ function gameStart() { // running = true, ent arr clear iterate food, poison
         { x: 75, y: 100 },
         { x: 50, y: 100 }
     ];
-    scoreText.textContent = `Score: ${score}`;
+    scoreText.textContent = `Score:${score}`;
    
     // spawnEntity('hole');
     // spawnEntity('hole');
