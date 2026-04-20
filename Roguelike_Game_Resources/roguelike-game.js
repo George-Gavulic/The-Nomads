@@ -43,7 +43,7 @@ const width = gameBoard.width;
 const height = gameBoard.height;
 const boardBackground = 'white';
 
-const unitSize = 25;
+let unitSize = 25;
 let running = false;
 let xVelocity = unitSize;
 let yVelocity = 0;
@@ -603,20 +603,20 @@ const levels = {
     },
     level6: {
         map: [
-            "RRRRRRRRRRRRRRRRRRRRRRRR",
-            "R......................R",
-            "R......................R",
-            "R......................R",
-            "R......................R",
-            "R......................R",
-            "R......................R",
-            "R......................R",
-            "R......................R",
-            "R......................R",
-            "R......................R",
-            "R......................R",
-            "R......................R",
-            "RRRRRRRRRRRRRRRRRRRRRRRR"
+            "RRRRRRRRRRRRRRRRRRRRRRRRR",
+            "R.......................R",
+            "R.......................R",
+            "R.......................R",
+            "R.......................R",
+            "R.......................R",
+            "R.......................R",
+            "R.......................R",
+            "R.......................R",
+            "R.......................R",
+            "R.......................R",
+            "R........................",
+            "R.......................R",
+            "RRRRRRRRRRRRRRRRRRRRRRRRR"
         ],
         entities: [
             { type: 'moreFood', count: 1},
@@ -635,12 +635,11 @@ function ChangeScreenSize(levelString) {
     const tutorialSpeed = ["level1", "level2", "level3", "level4", "level5"];
 
     if (grow.includes(levelString)) {
-        canvas.width = 900;
-        canvas.height = 425;
+        unitSize = 10;
+        console.log("turn it back!");
     } 
     else if (shrink.includes(levelString)) {
-        canvas.width = 600;
-        canvas.height = 350;
+        unitSize = 25;
     } 
     else {
         console.warn("Level not recognized:", levelString);
@@ -679,7 +678,7 @@ function loadLevel(levelName) {
         return;
     }
     console.log(xVelocity + " 3");
-    ChangeScreenSize(levelName);
+    //ChangeScreenSize(levelName);
     console.log(xVelocity + " 4");
 
     if (level.map) loadMap(level);
@@ -707,7 +706,7 @@ function gameStart() { // running = true, ent arr clear iterate food, poison
     entities = [];
     score = 0;
     holeCD = 0;
-    // ChangeScreenSize(currentLevel); //resetting the player speed on reset
+    ChangeScreenSize(currentLevel); //resetting the player speed on reset
     snake = [
         { x: 100, y: 100 },
         { x: 75, y: 100 },
