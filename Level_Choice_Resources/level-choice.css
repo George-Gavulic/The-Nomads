@@ -1,6 +1,13 @@
 .Roguelike{
     background-color: blue;
 }
+#volume-slider {
+    position: fixed;
+    top: 70px;
+    right: 15px;
+    width: 120px;
+    z-index: 999999;
+}
 .Luggage{
     background-color: rgb(3, 75, 0);
 }
