@@ -199,15 +199,6 @@ if (event.data.type === "SET_VOLUME") {
         currentBGM.volume = globalVolume;
     }
 }
-  // if (event.data.type === "TOGGLE_MUTE") {
-  //   isGlobalMuted = event.data.isMuted;
-    
-  //   // Instantly mute/unmute currently playing music
-  //   if (currentBGM) {
-  //       currentBGM.volume = isGlobalMuted ? 0 : 0.3;
-  //   }
-  // }
-  // Notice we added SYNC_MUTE here so the iframe can update the manager silently on load
 if (event.data.type === "TOGGLE_MUTE" || event.data.type === "SYNC_MUTE") {
     isGlobalMuted = event.data.isMuted;
 
@@ -223,5 +214,4 @@ if (event.data.type === "TOGGLE_MUTE" || event.data.type === "SYNC_MUTE") {
 
     switchPage(event.data.page);
   }
-
 });

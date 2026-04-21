@@ -569,9 +569,9 @@ const levels = {    // MAP SIZES small: med: 36w x 17h
             "........................",
             "........................",
             "..RR..RRRRR..RRRRR..RR..",
-            "..RR..RR........RR..RR..",
-            "..RR..RR........RR..RR..",
-            "..RR..RR........RR..RR..",
+            "..RR............RR..RR..",
+            "..RR............RR..RR..",
+            "..RR............RR..RR..",
             "..RR......RRRR......RR..",
             "..RR......RRRR......RR..",
             "..RR..RR........RR..RR..",
@@ -846,7 +846,7 @@ const levels = {    // MAP SIZES small: med: 36w x 17h
             { type: 'hole', count: 2}
         ]
     },
-    level4: {
+    level14: {
         map: [      // 60w x 35h high game speed
             ".......R....................................................",      // 60w x 35h Fishbone
             ".......R....................................................",
@@ -950,7 +950,7 @@ const levels = {    // MAP SIZES small: med: 36w x 17h
             "..............................RR..................S.........",
             "..............................RR............................",
             "..............................RR............................",
-            "RRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR",
+            "RRRRRRRRRRRRRRR..RRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR",
             ".........................................R..................",
             ".R.......................................R..................",
             ".R..RRRRRRRRRRRR..RRRRRRRRR..R.......RR..R........S.........",
@@ -971,6 +971,8 @@ const levels = {    // MAP SIZES small: med: 36w x 17h
         ],
         entities: [
             { type: 'food', count: 2},
+            { type: 'poison', count: 1 },
+            { type: 'hole', count: 2}
         ]
     },
 };

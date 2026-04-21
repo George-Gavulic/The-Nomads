@@ -36,7 +36,8 @@ body {
 }
 
 #gameContainer {
-    /* width: min(70vw, 520px); */
+    width: min(70vw, 520px);
+    width: 60%;
     display: flex;
     /* flex-position: center; */
     flex-direction: column;
@@ -95,11 +96,6 @@ h1 {
     font-size: 30px;
     line-height: 1;
     font-family: 'Courier New', Courier, monospace;
-}
-
-.row{
-    display: flex;
-    flex-direction: row;
 }
 
 #resetBtn {
